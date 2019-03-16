@@ -62,7 +62,7 @@ namespace ICRA2018_NJUST_Armor {
             uchar g = *(++ptr_src);
             uchar r = *(++ptr_src);
             *ptr_g = g;
-            *ptr_ec = (_para.enemy_color == RED) ? r : b;
+            *ptr_ec = (_enemy_color == RED) ? r : b;
             //*ptr_g = b;
             if (r > _para.min_light_gray) {
                 *ptr_max_color = 255;
@@ -140,10 +140,10 @@ namespace ICRA2018_NJUST_Armor {
             Rect b_rect = rect;
             if (broadenRect(b_rect, 3, 3, _src.size()) == false) continue;
             Scalar m = mean(_src(b_rect));
-            if (_para.enemy_color == RED && (m[0] > m[2] || m[1] > m[2])){
+            if (_enemy_color == RED && (m[0] > m[2] || m[1] > m[2])){
                 continue;
             }
-            else if(_para.enemy_color == BLUE && (m[2] > m[0] || m[1] > m[0])){
+            else if(_enemy_color == BLUE && (m[2] > m[0] || m[1] > m[0])){
                 continue;
             }
 
@@ -476,10 +476,10 @@ namespace ICRA2018_NJUST_Armor {
                 continue;
             }
 
-            if (_para.enemy_color == RED && avg_red_side - 10 < avg_blue_side){
+            if (_enemy_color == RED && avg_red_side - 10 < avg_blue_side){
                 // cout << "refused 1.1 : red < blue:  red:" << avg_red_side/side_total << "\tblue: "  << avg_blue_side/side_total << endl;
                 continue;
-            } else if (_para.enemy_color == BLUE && avg_blue_side - 10 < avg_red_side){
+            } else if (_enemy_color == BLUE && avg_blue_side - 10 < avg_red_side){
                 // cout << "refused 1.2 : red > blue:  red:" << avg_red_side/side_total << "\tblue: "  << avg_blue_side/side_total << endl;
                 continue;
             }

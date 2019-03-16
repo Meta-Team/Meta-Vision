@@ -3,8 +3,8 @@
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-
 #include <iostream>
+#include "../../global.hpp"
 
 //#include "armor_detector.hpp"
 using namespace cv;
@@ -12,22 +12,20 @@ using namespace std;
 
 namespace ICRA2018_NJUST_Armor {
     #define POINT_DIST(p1,p2) sqrt((p1.x-p2.x)*(p1.x-p2.x) + (p1.y-p2.y)*(p1.y-p2.y))
-    enum EnemyColor {RED = 0, BLUE = 1};
 
     struct ArmorParam {
-        uchar min_light_gray;	        // 板灯最小灰度值
-        uchar min_light_height;			// 板灯最小高度值
-        uchar avg_contrast_threshold;	// 对比度检测中平均灰度差阈值，大于该阈值则为显著点
-        uchar light_slope_offset;		// 允许灯柱偏离垂直线的最大偏移量，单位度
-        int  max_light_delta_h;         // 左右灯柱在水平位置上的最大差值，像素单位
-        uchar min_light_delta_h;		// 左右灯柱在水平位置上的最小差值，像素单位
-        uchar max_light_delta_v;		// 左右灯柱在垂直位置上的最大差值，像素单位
-        uchar max_light_delta_angle;	// 左右灯柱在斜率最大差值，单位度
-        uchar avg_board_gray_threshold; // 矩形区域平均灰度阈值，小于该阈值则选择梯度最小的矩阵
-        uchar avg_board_grad_threshold; // 矩形区域平均梯度阈值，小于该阈值则选择梯度最小的矩阵
-        uchar grad_threshold;			// 矩形区域梯度阈值，在多个矩形区域中选择大于该阈值像素个数最少的区域  (not used)
-        uchar br_threshold;				// 红蓝通道相减后的阈值
-        uchar enemy_color;                 // 0 for red, otherwise blue
+        int min_light_gray;	            // 板灯最小灰度值
+        int min_light_height;			// 板灯最小高度值
+        int avg_contrast_threshold;	    // 对比度检测中平均灰度差阈值，大于该阈值则为显著点
+        int light_slope_offset;		    // 允许灯柱偏离垂直线的最大偏移量，单位度
+        int max_light_delta_h;          // 左右灯柱在水平位置上的最大差值，像素单位
+        int min_light_delta_h;		    // 左右灯柱在水平位置上的最小差值，像素单位
+        int max_light_delta_v;		    // 左右灯柱在垂直位置上的最大差值，像素单位
+        int max_light_delta_angle;	    // 左右灯柱在斜率最大差值，单位度
+        int avg_board_gray_threshold;   // 矩形区域平均灰度阈值，小于该阈值则选择梯度最小的矩阵
+        int avg_board_grad_threshold;   // 矩形区域平均梯度阈值，小于该阈值则选择梯度最小的矩阵
+        int grad_threshold;			    // 矩形区域梯度阈值，在多个矩形区域中选择大于该阈值像素个数最少的区域  (not used)
+        int br_threshold;				// 红蓝通道相减后的阈值
 
         ArmorParam(){
             min_light_gray = 210;
@@ -42,31 +40,21 @@ namespace ICRA2018_NJUST_Armor {
             avg_board_grad_threshold = 25;
             grad_threshold = 25;
             br_threshold = 30;
-            enemy_color = 1;
         }
     };
 
-    class ArmorDetector
-    {
+    class ArmorDetector {
     public:
         ArmorDetector(const ArmorParam & para = ArmorParam()){
-    //        pitch_angle = 0;
-    //        s_solver = NULL;
-    //        l_solver = NULL;
             _para = para;
             _res_last = cv::RotatedRect();
             _dect_rect = cv::Rect();
             _is_small_armor = false;
             _lost_cnt = 0;
             _is_lost = true;
-    //        cout<<"enemy_color="<<_para.enemy_color<<endl;
-    //        cout<<"min_light_gray="<<_para.min_light_gray<<endl;
         }
-        void setPara(const ArmorParam & para){
+        void setPara(const ArmorParam & para) {
             _para = para;
-    //        cout<<"enemy_color="<<_para.enemy_color<<endl;
-    //        cout<<"min_light_gray="<<_para.min_light_gray<<endl;
-
         }
         void initTemplate(const cv::Mat & _template, const cv::Mat & _template_small);
         cv::RotatedRect getTargetAera(const cv::Mat & src);
@@ -76,6 +64,11 @@ namespace ICRA2018_NJUST_Armor {
         const cv::RotatedRect & getLastResult() const{
             return _res_last;
         }
+
+        void setEnemyColor(int enemyColor) {
+            _enemy_color = enemyColor;
+        }
+        
     private:
         /**
          * @brief setImage Pocess the input (set the green component and sub of blue and red component)
@@ -168,6 +161,7 @@ namespace ICRA2018_NJUST_Armor {
         cv::RotatedRect _res_last;      // last detect result
         cv::Rect _dect_rect;            // detect reigon of original image
         ArmorParam _para;               // parameter of alg
+        int _enemy_color;               // color of enemy, see global.hpp
         cv::Mat _src;                   // source image around the interesting reigon according to last result
         cv::Mat _g;                     // green component of source image
         cv::Mat _ec;                    // enemy color component of source image

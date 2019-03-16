@@ -1,0 +1,22 @@
+system:
+  video_source: "/Users/lantian/Projects/robomaster/test_clips/步兵素材蓝车侧面-ev-0.MOV"
+
+game:
+  our_team: "red"
+
+algorithm:
+  icra2018_njust_armor:
+    min_light_gray: 210
+    min_light_height: 8
+    avg_contrast_threshold: 110
+    light_slope_offset: 30
+    max_light_delta_h: 500
+    min_light_delta_h: 35
+    max_light_delta_v: 40
+    max_light_delta_angle: 30
+    avg_board_gray_threshold: 100
+    avg_board_grad_threshold: 25
+    grad_threshold: 25
+    br_threshold: 30
+    template_image_file: "/Users/lantian/Projects/robomaster/src/algo/icra2018_njust_armor/template/template.bmp"
+    small_template_image_file: "/Users/lantian/Projects/robomaster/src/algo/icra2018_njust_armor/template/small_template.bmp"

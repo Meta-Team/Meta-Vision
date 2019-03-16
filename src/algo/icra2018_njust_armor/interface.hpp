@@ -2,10 +2,10 @@
 #define ICRA2018_NJUST_ARMOR_INTERFACE_HPP
 
 //OpenCV headers
-#include<opencv2/imgproc/imgproc.hpp>
-#include<opencv2/highgui/highgui.hpp>
-
-#include<iostream>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <yaml-cpp/yaml.h>
+#include <iostream>
 
 #include "settings.hpp"
 using namespace std;
@@ -18,8 +18,10 @@ namespace ICRA2018_NJUST_Armor {
         ArmorDetector* armor_detector;
     public:
         Armor_Interface();
+        Armor_Interface(const YAML::Node& root);
         ~Armor_Interface();
 
+        void setEnemyColor(int enemyColor);
         RotatedRect analyze(const Mat& src);
     };
 }

@@ -9,6 +9,9 @@ set(CMAKE_BUILD_TYPE Release)
 project(robomaster_meta_vision)
 
 find_package(OpenCV REQUIRED)
+
+set(YAML_CPP_BUILD_TESTS OFF)
+set(YAML_CPP_INSTALL OFF)
 add_subdirectory(lib/yaml-cpp)
 
 file(GLOB_RECURSE SOURCES src/*.c src/*.cpp)
@@ -17,5 +20,6 @@ add_executable(robomaster_meta_vision ${SOURCES} ${HEADERS})
 
 target_link_libraries(
     robomaster_meta_vision
+    yaml-cpp
     ${OpenCV_LIBRARIES}
 )

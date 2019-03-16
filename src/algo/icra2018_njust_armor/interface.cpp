@@ -14,12 +14,21 @@ using namespace cv;
 
 namespace ICRA2018_NJUST_Armor {
     Armor_Interface::Armor_Interface() {
-        settings = new Settings("/Users/lantian/Projects/robomaster/armor_detect/src/algo/icra2018_njust_armor/template/param_config.xml");
+        settings = new Settings();
 
         armor_detector = new ArmorDetector(settings->armor);
-        
-        Mat template_img = imread("/Users/lantian/Projects/robomaster/armor_detect/src/algo/icra2018_njust_armor/template/template.bmp");
-        Mat small_template_img = imread("/Users/lantian/Projects/robomaster/armor_detect/src/algo/icra2018_njust_armor/template/small_template.bmp");
+        Mat template_img = imread(settings->template_image_file);
+        Mat small_template_img = imread(settings->small_template_image_file);
+        armor_detector->initTemplate(template_img, small_template_img);
+        armor_detector->setPara(settings->armor);
+    }
+
+    Armor_Interface::Armor_Interface(const YAML::Node& root) {
+        settings = new Settings(root);
+
+        armor_detector = new ArmorDetector(settings->armor);
+        Mat template_img = imread(settings->template_image_file);
+        Mat small_template_img = imread(settings->small_template_image_file);
         armor_detector->initTemplate(template_img, small_template_img);
         armor_detector->setPara(settings->armor);
     }
@@ -27,6 +36,10 @@ namespace ICRA2018_NJUST_Armor {
     Armor_Interface::~Armor_Interface() {
         delete settings;
         delete armor_detector;
+    }
+
+    void Armor_Interface::setEnemyColor(int enemyColor) {
+        armor_detector->setEnemyColor(enemyColor);
     }
 
     RotatedRect Armor_Interface::analyze(const Mat& src){
