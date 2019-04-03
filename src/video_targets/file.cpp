@@ -13,6 +13,8 @@ VideoTargetFile::VideoTargetFile(string filename, int width, int height) {
     _wri = new VideoWriter(filename, CV_FOURCC('m', 'p', '4', 'v'), 30, Size(width, height));
     if(!_wri->isOpened()) throw std::invalid_argument("Invalid output file");
 
+    _timing.set_name("Video Target/File");
+
     // Start processing thread immediately
     run();
 }
@@ -37,6 +39,8 @@ void VideoTargetFile::job() {
 
         resize(local_frame, local_frame_resized, Size(_width, _height));
         _wri->write(local_frame_resized);
+
+        _timing.op_done();
     }
 }
 

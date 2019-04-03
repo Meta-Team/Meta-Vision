@@ -3,6 +3,8 @@
 
 #define DEFAULT_CONFIG_NAME "meta.yml"
 
+#define TIMING_STATISTIC_INTERVAL 5
+
 #define VIDEO_WIDTH 1280
 #define VIDEO_HEIGHT 720
 

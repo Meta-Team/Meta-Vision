@@ -4,6 +4,7 @@
 #include <opencv2/opencv.hpp>
 #include "../interfaces/multithread.hpp"
 #include "../interfaces/video_target.hpp"
+#include "../logging/timing.hpp"
 #include <queue>
 #include <mutex>
 
@@ -13,6 +14,7 @@ private:
     std::queue<cv::Mat> _queue;
     std::mutex _queue_mutex;
     int _width, _height;
+    Timing _timing;
 public:
     VideoTargetFile(std::string filename, int width = 640, int height = 480);
     ~VideoTargetFile();

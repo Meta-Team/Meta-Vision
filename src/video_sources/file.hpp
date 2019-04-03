@@ -4,6 +4,7 @@
 #include <opencv2/opencv.hpp>
 #include "../interfaces/multithread.hpp"
 #include "../interfaces/video_source.hpp"
+#include "../logging/timing.hpp"
 #include <shared_mutex>
 
 class VideoSourceFile : public VideoSource {
@@ -13,6 +14,7 @@ private:
     std::shared_mutex _frame_mutex;
     bool _available = false;
     int _id = 0;
+    Timing _timing;
 public:
     VideoSourceFile(std::string filename);
     ~VideoSourceFile();

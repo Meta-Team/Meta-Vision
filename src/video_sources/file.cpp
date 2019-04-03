@@ -9,6 +9,8 @@ VideoSourceFile::VideoSourceFile(std::string filename) {
     _cap = new VideoCapture(filename);
     if(!_cap->isOpened()) throw std::invalid_argument("Invalid input file");
 
+    _timing.set_name("Video Source/File");
+
     run();
 }
 
@@ -23,7 +25,8 @@ VideoSourceFile::~VideoSourceFile() {
 
 void VideoSourceFile::job() {
     Mat local_frame;
-    double fps = _cap->get(CAP_PROP_FPS);
+    chrono::high_resolution_clock::time_point op_timepoint = chrono::high_resolution_clock::now();
+    chrono::duration<int, std::micro> interval((int) (1000000 / _cap->get(CAP_PROP_FPS)));
 
     // Source ready to serve images
     _available = true;
@@ -36,9 +39,11 @@ void VideoSourceFile::job() {
         _id++;                  // Indicating it is a different frame now
         _frame_mutex.unlock();
 
+        _timing.op_done();
+        
         // Limit video reading speed to avoid excessive frame dropping
-        // TODO: Take video reading time into account, instead of simple 1/fps
-        std::this_thread::sleep_for(std::chrono::microseconds((long long) (1000000 / fps)));
+        op_timepoint += interval;
+        std::this_thread::sleep_until(op_timepoint);
     }
 
     // When file is closed, mark this source as unavailable
