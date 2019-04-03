@@ -8,6 +8,9 @@
 #include "logging/logging.hpp"
 #include "algo/icra2018_njust_armor/interface.hpp"
 
+#include "interfaces/video_source.hpp"
+#include "interfaces/video_target.hpp"
+
 using namespace std;
 using namespace cv;
 
@@ -20,12 +23,11 @@ private:
     YAML::Node _config;
     void _loadConfig(string filename);
     void _prepareArmorDetect();
-    void _prepareVideoCapture();
-    void _prepareVideoWriter();
-    VideoCapture* _vCapture;
-    VideoWriter* _vWriter;
 
-    ICRA2018_NJUST_Armor::Armor_Interface* _armorDetect;
+    VideoSource* _video_src = NULL;
+    VideoTarget* _video_tgt = NULL;
+
+    ICRA2018_NJUST_Armor::Armor_Interface* _armorDetect = NULL;
 };
 
 #endif
