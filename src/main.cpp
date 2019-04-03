@@ -7,34 +7,35 @@
 int Main::main(int argc, char** argv){
     _loadConfig((argc >= 1) ? argv[1] : DEFAULT_CONFIG_NAME);
     _prepareArmorDetect();
+
     _video_src = new VideoSourceFile(_config["system"]["video_source"].as<string>());
+    // TODO: change "test.mp4" to configurable
     _video_tgt = new VideoTargetFile("test.mp4", VIDEO_WIDTH, VIDEO_HEIGHT);
 
-    cmessage << flush;
-    try {
-        Mat frame, resized;
-        int prev_id = 0, next_id = 0;
-        while(_video_src->isAvailable()) {
-            next_id = _video_src->getFrame(frame, prev_id);
-            if(prev_id == next_id) continue;
-            prev_id = next_id;
-
-            resize(frame, resized, Size(VIDEO_WIDTH, VIDEO_HEIGHT));
-
-            cout << "+" << flush;
-
-            RotatedRect rect = _armorDetect->analyze(resized);
-            Point2f vertices[4];
-            rect.points(vertices);
-            for (int i = 0; i < 4; i++) {
-                line(resized, vertices[i], vertices[(i+1)%4], Scalar(0,0,255), 2);
-            }
-
-            _video_tgt->writeFrame(resized);
-        }
-    } catch(runtime_error re) {}
-    cout << endl;
+    Mat frame, resized;
     
+    while(_video_src->isAvailable()) {
+        // Compare new frame ID vs previous frame ID
+        // only proceed if they are different (new frame coming)
+        static int prev_id = 0, next_id = 0;
+        next_id = _video_src->getFrame(frame, prev_id);
+        if(prev_id == next_id) continue;
+        prev_id = next_id;
+
+        resize(frame, resized, Size(VIDEO_WIDTH, VIDEO_HEIGHT));
+
+        // Call Armor Detect routine, draw armor borderline
+        RotatedRect rect = _armorDetect->analyze(resized);
+        Point2f vertices[4];
+        rect.points(vertices);
+        for (int i = 0; i < 4; i++) {
+            line(resized, vertices[i], vertices[(i+1)%4], Scalar(0,0,255), 2);
+        }
+
+        // Write image
+        _video_tgt->writeFrame(resized);
+    }
+
     return 0;
 }
 
@@ -46,6 +47,7 @@ void Main::_loadConfig(string filename) {
 void Main::_prepareArmorDetect() {
     _armorDetect = new ICRA2018_NJUST_Armor::Armor_Interface(_config["algorithm"]["icra2018_njust_armor"]);
 
+    // Read color of our team, configure armor detect algorithm to aim for enemy
     string ourTeam = _config["game"]["our_team"].as<string>();
     std::transform(ourTeam.begin(), ourTeam.end(), ourTeam.begin(), ::tolower);
     if(ourTeam == "red") {
@@ -68,7 +70,7 @@ Main::~Main() {
     if(_video_tgt != NULL) delete _video_tgt;
 }
 
-// The real entrypoint
+// The real entrypoint, handle some exceptions better
 int main(int argc, char** argv) {
     Main mainFunction;
     try {

@@ -1,7 +1,6 @@
 #ifndef _MULTITHREAD_HPP_
 #define _MULTITHREAD_HPP_
 
-#include <unistd.h>
 #include <thread>
 #include <iostream>
 

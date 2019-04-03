@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.1)
+
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 set(CMAKE_C_FLAGS_DEBUG "-Wall -g" CACHE STRING "")       
 set(CMAKE_CXX_FLAGS_DEBUG "-Wall -g" CACHE STRING "")
 set(CMAKE_C_FLAGS_RELEASE "-Wall -O3" CACHE STRING "")
@@ -12,7 +15,7 @@ find_package(OpenCV REQUIRED)
 
 set(YAML_CPP_BUILD_TESTS OFF)
 set(YAML_CPP_INSTALL OFF)
-add_subdirectory(lib/yaml-cpp)
+add_subdirectory(${CMAKE_SOURCE_DIR}/lib/yaml-cpp)
 
 file(GLOB_RECURSE SOURCES src/*.c src/*.cpp)
 file(GLOB_RECURSE HEADERS src/*.h src/*.hpp)
