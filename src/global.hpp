@@ -3,8 +3,6 @@
 
 #define DEFAULT_CONFIG_NAME "meta.yml"
 
-#define TIMING_STATISTIC_INTERVAL 5
-
 #define VIDEO_TARGET_QUEUE_SIZE 150
 
 // Definition of enemy team's color

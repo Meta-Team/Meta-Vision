@@ -1,4 +1,4 @@
-#include "main.hpp"
+#include "entrypoint.hpp"
 
 // For signal handling
 #include <csignal>

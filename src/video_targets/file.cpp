@@ -20,8 +20,8 @@ VideoTargetFile::VideoTargetFile(string filename, int width, int height) {
 }
 
 VideoTargetFile::~VideoTargetFile() {
-    thread_stop();     // IMPORTANT: not stopping here will cause job() still running
-                // when _wri get deleted, causing segfault
+    thread_stop();  // IMPORTANT: not stopping here will cause job() still running
+                    // when _wri get deleted, causing segfault
     if(_wri != NULL) {
         _wri->release();
         delete _wri;

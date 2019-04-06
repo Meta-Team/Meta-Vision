@@ -24,10 +24,11 @@ public:
     // Used for clean shutdown.
     bool should_run = true;
 
+    YAML::Node config;
+    string config_base_folder = "";
+
 private:
-    YAML::Node _config;
     void _loadConfig(string filename);
-    string _base_folder = "";
 
     void _prepareArmorDetect();
 

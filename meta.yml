@@ -1,4 +1,6 @@
 system:
+  timing_interval: 1
+
   video_source: "camera"
   video_sources:
     file:
@@ -9,7 +11,7 @@ system:
       height: 720
       fps: 120
 
-  video_target: "file"
+  video_target: "dummy"
   video_targets:
     file:
       filename: "test.mp4"

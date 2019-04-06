@@ -19,8 +19,8 @@ VideoSourceCamera::VideoSourceCamera(int id, int width, int height, int fps) {
 }
 
 VideoSourceCamera::~VideoSourceCamera() {
-    thread_stop();     // IMPORTANT: not stopping here will cause job() still running
-                // when _cap get deleted, causing segfault
+    thread_stop();  // IMPORTANT: not stopping here will cause job() still running
+                    // when _cap get deleted, causing segfault
     if(_cap != NULL) {
         _cap->release();
         delete _cap;

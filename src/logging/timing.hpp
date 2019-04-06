@@ -7,8 +7,9 @@
 class Timing {
 private:
     std::chrono::high_resolution_clock::time_point _prev_notify;
-    std::string _name = "???";
+    std::string _name = "(unset)";
     int _ops_passed = 0;
+    int _timing_interval;
 
 public:
     Timing();
