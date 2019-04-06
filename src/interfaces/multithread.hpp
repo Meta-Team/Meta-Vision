@@ -6,40 +6,40 @@
 
 class Thread {
 private:
-    std::thread* t = NULL;
+    std::thread* _t = NULL;
 public:
-    bool should_run = false;
+    bool thread_should_run = false;
 
-    virtual void job() = 0;
+    virtual void thread_job() = 0;
 
     /* int run()
      * @description: create a new thread with assigned job.
      */
-    int run() {
-        if(t != NULL) return -1;
-        should_run = true;
-        t = new std::thread(&Thread::job, this);
+    int thread_run() {
+        if(_t != NULL) return -1;
+        thread_should_run = true;
+        _t = new std::thread(&Thread::thread_job, this);
         return 0;
     }
 
     /* int join()
      * @description: wait until the thread stops and remove it from memory.
      */
-    int join() {
-        if(t == NULL) return -1;
-        t->join();
-        delete t;
-        t = NULL;
+    int thread_join() {
+        if(_t == NULL) return -1;
+        _t->join();
+        delete _t;
+        _t = NULL;
         return 0;
     }
 
     /* int stop()
      * @description: requests the thread to stop.
-     * MUST use while(should_run) instead of while(1).
+     * MUST use while(thread_should_run) instead of while(1).
      */
-    int stop() {
-        should_run = false;
-        join();
+    int thread_stop() {
+        thread_should_run = false;
+        thread_join();
         return 0;
     }
 
@@ -47,7 +47,7 @@ public:
      * @description: stops the thread if still running.
      */
     ~Thread() {
-        if(t != NULL) stop();
+        if(_t != NULL) thread_stop();
     }
 };
 

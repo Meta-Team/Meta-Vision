@@ -19,9 +19,16 @@ public:
     Main() {}
     ~Main();
     int main(int argc, char** argv);
+
+    // Value will change to false after a ctrl-c.
+    // Used for clean shutdown.
+    bool should_run = true;
+
 private:
     YAML::Node _config;
     void _loadConfig(string filename);
+    string _base_folder = "";
+
     void _prepareArmorDetect();
 
     VideoSource* _video_src = NULL;

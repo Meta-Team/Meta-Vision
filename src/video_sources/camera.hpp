@@ -1,5 +1,5 @@
-#ifndef _VIDEO_SOURCE_FILE_HPP_
-#define _VIDEO_SOURCE_FILE_HPP_
+#ifndef _VIDEO_SOURCE_CAMERA_HPP_
+#define _VIDEO_SOURCE_CAMERA_HPP_
 
 #include <opencv2/opencv.hpp>
 #include "../interfaces/multithread.hpp"
@@ -7,7 +7,7 @@
 #include "../logging/timing.hpp"
 #include <mutex>
 
-class VideoSourceFile : public VideoSource {
+class VideoSourceCamera : public VideoSource {
 private:
     cv::VideoCapture* _cap = NULL;
     cv::Mat _frame;
@@ -16,8 +16,8 @@ private:
     int _id = 0;
     Timing _timing;
 public:
-    VideoSourceFile(std::string filename);
-    ~VideoSourceFile();
+    VideoSourceCamera(int id, int width, int height, int fps);
+    ~VideoSourceCamera();
 
     void thread_job();
 

@@ -23,8 +23,8 @@ namespace ICRA2018_NJUST_Armor {
         armor_detector->setPara(settings->armor);
     }
 
-    Armor_Interface::Armor_Interface(const YAML::Node& root) {
-        settings = new Settings(root);
+    Armor_Interface::Armor_Interface(const string base_dir, const YAML::Node& root) {
+        settings = new Settings(base_dir, root);
 
         armor_detector = new ArmorDetector(settings->armor);
         Mat template_img = imread(settings->template_image_file);

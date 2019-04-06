@@ -1,5 +1,18 @@
 system:
-  video_source: "/Users/lantian/Projects/robomaster/test_clips/步兵素材蓝车侧面-ev-0.MOV"
+  video_source: "camera"
+  video_sources:
+    file:
+      filename: "test_clips/步兵素材蓝车侧面-ev-0.MOV"
+    camera:
+      id: 0
+      width: 1280
+      height: 720
+      fps: 120
+
+  video_target: "file"
+  video_targets:
+    file:
+      filename: "test.mp4"
 
 game:
   our_team: "red"
@@ -18,5 +31,5 @@ algorithm:
     avg_board_grad_threshold: 25
     grad_threshold: 25
     br_threshold: 30
-    template_image_file: "/Users/lantian/Projects/robomaster/src/algo/icra2018_njust_armor/template/template.bmp"
-    small_template_image_file: "/Users/lantian/Projects/robomaster/src/algo/icra2018_njust_armor/template/small_template.bmp"
+    template_image_file: "src/algo/icra2018_njust_armor/template/template.bmp"
+    small_template_image_file: "src/algo/icra2018_njust_armor/template/small_template.bmp"

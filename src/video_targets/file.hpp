@@ -19,7 +19,7 @@ public:
     VideoTargetFile(std::string filename, int width = 640, int height = 480);
     ~VideoTargetFile();
 
-    void job();
+    void thread_job();
 
     bool isAvailable();
     void writeFrame(cv::Mat& mat);

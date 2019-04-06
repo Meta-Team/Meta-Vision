@@ -16,11 +16,11 @@ VideoTargetFile::VideoTargetFile(string filename, int width, int height) {
     _timing.set_name("Video Target/File");
 
     // Start processing thread immediately
-    run();
+    thread_run();
 }
 
 VideoTargetFile::~VideoTargetFile() {
-    stop();     // IMPORTANT: not stopping here will cause job() still running
+    thread_stop();     // IMPORTANT: not stopping here will cause job() still running
                 // when _wri get deleted, causing segfault
     if(_wri != NULL) {
         _wri->release();
@@ -28,9 +28,9 @@ VideoTargetFile::~VideoTargetFile() {
     }
 }
 
-void VideoTargetFile::job() {
+void VideoTargetFile::thread_job() {
     Mat local_frame, local_frame_resized;
-    while(should_run) {
+    while(thread_should_run) {
         if(_queue.empty()) continue;
         _queue_mutex.lock();
         local_frame = _queue.front();
@@ -42,6 +42,7 @@ void VideoTargetFile::job() {
 
         _timing.op_done();
     }
+    _timing.job_end();
 }
 
 bool VideoTargetFile::isAvailable() { return true; }

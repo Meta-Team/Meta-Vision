@@ -13,9 +13,10 @@ private:
 public:
     Timing();
     void set_name(std::string name);
-    void set_name(char* name);
+    void set_name(const char* name);
 
     void op_done();
+    void job_end();
 };
 
 #endif

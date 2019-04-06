@@ -1,20 +1,24 @@
-#include "file.hpp"
+#include "camera.hpp"
 #include <stdexcept>
 #include <chrono>
 
 using namespace std;
 using namespace cv;
 
-VideoSourceFile::VideoSourceFile(std::string filename) {
-    _cap = new VideoCapture(filename);
-    if(!_cap->isOpened()) throw std::invalid_argument("Invalid input file");
+VideoSourceCamera::VideoSourceCamera(int id, int width, int height, int fps) {
+    _cap = new VideoCapture(id);
+    if(!_cap->isOpened()) throw std::invalid_argument("Failed to open camera");
 
-    _timing.set_name("Video Source/File");
+    _cap->set(CV_CAP_PROP_FRAME_WIDTH, width);
+    _cap->set(CV_CAP_PROP_FRAME_HEIGHT, height);
+    _cap->set(CV_CAP_PROP_FPS, fps);
+
+    _timing.set_name("Video Source/Camera");
 
     thread_run();
 }
 
-VideoSourceFile::~VideoSourceFile() {
+VideoSourceCamera::~VideoSourceCamera() {
     thread_stop();     // IMPORTANT: not stopping here will cause job() still running
                 // when _cap get deleted, causing segfault
     if(_cap != NULL) {
@@ -23,16 +27,14 @@ VideoSourceFile::~VideoSourceFile() {
     }
 }
 
-void VideoSourceFile::thread_job() {
+void VideoSourceCamera::thread_job() {
     Mat local_frame;
-    chrono::high_resolution_clock::time_point op_timepoint = chrono::high_resolution_clock::now();
-    chrono::duration<int, std::micro> interval((int) (1000000 / _cap->get(CAP_PROP_FPS)));
 
-    // Source ready to serve images
+    // Mark source ready to serve images
     _available = true;
 
     while(thread_should_run) {
-        if(!_cap->read(local_frame)) break;
+        if(!_cap->read(local_frame)) continue;
 
         _frame_mutex.lock();
         _frame = local_frame;
@@ -40,10 +42,6 @@ void VideoSourceFile::thread_job() {
         _frame_mutex.unlock();
 
         _timing.op_done();
-        
-        // Limit video reading speed to avoid excessive frame dropping
-        op_timepoint += interval;
-        std::this_thread::sleep_until(op_timepoint);
     }
 
     // When file is closed, mark this source as unavailable
@@ -51,9 +49,9 @@ void VideoSourceFile::thread_job() {
     _timing.job_end();
 }
 
-bool VideoSourceFile::isAvailable() { return _available; }
+bool VideoSourceCamera::isAvailable() { return _available; }
 
-int VideoSourceFile::getFrame(Mat& target, int prev_id = 0) {
+int VideoSourceCamera::getFrame(Mat& target, int prev_id = 0) {
     unique_lock<mutex> lock(_frame_mutex);
 
     if(prev_id == _id) return prev_id;  // No new frame available yet

@@ -1,7 +1,11 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/core/core.hpp>
 #include <iostream>
-//#include <sse_to_neon.hpp>
+
+#if defined(__arm__) || defined(__aarch64__)
+    #include "sse_to_neon.hpp"
+#endif
+
 #include <stdlib.h>
 #include "armor_detector.hpp"
 
@@ -147,10 +151,10 @@ namespace ICRA2018_NJUST_Armor {
                 continue;
             }
 
-            int min_i = rect.x;
-            int max_i = min(_max_color.cols - margin_o, rect.x + rect.width);
-            int min_j = rect.y;
-            int max_j = min(_max_color.rows - margin_h, rect.y + rect.height);
+            size_t min_i = rect.x;
+            size_t max_i = min(_max_color.cols - margin_o, rect.x + rect.width);
+            size_t min_j = rect.y;
+            size_t max_j = min(_max_color.rows - margin_h, rect.y + rect.height);
 
             int count_left = 0, count_right = 0;
             const uchar * ptr_gray_base = _g.data;
@@ -183,7 +187,7 @@ namespace ICRA2018_NJUST_Armor {
                                 ((ptr_ec + offset_2)[0]);
                     sum_o /= 3;
 
-                    if (i + margin_o + margin_x < _max_color.cols){
+                    if ((int) i + margin_o + margin_x < _max_color.cols){
                         __m128i vsum = _mm_setzero_si128();
                         __m128i v = _mm_loadu_si128((__m128i*)(cur_point_0 + margin_o));
                         __m128i vl = _mm_unpacklo_epi8(v, vk0);
@@ -366,7 +370,7 @@ namespace ICRA2018_NJUST_Armor {
 
         int ret_idx = -1;
         double avg_score = 0.0;
-        for(int i = 0; i < score.size(); ++i){
+        for(size_t i = 0; i < score.size(); ++i){
             avg_score += score[i];
         }
         avg_score /= score.size();
@@ -494,13 +498,13 @@ namespace ICRA2018_NJUST_Armor {
             int side_width = gray_mid_black.cols * 10.0 / 100; // jump over the side；
             short * ptr_x = (short *)gradX.data;
             short * ptr_y = (short *)gradY.data;
-            for (size_t j = 0; j < gradX.rows; ++j){
+            for (int j = 0; j < gradX.rows; ++j){
                 // jump over left side part
                 ptr_x+= side_width;
                 ptr_y+= side_width;
 
                 // compute the middle part
-                int up_b = gradX.cols - side_width;
+                size_t up_b = gradX.cols - side_width;
                 for (size_t k = side_width; k < up_b; ++k, ++ptr_x, ++ptr_y)	{
                     int x = abs(*ptr_x);
                     int y = abs(*ptr_y);
