@@ -12,14 +12,14 @@ namespace ICRA2018_NJUST_Armor {
     class Settings {
     public:
         Settings() {}
-        Settings(const string& base_dir, const string& filename) {
+        Settings(const string& filename) {
             YAML::Node config = YAML::LoadFile(filename);
-            read(base_dir, config);
+            read(config);
         }
-        Settings(const string& base_dir, const YAML::Node& root) {
-            read(base_dir, root);
+        Settings(const YAML::Node& root) {
+            read(root);
         }
-        void read(const string& base_dir, const YAML::Node& root);
+        void read(const YAML::Node& root);
         void check();
     public:
         ArmorParam armor;

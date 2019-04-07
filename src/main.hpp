@@ -25,8 +25,6 @@ public:
     bool should_run = true;
 
     YAML::Node config;
-    string config_base_folder = "";
-
 private:
     void _loadConfig(string filename);
 

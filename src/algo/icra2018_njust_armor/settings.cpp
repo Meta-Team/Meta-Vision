@@ -1,7 +1,7 @@
 #include "settings.hpp"
 
 namespace ICRA2018_NJUST_Armor {
-    void Settings::read(const string& base_dir, const YAML::Node& root){
+    void Settings::read(const YAML::Node& root){
         armor.min_light_gray = root["min_light_gray"].as<int>();
         armor.min_light_height = root["min_light_height"].as<int>();
         armor.avg_contrast_threshold = root["avg_contrast_threshold"].as<int>();
@@ -15,8 +15,8 @@ namespace ICRA2018_NJUST_Armor {
         armor.grad_threshold = root["grad_threshold"].as<int>();
         armor.br_threshold = root["br_threshold"].as<int>();
 
-        template_image_file = base_dir + root["template_image_file"].as<string>();
-        small_template_image_file = base_dir + root["small_template_image_file"].as<string>();
+        template_image_file = root["template_image_file"].as<string>();
+        small_template_image_file = root["small_template_image_file"].as<string>();
         
         check();
     }

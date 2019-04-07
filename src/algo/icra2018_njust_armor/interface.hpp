@@ -18,7 +18,7 @@ namespace ICRA2018_NJUST_Armor {
         ArmorDetector* armor_detector;
     public:
         Armor_Interface();
-        Armor_Interface(const string base_dir, const YAML::Node& root);
+        Armor_Interface(const YAML::Node& root);
         ~Armor_Interface();
 
         void setEnemyColor(int enemyColor);
