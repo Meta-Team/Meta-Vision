@@ -29,9 +29,9 @@ int Main::main(int argc, char** argv){
     if("file" == config["system"]["video_target"].as<string>()) {
         _video_tgt = new VideoTargetFile(
             config["system"]["video_targets"]["file"]["filename"].as<string>(),
-            config["system"]["video_sources"]["camera"]["width"].as<int>(),
-            config["system"]["video_sources"]["camera"]["height"].as<int>(),
-            config["system"]["video_sources"]["camera"]["fps"].as<int>()
+            _video_src->getWidth(),
+            _video_src->getHeight(),
+            _video_src->getFPS()
         );
     } else if("dummy" == config["system"]["video_target"].as<string>()) {
         _video_tgt = new VideoTargetDummy();
@@ -47,6 +47,7 @@ int Main::main(int argc, char** argv){
     Mat frame, resized;
     
     while(should_run) {
+        if(!_video_src->thread_should_run) break;
         if(!_video_src->isAvailable()) continue;
         
         // Compare new frame ID vs previous frame ID
@@ -60,10 +61,18 @@ int Main::main(int argc, char** argv){
         RotatedRect rect = _armorDetect->analyze(frame);
         Point2f vertices[4];
         rect.points(vertices);
-        for (int i = 0; i < 4; i++) {
-            line(frame, vertices[i], vertices[(i+1)%4], Scalar(0,0,255), 2);
-        }
 
+        if(vertices[0] != Point2f(0, 0)
+            || vertices[1] != Point2f(0, 0)
+            || vertices[2] != Point2f(0, 0)
+            || vertices[3] != Point2f(0, 0)
+        ) { // An armor has been detected
+            for (int i = 0; i < 4; i++) {
+                line(frame, vertices[i], vertices[(i+1)%4], Scalar(0,0,255), 2);
+            }
+            cwarning << "Points: " << vertices[0] << vertices[1] << vertices[2] << vertices[3] << endlog;
+        }
+        
         // Write image
         _video_tgt->writeFrame(frame);
     }

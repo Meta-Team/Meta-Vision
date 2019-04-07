@@ -1,4 +1,5 @@
 #include "file.hpp"
+#include "../logging/logging.hpp"
 #include <stdexcept>
 #include <chrono>
 
@@ -16,6 +17,8 @@ VideoSourceFile::VideoSourceFile(std::string filename) {
 
         throw std::invalid_argument("Failed to open camera");
     } while(0);
+
+    cwarning << "Video Source/Camera: " << getWidth() << "x" << getHeight() << " @" << getFPS() << endlog;
 
     _timing.set_name("Video Source/File");
 
@@ -57,6 +60,7 @@ void VideoSourceFile::thread_job() {
     // When file is closed, mark this source as unavailable
     _available = false;
     _timing.job_end();
+    thread_should_run = false;
 }
 
 bool VideoSourceFile::isAvailable() { return _available; }
@@ -68,4 +72,15 @@ int VideoSourceFile::getFrame(Mat& target, int prev_id = 0) {
 
     target = _frame;                    // New frame available, do the copy
     return _id;
+}
+int VideoSourceFile::getWidth() {
+    return _cap->get(CAP_PROP_FRAME_WIDTH);
+}
+
+int VideoSourceFile::getHeight() {
+    return _cap->get(CAP_PROP_FRAME_HEIGHT);
+}
+
+int VideoSourceFile::getFPS() {
+    return _cap->get(CAP_PROP_FPS);
 }

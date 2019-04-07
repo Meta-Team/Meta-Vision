@@ -1,4 +1,5 @@
 #include "camera.hpp"
+#include "../logging/logging.hpp"
 #include <stdexcept>
 #include <chrono>
 
@@ -21,6 +22,8 @@ VideoSourceCamera::VideoSourceCamera(int id, int width, int height, int fps) {
     _cap->set(CAP_PROP_FRAME_HEIGHT, height);
     _cap->set(CAP_PROP_FOURCC, VideoWriter::fourcc('M', 'J', 'P', 'G'));
     _cap->set(CAP_PROP_FPS, fps);
+
+    cwarning << "Video Source/Camera: " << getWidth() << "x" << getHeight() << " @" << getFPS() << endlog;
 
     _timing.set_name("Video Source/Camera");
 
@@ -56,6 +59,7 @@ void VideoSourceCamera::thread_job() {
     // When file is closed, mark this source as unavailable
     _available = false;
     _timing.job_end();
+    thread_should_run = false;
 }
 
 bool VideoSourceCamera::isAvailable() { return _available; }
@@ -67,4 +71,16 @@ int VideoSourceCamera::getFrame(Mat& target, int prev_id = 0) {
 
     target = _frame;                    // New frame available, do the copy
     return _id;
+}
+
+int VideoSourceCamera::getWidth() {
+    return _cap->get(CAP_PROP_FRAME_WIDTH);
+}
+
+int VideoSourceCamera::getHeight() {
+    return _cap->get(CAP_PROP_FRAME_HEIGHT);
+}
+
+int VideoSourceCamera::getFPS() {
+    return _cap->get(CAP_PROP_FPS);
 }

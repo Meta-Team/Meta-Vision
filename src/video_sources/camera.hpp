@@ -23,6 +23,10 @@ public:
 
     bool isAvailable();
     int getFrame(cv::Mat& target, int prev_id);
+
+    int getWidth();
+    int getHeight();
+    int getFPS();
 };
 
 #endif

@@ -22,6 +22,6 @@ std::string Logging::_currentDateTime() const {
 }
 
 std::ostream& operator<<(std::ostream& os, const Logging& obj) {
-    os << color(obj._fg_color, obj._bg_color) << "[" << obj._currentDateTime() << "] ";
+    os << "\r" << color(obj._fg_color, obj._bg_color) << "[" << obj._currentDateTime() << "] ";
     return os;
 }
