@@ -7,11 +7,11 @@ system:
       filename: "test_clips/步兵素材蓝车侧面-ev-0.MOV"
     camera:
       id: 0
-      width: 1280
-      height: 720
-      fps: 120
+      width: 640
+      height: 360
+      fps: 330
 
-  video_target: "dummy"
+  video_target: "file"
   video_targets:
     file:
       filename: "test.mp4"

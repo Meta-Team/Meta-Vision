@@ -9,9 +9,9 @@ VideoSourceCamera::VideoSourceCamera(int id, int width, int height, int fps) {
     _cap = new VideoCapture(id);
     if(!_cap->isOpened()) throw std::invalid_argument("Failed to open camera");
 
-    _cap->set(CV_CAP_PROP_FRAME_WIDTH, width);
-    _cap->set(CV_CAP_PROP_FRAME_HEIGHT, height);
-    _cap->set(CV_CAP_PROP_FPS, fps);
+    _cap->set(CAP_PROP_FRAME_WIDTH, width);
+    _cap->set(CAP_PROP_FRAME_HEIGHT, height);
+    _cap->set(CAP_PROP_FPS, fps);
 
     _timing.set_name("Video Source/Camera");
 

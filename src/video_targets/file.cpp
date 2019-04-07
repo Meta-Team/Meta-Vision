@@ -5,12 +5,12 @@
 using namespace std;
 using namespace cv;
 
-VideoTargetFile::VideoTargetFile(string filename, int width, int height) {
+VideoTargetFile::VideoTargetFile(string filename, int width, int height, int fps) {
     _width = width;
     _height = height;
 
-    // Open a 30FPS MP4 writer
-    _wri = new VideoWriter(filename, CV_FOURCC('m', 'p', '4', 'v'), 30, Size(width, height));
+    // Open a MP4 writer
+    _wri = new VideoWriter(filename, VideoWriter::fourcc('m', 'p', '4', 'v'), fps, Size(width, height));
     if(!_wri->isOpened()) throw std::invalid_argument("Invalid output file");
 
     _timing.set_name("Video Target/File");

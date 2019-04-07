@@ -29,7 +29,8 @@ int Main::main(int argc, char** argv){
         _video_tgt = new VideoTargetFile(
             config["system"]["video_targets"]["file"]["filename"].as<string>(),
             config["system"]["video_sources"]["camera"]["width"].as<int>(),
-            config["system"]["video_sources"]["camera"]["height"].as<int>()
+            config["system"]["video_sources"]["camera"]["height"].as<int>(),
+            config["system"]["video_sources"]["camera"]["fps"].as<int>()
         );
     } else if("dummy" == config["system"]["video_target"].as<string>()) {
         _video_tgt = new VideoTargetDummy();
