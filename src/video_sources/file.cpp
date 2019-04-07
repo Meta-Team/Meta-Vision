@@ -6,8 +6,16 @@ using namespace std;
 using namespace cv;
 
 VideoSourceFile::VideoSourceFile(std::string filename) {
-    _cap = new VideoCapture(filename);
-    if(!_cap->isOpened()) throw std::invalid_argument("Invalid input file");
+    // Try to use different backends to start capture
+    do {
+        _cap = new VideoCapture(filename, CAP_V4L2);
+        if(_cap->isOpened()) break;
+
+        _cap = new VideoCapture(filename, CAP_ANY);
+        if(_cap->isOpened()) break;
+
+        throw std::invalid_argument("Failed to open camera");
+    } while(0);
 
     _timing.set_name("Video Source/File");
 

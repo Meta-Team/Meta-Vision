@@ -4,6 +4,7 @@
 #include "video_sources/file.hpp"
 #include "video_targets/dummy.hpp"
 #include "video_targets/file.hpp"
+#include "video_targets/webserver.hpp"
 
 #include <unistd.h>
 
@@ -34,6 +35,10 @@ int Main::main(int argc, char** argv){
         );
     } else if("dummy" == config["system"]["video_target"].as<string>()) {
         _video_tgt = new VideoTargetDummy();
+    } else if("webserver" == config["system"]["video_target"].as<string>()) {
+        _video_tgt = new VideoTargetWebserver(
+            config["system"]["video_targets"]["webserver"]["port"].as<int>()
+        );
     } else {
         cerror << "Invalid video target" << endlog;
         return -1;

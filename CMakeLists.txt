@@ -14,6 +14,13 @@ project(robomaster_meta_vision)
 # Build OpenCV
 find_package(OpenCV REQUIRED)
 
+# Build MJPEGWriter (HTTP server for streaming images)
+file(GLOB MJPEGWriter_SOURCES lib/MJPEGWriter/*.cpp)
+file(GLOB MJPEGWriter_HEADERS lib/MJPEGWriter/*.h)
+add_library(MJPEGWriter SHARED ${MJPEGWriter_SOURCES} ${MJPEGWriter_HEADERS})
+target_link_libraries(MJPEGWriter ${OpenCV_LIBRARIES})
+target_include_directories(MJPEGWriter PUBLIC lib/MJPEGWriter ${OpenCV_INCLUDE_DIRS})
+
 # Build YAML-CPP
 file(GLOB YAML_CPP_SOURCES lib/yaml-cpp/src/*.cpp)
 file(GLOB YAML_CPP_HEADERS lib/yaml-cpp/src/*.h)
@@ -25,10 +32,11 @@ target_compile_definitions(yaml_cpp PUBLIC -DYAML_CPP_NO_CONTRIB)
 file(GLOB_RECURSE SOURCES src/*.c src/*.cpp)
 file(GLOB_RECURSE HEADERS src/*.h src/*.hpp)
 add_executable(robomaster_meta_vision ${SOURCES} ${HEADERS})
-target_link_libraries(robomaster_meta_vision pthread)
 
 target_link_libraries(
     robomaster_meta_vision
-    yaml_cpp
     ${OpenCV_LIBRARIES}
+    yaml_cpp
+    MJPEGWriter
+    pthread
 )

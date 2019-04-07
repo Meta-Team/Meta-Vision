@@ -6,11 +6,20 @@ using namespace std;
 using namespace cv;
 
 VideoSourceCamera::VideoSourceCamera(int id, int width, int height, int fps) {
-    _cap = new VideoCapture(id);
-    if(!_cap->isOpened()) throw std::invalid_argument("Failed to open camera");
+    // Try to use different backends to start capture
+    do {
+        _cap = new VideoCapture(id + CAP_V4L2);
+        if(_cap->isOpened()) break;
+
+        _cap = new VideoCapture(id + CAP_ANY);
+        if(_cap->isOpened()) break;
+
+        throw std::invalid_argument("Failed to open camera");
+    } while(0);
 
     _cap->set(CAP_PROP_FRAME_WIDTH, width);
     _cap->set(CAP_PROP_FRAME_HEIGHT, height);
+    _cap->set(CAP_PROP_FOURCC, VideoWriter::fourcc('M', 'J', 'P', 'G'));
     _cap->set(CAP_PROP_FPS, fps);
 
     _timing.set_name("Video Source/Camera");
