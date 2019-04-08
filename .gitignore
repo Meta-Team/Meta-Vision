@@ -1,6 +1,10 @@
 .DS_Store
 .ipynb_checkpoints
 .vscode
+
 test_clips
 build
+doc
+record
+
 *.mp4

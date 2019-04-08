@@ -14,7 +14,7 @@ system:
   video_target: "file"
   video_targets:
     file:
-      filename: "test.mp4"
+      folder: "record"
     webserver:
       port: 2019
 
