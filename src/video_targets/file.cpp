@@ -1,17 +1,30 @@
 #include "file.hpp"
+#include "../logging/logging.hpp"
 #include "../global.hpp"
 #include <stdexcept>
+#include <ctime>
 
 using namespace std;
 using namespace cv;
 
-VideoTargetFile::VideoTargetFile(string filename, int width, int height, int fps) {
+VideoTargetFile::VideoTargetFile(string folder, int width, int height, int fps) {
     _width = width;
     _height = height;
 
+    // Create filename based on current datetime
+    time_t rawtime;
+    struct tm * timeinfo;
+    char filename[80];
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+    strftime(filename,sizeof(filename),"record-%Y-%m-%d-%H-%M-%S.mp4",timeinfo);
+    string filepath = folder + "/" + string(filename);
+
     // Open a MP4 writer
-    _wri = new VideoWriter(filename, VideoWriter::fourcc('m', 'p', '4', 'v'), fps, Size(width, height));
+    _wri = new VideoWriter(filepath, VideoWriter::fourcc('m', 'p', '4', 'v'), fps, Size(width, height));
     if(!_wri->isOpened()) throw std::invalid_argument("Invalid output file");
+
+    cwarning << "Video Target/File: " << filepath << endlog;
 
     _timing.set_name("Video Target/File");
 

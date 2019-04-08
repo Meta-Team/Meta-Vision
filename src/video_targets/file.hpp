@@ -16,7 +16,7 @@ private:
     int _width, _height;
     Timing _timing;
 public:
-    VideoTargetFile(std::string filename, int width = 640, int height = 480, int fps = 30);
+    VideoTargetFile(std::string folder, int width = 640, int height = 480, int fps = 30);
     ~VideoTargetFile();
 
     void thread_job();

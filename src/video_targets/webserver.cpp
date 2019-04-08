@@ -1,4 +1,5 @@
 #include "webserver.hpp"
+#include "../logging/logging.hpp"
 #include "../global.hpp"
 #include <stdexcept>
 
@@ -9,6 +10,8 @@ VideoTargetWebserver::VideoTargetWebserver(int port) {
     _mjpegWriter = new MJPEGWriter(port);
 
     _timing.set_name("Video Target/Web Server");
+
+    cwarning << "Video Target/Web Server: Port " << port << endlog;
 
     // Start processing thread immediately
     thread_run();

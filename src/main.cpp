@@ -28,7 +28,7 @@ int Main::main(int argc, char** argv){
 
     if("file" == config["system"]["video_target"].as<string>()) {
         _video_tgt = new VideoTargetFile(
-            config["system"]["video_targets"]["file"]["filename"].as<string>(),
+            config["system"]["video_targets"]["file"]["folder"].as<string>(),
             _video_src->getWidth(),
             _video_src->getHeight(),
             _video_src->getFPS()
@@ -70,7 +70,7 @@ int Main::main(int argc, char** argv){
             for (int i = 0; i < 4; i++) {
                 line(frame, vertices[i], vertices[(i+1)%4], Scalar(0,0,255), 2);
             }
-            cwarning << "Points: " << vertices[0] << vertices[1] << vertices[2] << vertices[3] << endlog;
+            // cwarning << "Points: " << vertices[0] << vertices[1] << vertices[2] << vertices[3] << endlog;
         }
         
         // Write image

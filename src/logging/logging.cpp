@@ -13,7 +13,7 @@ std::string Logging::_currentDateTime() const {
     struct tm * timeinfo;
     char buffer[80];
 
-    time (&rawtime);
+    time(&rawtime);
     timeinfo = localtime(&rawtime);
 
     strftime(buffer,sizeof(buffer),"%Y-%m-%d %H:%M:%S",timeinfo);

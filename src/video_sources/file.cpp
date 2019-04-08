@@ -18,7 +18,7 @@ VideoSourceFile::VideoSourceFile(std::string filename) {
         throw std::invalid_argument("Failed to open camera");
     } while(0);
 
-    cwarning << "Video Source/Camera: " << getWidth() << "x" << getHeight() << " @" << getFPS() << endlog;
+    cwarning << "Video Source/File: " << getWidth() << "x" << getHeight() << " @" << getFPS() << endlog;
 
     _timing.set_name("Video Source/File");
 
