@@ -14,25 +14,42 @@
 using namespace std;
 using namespace cv;
 
+/**
+ * @brief Main job of the program. Used to avoid global variables/simplify management.
+ */
 class Main {
 public:
     Main() {}
     ~Main();
     int main(int argc, char** argv);
 
-    // Value will change to false after a ctrl-c.
-    // Used for clean shutdown.
+    /**
+     * @brief Signal for clean shutdown. Will change to false after a Ctrl-C by signal handler.
+     */
     bool should_run = true;
 
+    /**
+     * @brief Root node of the configuration. May be directly read by other classes
+     */
     YAML::Node config;
 private:
     void _loadConfig(string filename);
 
     void _prepareArmorDetect();
 
+    /**
+     * @brief Video Source for this session. Specified by config file.
+     */
     VideoSource* _video_src = NULL;
+
+    /**
+     * @brief Video Target for this session. Specified by config file.
+     */
     VideoTarget* _video_tgt = NULL;
 
+    /**
+     * @brief Armod Detect interface for this session. Currently only ICRA2018_NJUST_Armor is available.
+     */
     ICRA2018_NJUST_Armor::Armor_Interface* _armorDetect = NULL;
 };
 

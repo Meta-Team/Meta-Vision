@@ -6,6 +6,18 @@
 using namespace std;
 using namespace cv;
 
+/**
+ * @brief Starts writing video into a folder, with specified parameters.
+ *        To handle crashes/power cuts better, the video file is split
+ *        every **segment_interval** seconds, so only the last file will be lost
+ *        if something bad ever happens.
+ * 
+ * @param folder Folder to store the saved videos.
+ * @param width Frame width of the saved video file.
+ * @param height Frame height of the saved video file.
+ * @param fps Frames per second of the saved video file.
+ * @param segment_interval Interval in seconds when the video file will be split.
+ */
 VideoTargetFile::VideoTargetFile(string folder, int width, int height, int fps, int segment_interval)
 : _folder(folder), _width(width), _height(height), _fps(fps), _segment_interval(segment_interval) {
     // Create filename based on current datetime
@@ -25,6 +37,9 @@ VideoTargetFile::VideoTargetFile(string folder, int width, int height, int fps, 
     thread_run();
 }
 
+/**
+ * @brief Destroy the Video Target File:: Video Target File object
+ */
 VideoTargetFile::~VideoTargetFile() {
     thread_stop();  // IMPORTANT: not stopping here will cause job() still running
                     // when _wri get deleted, causing segfault
@@ -34,6 +49,9 @@ VideoTargetFile::~VideoTargetFile() {
     }
 }
 
+/**
+ * @brief Create a new file in the folder, based on the current datetime.
+ */
 void VideoTargetFile::_createNewFile() {
     if(_wri != NULL) {
         _wri->release();
@@ -54,6 +72,10 @@ void VideoTargetFile::_createNewFile() {
     cwarning << "Video Target/File: " << filepath << endlog;
 }
 
+/**
+ * @brief Main routine of the thread.
+ *        Pops image from queue and writes it to disk.
+ */
 void VideoTargetFile::thread_job() {
     Mat local_frame, local_frame_resized;
     time_t current_time;
@@ -77,8 +99,20 @@ void VideoTargetFile::thread_job() {
     _timing.job_end();
 }
 
+/**
+ * @brief Checks if the writer is available. Always return true,
+ *        because the writer is always ready, thanks to the queue.
+ * 
+ * @return true Always
+ * @return false Never
+ */
 bool VideoTargetFile::isAvailable() { return true; }
 
+/**
+ * @brief Enqueues a frame to be written to disk.
+ * 
+ * @param mat The frame to be writte to disk
+ */
 void VideoTargetFile::writeFrame(Mat& mat) {
     // Limit queue size to prevent memory exhaustion
     if(_queue.size() > VIDEO_TARGET_QUEUE_SIZE) return;

@@ -40,6 +40,7 @@
 #define BG_LIGHT_CYAN       106
 #define BG_WHITE            107
 
+
 inline std::string color(int fg, int bg) {
     // os << "\e[" << obj._bg_color << ";0;" << obj._fg_color << "m";
     return std::string("\e[") + std::to_string(bg) + std::string(";0;") + std::to_string(fg) + std::string("m");

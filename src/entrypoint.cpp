@@ -5,14 +5,29 @@
 
 Main mainFunction;
 
+/**
+ * @brief Handler for Ctrl-C key combination. Tells main loop to stop,
+ *        instead of letting Linux terminating the process.
+ * 
+ * @param signal The signal triggered, ignored
+ */
 void ctrlc_handler(int signal) {
+    // Do not show the message repeatedly
     if(mainFunction.should_run) {
         cwarning << "Ctrl-C received, shutting down" << endlog;
         mainFunction.should_run = false;
     }
 }
 
-// The real entrypoint, handle some exceptions better
+/**
+ * @brief Entrypoint to the program.
+ *        Sets Ctrl-C handler, and use a try-catch to catch all internal errors,
+ *        so the errors get printed out better.
+ * 
+ * @param argc Number of arguments passed
+ * @param argv Values of arguments passed
+ * @return int Return value of the whole program
+ */
 int main(int argc, char** argv) {
     // Set custom handler for Ctrl-C, for clean shutdown
     signal(SIGINT, ctrlc_handler);

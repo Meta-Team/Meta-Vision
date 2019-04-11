@@ -8,6 +8,14 @@
 
 #include <unistd.h>
 
+/**
+ * @brief Main logic of the program.
+ *        Loads config, sets up video source, target, armor detection.
+ * 
+ * @param argc Number of arguments passed
+ * @param argv Values of arguments passed
+ * @return int Return value of the whole program
+ */
 int Main::main(int argc, char** argv){
     _loadConfig((argc > 1) ? argv[1] : DEFAULT_CONFIG_NAME);
     _prepareArmorDetect();
@@ -58,21 +66,21 @@ int Main::main(int argc, char** argv){
         if(prev_id == next_id) continue;
         prev_id = next_id;
 
-        // Call Armor Detect routine, draw armor borderline
-        RotatedRect rect = _armorDetect->analyze(frame);
-        Point2f vertices[4];
-        rect.points(vertices);
+        // // Call Armor Detect routine, draw armor borderline
+        // RotatedRect rect = _armorDetect->analyze(frame);
+        // Point2f vertices[4];
+        // rect.points(vertices);
 
-        if(vertices[0] != Point2f(0, 0)
-            || vertices[1] != Point2f(0, 0)
-            || vertices[2] != Point2f(0, 0)
-            || vertices[3] != Point2f(0, 0)
-        ) { // An armor has been detected
-            for (int i = 0; i < 4; i++) {
-                line(frame, vertices[i], vertices[(i+1)%4], Scalar(0,0,255), 2);
-            }
-            // cwarning << "Points: " << vertices[0] << vertices[1] << vertices[2] << vertices[3] << endlog;
-        }
+        // if(vertices[0] != Point2f(0, 0)
+        //     || vertices[1] != Point2f(0, 0)
+        //     || vertices[2] != Point2f(0, 0)
+        //     || vertices[3] != Point2f(0, 0)
+        // ) { // An armor has been detected
+        //     for (int i = 0; i < 4; i++) {
+        //         line(frame, vertices[i], vertices[(i+1)%4], Scalar(0,0,255), 2);
+        //     }
+        //     // cwarning << "Points: " << vertices[0] << vertices[1] << vertices[2] << vertices[3] << endlog;
+        // }
         
         // Write image
         _video_tgt->writeFrame(frame);
@@ -81,6 +89,12 @@ int Main::main(int argc, char** argv){
     return 0;
 }
 
+/**
+ * @brief Loads the config file, and changes working directory to the same folder as config file,
+ *        to read resource files relative to the config file.
+ * 
+ * @param filename Filename to the config file
+ */
 void Main::_loadConfig(string filename) {
     // Load YAML file
     config = YAML::LoadFile(filename);
@@ -101,6 +115,10 @@ void Main::_loadConfig(string filename) {
     }
 }
 
+/**
+ * @brief Initializes the armor detection algorithm.
+ *        Currently it only uses the ICRA2018_NJUST algorithm.
+ */
 void Main::_prepareArmorDetect() {
     _armorDetect = new ICRA2018_NJUST_Armor::Armor_Interface(config["algorithm"]["icra2018_njust_armor"]);
 
@@ -121,6 +139,9 @@ void Main::_prepareArmorDetect() {
     csuccess << "Initialized Armor Detection" << endlog;
 }
 
+/**
+ * @brief Destroy the Main:: Main object
+ */
 Main::~Main() {
     if(_armorDetect != NULL) delete _armorDetect;
     if(_video_src != NULL) delete _video_src;

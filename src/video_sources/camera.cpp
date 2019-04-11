@@ -6,6 +6,14 @@
 using namespace std;
 using namespace cv;
 
+/**
+ * @brief Opens a camera as a video source.
+ * 
+ * @param id Device ID of the camera (can be accessed at /dev/video**id**)
+ * @param width Desired frame width of the camera (The camera may not respect this setting)
+ * @param height Desired frame height of the camera (The camera may not respect this setting)
+ * @param fps Desired FPS of the camera (The camera may not respect this setting)
+ */
 VideoSourceCamera::VideoSourceCamera(int id, int width, int height, int fps) {
     // Try to use different backends to start capture
     do {
@@ -30,6 +38,9 @@ VideoSourceCamera::VideoSourceCamera(int id, int width, int height, int fps) {
     thread_run();
 }
 
+/**
+ * @brief Destroy the Video Source Camera:: Video Source Camera object
+ */
 VideoSourceCamera::~VideoSourceCamera() {
     thread_stop();  // IMPORTANT: not stopping here will cause job() still running
                     // when _cap get deleted, causing segfault
@@ -39,6 +50,11 @@ VideoSourceCamera::~VideoSourceCamera() {
     }
 }
 
+/**
+ * @brief Main thread that reads frames from camera and stores it temporarily.
+ *        It continuously polls the camera to achieve max frame rate,
+ *        to avoid being blocked by other routine (such as armor detection).
+ */
 void VideoSourceCamera::thread_job() {
     Mat local_frame;
 
@@ -62,8 +78,23 @@ void VideoSourceCamera::thread_job() {
     thread_should_run = false;
 }
 
+/**
+ * @brief Returns whether the camera is available.
+ * 
+ * @return true When the camera is working.
+ * @return false When the camera is not working.
+ */
 bool VideoSourceCamera::isAvailable() { return _available; }
 
+/**
+ * @brief Checks if a new frame is available by comparing the
+ *        **previous id** with the **current id**.
+ *        When it is, copies the new frame.
+ * 
+ * @param target Target of the frame to be copied.
+ * @param prev_id ID of the previous frame.
+ * @return int 
+ */
 int VideoSourceCamera::getFrame(Mat& target, int prev_id = 0) {
     unique_lock<mutex> lock(_frame_mutex);
 
@@ -73,14 +104,29 @@ int VideoSourceCamera::getFrame(Mat& target, int prev_id = 0) {
     return _id;
 }
 
+/**
+ * @brief Returns the actual frame width of the camera.
+ * 
+ * @return int actual frame width of the camera
+ */
 int VideoSourceCamera::getWidth() {
     return _cap->get(CAP_PROP_FRAME_WIDTH);
 }
 
+/**
+ * @brief Returns the actual frame height of the camera.
+ * 
+ * @return int actual frame height of the camera
+ */
 int VideoSourceCamera::getHeight() {
     return _cap->get(CAP_PROP_FRAME_HEIGHT);
 }
 
+/**
+ * @brief Returns the actual FPS of the camera.
+ * 
+ * @return int actual FPS of the camera
+ */
 int VideoSourceCamera::getFPS() {
     return _cap->get(CAP_PROP_FPS);
 }

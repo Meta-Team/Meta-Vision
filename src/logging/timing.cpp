@@ -5,19 +5,37 @@
 
 using namespace std;
 
+/**
+ * @brief Construct a new Timing:: Timing object, and starts counting.
+ */
 Timing::Timing() {
     _prev_notify = chrono::high_resolution_clock::now();
     _timing_interval = mainFunction.config["system"]["timing_interval"].as<int>();
 }
 
+/**
+ * @brief Sets the name fo the current counter. Used when printing to console.
+ * 
+ * @param name New name for the current counter.
+ */
 void Timing::set_name(std::string name) {
     _name = name;
 }
 
+/**
+ * @brief Sets the name fo the current counter. Used when printing to console.
+ * 
+ * @param name New name for the current counter.
+ */
 void Timing::set_name(const char* name) {
     _name = string(name);
 }
 
+/**
+ * @brief Called at the end of every operation, used for counting.
+ *        When a specified interval passed, the average operations per second
+ *        is printed onto the console.
+ */
 void Timing::op_done() {
     chrono::high_resolution_clock::time_point now = chrono::high_resolution_clock::now();
     double time_passed = chrono::duration_cast<chrono::duration<double>>(now - _prev_notify).count();
@@ -30,6 +48,10 @@ void Timing::op_done() {
     }
 }
 
+/**
+ * @brief Called at the end of the whole job.
+ *        Immediately prints the rest operations per second, regardless of interval.
+ */
 void Timing::job_end() {
     chrono::high_resolution_clock::time_point now = chrono::high_resolution_clock::now();
     double time_passed = chrono::duration_cast<chrono::duration<double>>(now - _prev_notify).count();
