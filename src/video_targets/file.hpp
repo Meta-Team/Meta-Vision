@@ -7,16 +7,23 @@
 #include "../logging/timing.hpp"
 #include <queue>
 #include <mutex>
+#include <ctime>
 
 class VideoTargetFile : public VideoTarget {
 private:
     cv::VideoWriter* _wri = NULL;
     std::queue<cv::Mat> _queue;
     std::mutex _queue_mutex;
-    int _width, _height;
+
+    std::string _folder;
+    int _width, _height, _fps, _segment_interval;
+
     Timing _timing;
+    time_t _prev_file_time;
+
+    void _createNewFile();
 public:
-    VideoTargetFile(std::string folder, int width = 640, int height = 480, int fps = 30);
+    VideoTargetFile(std::string folder, int width, int height, int fps, int segment_interval);
     ~VideoTargetFile();
 
     void thread_job();

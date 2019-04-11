@@ -33,6 +33,21 @@ file(GLOB_RECURSE SOURCES src/*.c src/*.cpp)
 file(GLOB_RECURSE HEADERS src/*.h src/*.hpp)
 add_executable(robomaster_meta_vision ${SOURCES} ${HEADERS})
 
+# Use Doxygen to generate documents
+find_package(Doxygen COMPONENTS dot OPTIONAL_COMPONENTS mscgen dia)
+if(DOXYGEN_FOUND)
+    set(DOXYGEN_PROJECT_NAME "RoboMaster Meta Vision")
+    set(DOXYGEN_EXTRACT_PRIVATE YES)
+    set(DOXYGEN_EXTRACT_PACKAGE YES)
+    set(DOXYGEN_EXTRACT_STATIC YES)
+    set(DOXYGEN_GENERATE_HTML YES)
+    set(DOXYGEN_GENERATE_LATEX NO)
+    set(DOXYGEN_GENERATE_TREEVIEW YES)
+    set(DOXYGEN_HTML_OUTPUT "doc")
+    set(DOXYGEN_QUIET YES)
+    doxygen_add_docs(robomaster_meta_vision_docs ${SOURCES} ${HEADERS} ALL)
+endif(DOXYGEN_FOUND)
+
 target_link_libraries(
     robomaster_meta_vision
     ${OpenCV_LIBRARIES}

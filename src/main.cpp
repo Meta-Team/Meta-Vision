@@ -31,7 +31,8 @@ int Main::main(int argc, char** argv){
             config["system"]["video_targets"]["file"]["folder"].as<string>(),
             _video_src->getWidth(),
             _video_src->getHeight(),
-            _video_src->getFPS()
+            _video_src->getFPS(),
+            config["system"]["video_targets"]["file"]["segment_interval"].as<int>()
         );
     } else if("dummy" == config["system"]["video_target"].as<string>()) {
         _video_tgt = new VideoTargetDummy();

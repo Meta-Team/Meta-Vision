@@ -15,6 +15,7 @@ system:
   video_targets:
     file:
       folder: "record"
+      segment_interval: 12
     webserver:
       port: 2019
 

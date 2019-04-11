@@ -2,15 +2,12 @@
 #include "../logging/logging.hpp"
 #include "../global.hpp"
 #include <stdexcept>
-#include <ctime>
 
 using namespace std;
 using namespace cv;
 
-VideoTargetFile::VideoTargetFile(string folder, int width, int height, int fps) {
-    _width = width;
-    _height = height;
-
+VideoTargetFile::VideoTargetFile(string folder, int width, int height, int fps, int segment_interval)
+: _folder(folder), _width(width), _height(height), _fps(fps), _segment_interval(segment_interval) {
     // Create filename based on current datetime
     time_t rawtime;
     struct tm * timeinfo;
@@ -18,13 +15,9 @@ VideoTargetFile::VideoTargetFile(string folder, int width, int height, int fps) 
     time(&rawtime);
     timeinfo = localtime(&rawtime);
     strftime(filename,sizeof(filename),"record-%Y-%m-%d-%H-%M-%S.mp4",timeinfo);
-    string filepath = folder + "/" + string(filename);
+    string filepath = _folder + "/" + string(filename);
 
-    // Open a MP4 writer
-    _wri = new VideoWriter(filepath, VideoWriter::fourcc('m', 'p', '4', 'v'), fps, Size(width, height));
-    if(!_wri->isOpened()) throw std::invalid_argument("Invalid output file");
-
-    cwarning << "Video Target/File: " << filepath << endlog;
+    _createNewFile();
 
     _timing.set_name("Video Target/File");
 
@@ -41,9 +34,35 @@ VideoTargetFile::~VideoTargetFile() {
     }
 }
 
+void VideoTargetFile::_createNewFile() {
+    if(_wri != NULL) {
+        _wri->release();
+        delete _wri;
+    }
+    
+    struct tm * timeinfo;
+    char filename[80];
+    time(&_prev_file_time);
+    timeinfo = localtime(&_prev_file_time);
+    strftime(filename,sizeof(filename),"record-%Y-%m-%d-%H-%M-%S.mp4",timeinfo);
+    string filepath = _folder + "/" + string(filename);
+
+    // Open a MP4 writer
+    _wri = new VideoWriter(filepath, VideoWriter::fourcc('m', 'p', '4', 'v'), _fps, Size(_width, _height));
+    if(!_wri->isOpened()) throw std::invalid_argument("Invalid output file");
+
+    cwarning << "Video Target/File: " << filepath << endlog;
+}
+
 void VideoTargetFile::thread_job() {
     Mat local_frame, local_frame_resized;
+    time_t current_time;
     while(thread_should_run) {
+        time(&current_time);
+        if(difftime(current_time, _prev_file_time) >= _segment_interval) {
+            _createNewFile();
+        }
+
         if(_queue.empty()) continue;
         _queue_mutex.lock();
         local_frame = _queue.front();
