@@ -64,7 +64,7 @@ public:
     /**
      * @brief Stops the thread if still running.
      */
-    ~Thread() {
+    virtual ~Thread() {
         if(_t != NULL) thread_stop();
     }
 };

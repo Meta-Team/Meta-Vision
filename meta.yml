@@ -11,13 +11,22 @@ system:
       height: 360
       fps: 330
 
-  video_target: "file"
+  video_target: "dummy"
   video_targets:
+    dummy: "dummy"
     file:
       folder: "record"
       segment_interval: 30
     webserver:
       port: 2019
+  
+  target_calibration:
+    view_angle_x: 45          # 摄像头左右能拍到的最大角度
+    view_angle_y: 45          # 摄像头上下能拍到的最大角度
+  
+  serial:
+    device: "/dev/ttyS0"
+    baudrate: 115200
 
 game:
   our_team: "red"

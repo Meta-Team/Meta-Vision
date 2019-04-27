@@ -28,25 +28,34 @@ add_library(yaml_cpp SHARED ${YAML_CPP_SOURCES} ${YAML_CPP_HEADERS})
 target_include_directories(yaml_cpp PUBLIC lib/yaml-cpp/include)
 target_compile_definitions(yaml_cpp PUBLIC -DYAML_CPP_NO_CONTRIB)
 
+# Build Nanopb
+# set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib/nanopb/extra)
+# find_package(Nanopb REQUIRED)
+# include_directories(${NANOPB_INCLUDE_DIRS})
+# include_directories(${CMAKE_CURRENT_BINARY_DIR})
+# nanopb_generate_cpp(PROTO_SRCS PROTO_HDRS src/serial/serial.proto)
+# set_source_files_properties(${PROTO_SRCS} ${PROTO_HDRS} PROPERTIES GENERATED TRUE)
+
 # Build RM Vision software
 file(GLOB_RECURSE SOURCES src/*.c src/*.cpp)
 file(GLOB_RECURSE HEADERS src/*.h src/*.hpp)
 add_executable(robomaster_meta_vision ${SOURCES} ${HEADERS})
+# add_executable(robomaster_meta_vision ${SOURCES} ${HEADERS} ${PROTO_SRCS} ${PROTO_HDRS})
 
 # Use Doxygen to generate documents
-find_package(Doxygen COMPONENTS dot OPTIONAL_COMPONENTS mscgen dia)
-if(DOXYGEN_FOUND)
-    set(DOXYGEN_PROJECT_NAME "RoboMaster Meta Vision")
-    set(DOXYGEN_EXTRACT_PRIVATE YES)
-    set(DOXYGEN_EXTRACT_PACKAGE YES)
-    set(DOXYGEN_EXTRACT_STATIC YES)
-    set(DOXYGEN_GENERATE_HTML YES)
-    set(DOXYGEN_GENERATE_LATEX NO)
-    set(DOXYGEN_GENERATE_TREEVIEW YES)
-    set(DOXYGEN_HTML_OUTPUT "doc")
-    set(DOXYGEN_QUIET YES)
-    doxygen_add_docs(robomaster_meta_vision_docs ${SOURCES} ${HEADERS} ALL)
-endif(DOXYGEN_FOUND)
+# find_package(Doxygen COMPONENTS dot OPTIONAL_COMPONENTS mscgen dia)
+# if(DOXYGEN_FOUND)
+#     set(DOXYGEN_PROJECT_NAME "RoboMaster Meta Vision")
+#     set(DOXYGEN_EXTRACT_PRIVATE YES)
+#     set(DOXYGEN_EXTRACT_PACKAGE YES)
+#     set(DOXYGEN_EXTRACT_STATIC YES)
+#     set(DOXYGEN_GENERATE_HTML YES)
+#     set(DOXYGEN_GENERATE_LATEX NO)
+#     set(DOXYGEN_GENERATE_TREEVIEW YES)
+#     set(DOXYGEN_HTML_OUTPUT "doc")
+#     set(DOXYGEN_QUIET YES)
+#     doxygen_add_docs(robomaster_meta_vision_docs ${SOURCES} ${HEADERS} ALL)
+# endif(DOXYGEN_FOUND)
 
 target_link_libraries(
     robomaster_meta_vision

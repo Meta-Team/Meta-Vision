@@ -68,7 +68,7 @@ MJPEGWriter::Writer()
 
         std::vector<uchar> outbuf;
         std::vector<int> params;
-        params.push_back(CV_IMWRITE_JPEG_QUALITY);
+        params.push_back(IMWRITE_JPEG_QUALITY);
         params.push_back(quality);
         pthread_mutex_lock(&mutex_writer);
         imencode(".jpg", lastFrame, outbuf, params);

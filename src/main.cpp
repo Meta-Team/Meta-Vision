@@ -1,5 +1,4 @@
 #include "main.hpp"
-#include "interfaces/multithread.hpp"
 #include "video_sources/camera.hpp"
 #include "video_sources/file.hpp"
 #include "video_targets/dummy.hpp"
@@ -53,6 +52,11 @@ int Main::main(int argc, char** argv){
         return -1;
     }
 
+    _serial = new SerialStatus(
+        config["system"]["serial"]["device"].as<string>(),
+        config["system"]["serial"]["baudrate"].as<int>()
+    );
+
     Mat frame, resized;
     
     while(should_run) {
@@ -66,22 +70,33 @@ int Main::main(int argc, char** argv){
         if(prev_id == next_id) continue;
         prev_id = next_id;
 
-        // // Call Armor Detect routine, draw armor borderline
-        // RotatedRect rect = _armorDetect->analyze(frame);
-        // Point2f vertices[4];
-        // rect.points(vertices);
+        // Call Armor Detect routine, draw armor borderline
+        RotatedRect rect = _armorDetect->analyze(frame);
+        Point2f vertices[4];
+        rect.points(vertices);
 
-        // if(vertices[0] != Point2f(0, 0)
-        //     || vertices[1] != Point2f(0, 0)
-        //     || vertices[2] != Point2f(0, 0)
-        //     || vertices[3] != Point2f(0, 0)
-        // ) { // An armor has been detected
-        //     for (int i = 0; i < 4; i++) {
-        //         line(frame, vertices[i], vertices[(i+1)%4], Scalar(0,0,255), 2);
-        //     }
-        //     // cwarning << "Points: " << vertices[0] << vertices[1] << vertices[2] << vertices[3] << endlog;
-        // }
-        
+        if(vertices[0] != Point2f(0, 0)
+            || vertices[1] != Point2f(0, 0)
+            || vertices[2] != Point2f(0, 0)
+            || vertices[3] != Point2f(0, 0)
+        ) { // An armor has been detected
+            for (int i = 0; i < 4; i++) {
+                line(frame, vertices[i], vertices[(i+1)%4], Scalar(0,0,255), 2);
+            }
+
+            double centerX = (vertices[0].x + vertices[1].x + vertices[2].x + vertices[3].x) / 4;
+            double centerY = (vertices[0].y + vertices[1].y + vertices[2].y + vertices[3].y) / 4;
+
+            // cwarning << "Center: " << centerX << ", " << centerY << endlog;
+
+            int dYaw = (2 * centerX / _video_src->getWidth() - 1) * config["system"]["target_calibration"]["view_angle_x"].as<int>();
+            int dPitch = (1 - 2 * centerY / _video_src->getHeight()) * config["system"]["target_calibration"]["view_angle_y"].as<int>();
+
+            cwarning << "D-Angle: Pitch " << dPitch << ", Yaw " << dYaw << endlog;
+
+            _serial->send_gimbal(dYaw, dPitch);
+        }
+
         // Write image
         _video_tgt->writeFrame(frame);
     }
@@ -146,4 +161,5 @@ Main::~Main() {
     if(_armorDetect != NULL) delete _armorDetect;
     if(_video_src != NULL) delete _video_src;
     if(_video_tgt != NULL) delete _video_tgt;
+    if(_serial != NULL) delete _serial;
 }

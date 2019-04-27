@@ -8,8 +8,10 @@
 #include "logging/logging.hpp"
 #include "algo/icra2018_njust_armor/interface.hpp"
 
+#include "interfaces/multithread.hpp"
 #include "interfaces/video_source.hpp"
 #include "interfaces/video_target.hpp"
+#include "serial/status.hpp"
 
 using namespace std;
 using namespace cv;
@@ -48,9 +50,14 @@ private:
     VideoTarget* _video_tgt = NULL;
 
     /**
-     * @brief Armod Detect interface for this session. Currently only ICRA2018_NJUST_Armor is available.
+     * @brief Armor Detect interface for this session. Currently only ICRA2018_NJUST_Armor is available.
      */
     ICRA2018_NJUST_Armor::Armor_Interface* _armorDetect = NULL;
+
+    /**
+     * @brief Serial interface to communicate with RMBoard and judge system.
+     */
+    SerialStatus* _serial = NULL;
 };
 
 #endif
