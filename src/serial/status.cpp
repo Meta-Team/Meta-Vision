@@ -101,11 +101,11 @@ void SerialStatus::thread_job() {
     _timing.job_end();
 }
 
-void SerialStatus::send_gimbal(int d_yaw, int d_pitch) {
+void SerialStatus::send_gimbal(int yaw, int pitch) {
     rm_protocol_t packet;
     packet.cmd_id = RM_CMDID_CUSTOM_GIMBAL_TARGET;
-    packet.custom_gimbal_target.yaw = d_yaw + rm_state.custom_gimbal_current.yaw;
-    packet.custom_gimbal_target.pitch = d_pitch + rm_state.custom_gimbal_current.pitch;
+    packet.custom_gimbal_target.yaw = yaw;
+    packet.custom_gimbal_target.pitch = pitch;
     _packet_send(&packet);
 }
 

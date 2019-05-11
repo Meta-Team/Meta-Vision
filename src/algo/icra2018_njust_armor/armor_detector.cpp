@@ -76,28 +76,24 @@ namespace ICRA2018_NJUST_Armor {
         }
     }
 
-    void ArmorDetector::initTemplate(const Mat &_template, const Mat &_template_small){
+    void ArmorDetector::initTemplate(const Mat &_template){
         // cout << __PRETTY_FUNCTION__ << endl;
         vector<cv::Mat> bgr;
         bgr.resize(3);
         Mat temp_green;
-
-        split(_template_small, bgr);
-        resize(bgr[1], temp_green, Size(100, 25));
-        cv::threshold(temp_green, _binary_template_small, 128, 255, THRESH_OTSU);
 
         split(_template, bgr);
         resize(bgr[1], temp_green, Size(100, 25));
         cv::threshold(temp_green, _binary_template, 128, 255, THRESH_OTSU);
     }
 
-    int ArmorDetector::templateDist(const Mat &img, bool is_small){
+    int ArmorDetector::templateDist(const Mat &img){
         // cout << __PRETTY_FUNCTION__ << endl;
         int dist = 0;
         const uchar threshold_value = _para.min_light_gray - 15;
         int total_pixel = img.rows * img.cols;
-        const uchar * p1 = is_small ? _binary_template_small.data :_binary_template.data;
-        const uchar * p2 = img.data;
+        const uchar* p1 = _binary_template.data;
+        const uchar* p2 = img.data;
         for(int i = 0; i < total_pixel;  ++i, p1+=1, p2+=3){
             uchar v = (*p2+1) > threshold_value ? 255 : 0;//green component
             dist += (*p1) == v ? 0 : 1;
@@ -388,7 +384,6 @@ namespace ICRA2018_NJUST_Armor {
         }
         double weight = template_dist_threshold *percent_large_grad_threshold
                 /exp(-(avg_slope + avg_score) * degree2rad_scale * exp_weight_scale);
-        bool is_small = true;
 
         for(size_t i = 0; i < rects.size(); ++i){
             const RotatedRect & rect = rects[i];
@@ -538,16 +533,10 @@ namespace ICRA2018_NJUST_Armor {
                 Mat armor = rectify_target(armor_rect);
 
                 // compute the distance of template
-                cv::Size cur_size;
-                if (is_small) {
-                    cur_size = _binary_template_small.size();
-                } else {
-                    cur_size = _binary_template.size();
-                }
-
+                cv::Size cur_size = _binary_template.size();
                 resize(armor, armor, cur_size);
 
-                double dist = templateDist(armor, is_small);
+                double dist = templateDist(armor);
                 dist = dist / (cur_size.width * cur_size.height);
                 if(dist >  template_dist_threshold){
                     // cout << "refused 3: dist: " << dist << "\tdist threshold:" << (cur_size.width * cur_size.height) / 4 << endl;
@@ -561,7 +550,6 @@ namespace ICRA2018_NJUST_Armor {
                 if(cur_weight < weight){
                     weight = cur_weight;
                     ret_idx = i;
-                    _is_small_armor = is_small;
                 } else {
                     // cout << "refused 4: cur_weight: " << cur_weight << "\tweight threshold:" << weight << endl;
                 }
@@ -582,7 +570,6 @@ namespace ICRA2018_NJUST_Armor {
             return ret_rect;
         }
 
-        _is_small_armor = true;
         return ret_rect;
     }
 

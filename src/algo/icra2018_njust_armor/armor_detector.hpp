@@ -49,14 +49,13 @@ namespace ICRA2018_NJUST_Armor {
             _para = para;
             _res_last = cv::RotatedRect();
             _dect_rect = cv::Rect();
-            _is_small_armor = false;
             _lost_cnt = 0;
             _is_lost = true;
         }
         void setPara(const ArmorParam & para) {
             _para = para;
         }
-        void initTemplate(const cv::Mat & _template, const cv::Mat & _template_small);
+        void initTemplate(const cv::Mat & _template);
         cv::RotatedRect getTargetAera(const cv::Mat & src);
         void setLastResult(const cv::RotatedRect & rect){
             _res_last = rect;
@@ -82,7 +81,7 @@ namespace ICRA2018_NJUST_Armor {
          * @param is_smarect_pnp_solverll true if input image is a samll armor, otherwise, false
          * @return distance
          */
-        int templateDist(const cv::Mat & img, bool is_small);
+        int templateDist(const cv::Mat & img);
 
         /**
          * @brief findContourInEnemyColor Find contour in _max_color
@@ -157,7 +156,6 @@ namespace ICRA2018_NJUST_Armor {
     public:
         bool _is_lost;
         int _lost_cnt;
-        bool _is_small_armor;           // true if armor is the small one, otherwise false
         cv::RotatedRect _res_last;      // last detect result
         cv::Rect _dect_rect;            // detect reigon of original image
         ArmorParam _para;               // parameter of alg
@@ -167,7 +165,6 @@ namespace ICRA2018_NJUST_Armor {
         cv::Mat _ec;                    // enemy color component of source image
         cv::Mat _max_color;             // binary image of sub between blue and red component
         cv::Mat _binary_template;       // armor template binary image
-        cv::Mat _binary_template_small; // small armor template binay image
     };
 }
 

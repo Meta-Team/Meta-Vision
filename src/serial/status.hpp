@@ -7,16 +7,17 @@
 #include "../interfaces/multithread.hpp"
 #include "../logging/timing.hpp"
 
+#include <termios.h>
 #include <boost/crc.hpp>
 
-typedef boost::crc_optimal<8, 0x31, 0, 0, true, true> rm_crc8_t;
+typedef boost::crc_optimal<8, 0x31, 0xFF, 0, true, true> rm_crc8_t;
 typedef boost::crc_16_type rm_crc16_t;
 
 class SerialStatus : public Thread {
 public:
-    SerialStatus(std::string serial_device, int baudrate);
+    SerialStatus(std::string serial_device, int baudrate = B115200);
     void thread_job();
-    void send_gimbal(int d_yaw, int d_pitch);
+    void send_gimbal(int yaw, int pitch);
     bool parse(unsigned char* data, unsigned int len);
     ~SerialStatus();
 

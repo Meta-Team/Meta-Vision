@@ -18,8 +18,7 @@ namespace ICRA2018_NJUST_Armor {
 
         armor_detector = new ArmorDetector(settings->armor);
         Mat template_img = imread(settings->template_image_file);
-        Mat small_template_img = imread(settings->small_template_image_file);
-        armor_detector->initTemplate(template_img, small_template_img);
+        armor_detector->initTemplate(template_img);
         armor_detector->setPara(settings->armor);
     }
 
@@ -28,8 +27,7 @@ namespace ICRA2018_NJUST_Armor {
 
         armor_detector = new ArmorDetector(settings->armor);
         Mat template_img = imread(settings->template_image_file);
-        Mat small_template_img = imread(settings->small_template_image_file);
-        armor_detector->initTemplate(template_img, small_template_img);
+        armor_detector->initTemplate(template_img);
         armor_detector->setPara(settings->armor);
     }
 

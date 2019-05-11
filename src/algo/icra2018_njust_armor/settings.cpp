@@ -16,7 +16,6 @@ namespace ICRA2018_NJUST_Armor {
         armor.br_threshold = root["br_threshold"].as<int>();
 
         template_image_file = root["template_image_file"].as<string>();
-        small_template_image_file = root["small_template_image_file"].as<string>();
         
         check();
     }

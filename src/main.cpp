@@ -54,8 +54,7 @@ int Main::main(int argc, char** argv){
     }
 
     _serial = new SerialStatus(
-        config["system"]["serial"]["device"].as<string>(),
-        config["system"]["serial"]["baudrate"].as<int>()
+        config["system"]["serial"]["device"].as<string>()
     );
 
     Mat frame, resized;
@@ -70,6 +69,10 @@ int Main::main(int argc, char** argv){
         next_id = _video_src->getFrame(frame, prev_id);
         if(prev_id == next_id) continue;
         prev_id = next_id;
+
+        // Get yaw/pitch before time-costly analyzation to ensure accuracy
+        int yaw_current = _serial->rm_state.custom_gimbal_current.yaw;
+        int pitch_current = _serial->rm_state.custom_gimbal_current.pitch;
 
         // Call Armor Detect routine, draw armor borderline
         RotatedRect rect = _armorDetect->analyze(frame);
@@ -90,12 +93,12 @@ int Main::main(int argc, char** argv){
 
             // cwarning << "Center: " << centerX << ", " << centerY << endlog;
 
-            double dYaw = _fraction2angle(centerX / _video_src->getWidth() - 0.5, config["system"]["target_calibration"]["view_angle_x"].as<double>());
-            double dPitch = _fraction2angle(0.5 - centerY / _video_src->getHeight(), config["system"]["target_calibration"]["view_angle_y"].as<double>());
+            double yaw_target = yaw_current + _fraction2angle(2 * centerX / _video_src->getWidth() - 1, config["system"]["target_calibration"]["view_angle_x"].as<double>());
+            double pitch_target = pitch_current + _fraction2angle(1 - 2 * centerY / _video_src->getHeight(), config["system"]["target_calibration"]["view_angle_y"].as<double>());
             
-            cwarning << "D-Angle: Pitch " << dPitch << ", Yaw " << dYaw << endlog;
+            cwarning << "Pitch " << pitch_target << ", Yaw " << yaw_target << endlog;
 
-            _serial->send_gimbal(dYaw, dPitch);
+            _serial->send_gimbal(yaw_target, pitch_target);
         }
 
         // Write image
