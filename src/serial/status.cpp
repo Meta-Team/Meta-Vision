@@ -102,28 +102,28 @@ void SerialStatus::thread_job() {
 }
 
 void SerialStatus::send_gimbal(int yaw, int pitch) {
-    rm_protocol_t packet;
+    RM_Protocol::rm_protocol_t packet;
     packet.cmd_id = RM_CMDID_CUSTOM_GIMBAL_TARGET;
     packet.custom_gimbal_target.yaw = yaw;
     packet.custom_gimbal_target.pitch = pitch;
     _packet_send(&packet);
 }
 
-int SerialStatus::_packet_get_length(rm_protocol_t* packet) {
+int SerialStatus::_packet_get_length(RM_Protocol::rm_protocol_t* packet) {
     if(packet == NULL) {
         cerror << "NULL passed to packet_get_length!" << endlog;
         return 0;
     }
 
-    auto rm_map_result = rm_map_cmdid_packetsize.find(packet->cmd_id);
-    if(rm_map_result == rm_map_cmdid_packetsize.end()) {
+    auto rm_map_result = RM_Protocol::rm_map_cmdid_packetsize.find(packet->cmd_id);
+    if(rm_map_result == RM_Protocol::rm_map_cmdid_packetsize.end()) {
         cerror << "Unknown cmdid " << packet->cmd_id << ", cannot generate CRC!" << endlog;
         return 0;
     }
     return rm_map_result->second;
 }
 
-int SerialStatus::_packet_generate_crc(rm_protocol_t* packet, int packet_len = 0) {
+int SerialStatus::_packet_generate_crc(RM_Protocol::rm_protocol_t* packet, int packet_len) {
     if(packet == NULL) {
         cerror << "NULL passed to packet_generate_crc!" << endlog;
         return FAIL;
@@ -136,7 +136,7 @@ int SerialStatus::_packet_generate_crc(rm_protocol_t* packet, int packet_len = 0
     // Create separate CRC object here for thread safety
     rm_crc8_t local_crc8;
     local_crc8.reset();
-    local_crc8.process_bytes(packet_uint8, RM_FRAME_HEADER_LEN - 1);
+    local_crc8.process_bytes(packet_uint8, sizeof(RM_Protocol::rm_frame_header_t) - 1);
     packet->frame_header.crc8 = local_crc8.checksum();
     
     rm_crc16_t local_crc16;
@@ -151,7 +151,7 @@ int SerialStatus::_packet_generate_crc(rm_protocol_t* packet, int packet_len = 0
     return SUCCESS;
 }
 
-int SerialStatus::_packet_generate_header(rm_protocol_t* packet, int packet_len = 0) {
+int SerialStatus::_packet_generate_header(RM_Protocol::rm_protocol_t* packet, int packet_len) {
     static uint8_t packet_tx_seq = 0;
 
     if(packet == NULL) {
@@ -170,7 +170,7 @@ int SerialStatus::_packet_generate_header(rm_protocol_t* packet, int packet_len 
     return SUCCESS;
 }
 
-int SerialStatus::_packet_send(rm_protocol_t* packet) {
+int SerialStatus::_packet_send(RM_Protocol::rm_protocol_t* packet) {
     int packet_len = _packet_get_length(packet);
     if(!packet_len) return FAIL;
 
@@ -181,7 +181,7 @@ int SerialStatus::_packet_send(rm_protocol_t* packet) {
 }
 
 bool SerialStatus::parse(unsigned char* data, unsigned int len) {
-    rm_protocol_t* rm_protocol = (rm_protocol_t*) data;
+    RM_Protocol::rm_protocol_t* rm_protocol = (RM_Protocol::rm_protocol_t*) data;
     switch(rm_protocol->cmd_id) {
         case RM_CMDID_GAME_STATE:
             rm_state.game_state = rm_protocol->game_state;
