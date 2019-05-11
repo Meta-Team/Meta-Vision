@@ -39,6 +39,8 @@ private:
 
     void _prepareArmorDetect();
 
+    double _fraction2angle(double fraction, double maxAngle);
+
     /**
      * @brief Video Source for this session. Specified by config file.
      */

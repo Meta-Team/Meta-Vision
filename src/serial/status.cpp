@@ -102,11 +102,133 @@ void SerialStatus::thread_job() {
 }
 
 void SerialStatus::send_gimbal(int d_yaw, int d_pitch) {
-    // TODO: prepare packet and send it
+    rm_protocol_t packet;
+    packet.cmd_id = RM_CMDID_CUSTOM_GIMBAL_TARGET;
+    packet.custom_gimbal_target.yaw = d_yaw + rm_state.custom_gimbal_current.yaw;
+    packet.custom_gimbal_target.pitch = d_pitch + rm_state.custom_gimbal_current.pitch;
+    _packet_send(&packet);
+}
+
+int SerialStatus::_packet_get_length(rm_protocol_t* packet) {
+    if(packet == NULL) {
+        cerror << "NULL passed to packet_get_length!" << endlog;
+        return 0;
+    }
+
+    auto rm_map_result = rm_map_cmdid_packetsize.find(packet->cmd_id);
+    if(rm_map_result == rm_map_cmdid_packetsize.end()) {
+        cerror << "Unknown cmdid " << packet->cmd_id << ", cannot generate CRC!" << endlog;
+        return 0;
+    }
+    return rm_map_result->second;
+}
+
+int SerialStatus::_packet_generate_crc(rm_protocol_t* packet, int packet_len = 0) {
+    if(packet == NULL) {
+        cerror << "NULL passed to packet_generate_crc!" << endlog;
+        return FAIL;
+    }
+
+    uint8_t* packet_uint8 = (uint8_t*) packet;
+    if(!packet_len) packet_len = _packet_get_length(packet);
+    if(!packet_len) return FAIL;
+
+    // Create separate CRC object here for thread safety
+    rm_crc8_t local_crc8;
+    local_crc8.reset();
+    local_crc8.process_bytes(packet_uint8, RM_FRAME_HEADER_LEN - 1);
+    packet->frame_header.crc8 = local_crc8.checksum();
+    
+    rm_crc16_t local_crc16;
+    local_crc16.reset();
+    local_crc16.process_bytes(packet_uint8, packet_len - 2);
+    uint16_t crc16_checksum = local_crc16.checksum();
+
+    // Update CRC16 field depending on packet size
+    packet_uint8[packet_len-2] = crc16_checksum & 0xff;
+    packet_uint8[packet_len-1] = (crc16_checksum >> 8) & 0xff;
+
+    return SUCCESS;
+}
+
+int SerialStatus::_packet_generate_header(rm_protocol_t* packet, int packet_len = 0) {
+    static uint8_t packet_tx_seq = 0;
+
+    if(packet == NULL) {
+        cerror << "NULL passed to packet_generate_header!" << endlog;
+        return FAIL;
+    }
+
+    if(!packet_len) packet_len = _packet_get_length(packet);
+    if(!packet_len) return FAIL;
+
+    packet->frame_header.sof = 0xA5;
+    packet->frame_header.data_length = packet_len - 9;
+    packet->frame_header.seq = packet_tx_seq++;
+    if(FAIL == _packet_generate_crc(packet, packet_len)) return FAIL;
+
+    return SUCCESS;
+}
+
+int SerialStatus::_packet_send(rm_protocol_t* packet) {
+    int packet_len = _packet_get_length(packet);
+    if(!packet_len) return FAIL;
+
+    if(FAIL == _packet_generate_header(packet, packet_len)) return FAIL;
+    int ret = write(_serial_fd, packet, packet_len);
+    if(ret < 0) cerror << "packet_send fail: " << ret << endlog;
+    return ret;
 }
 
 bool SerialStatus::parse(unsigned char* data, unsigned int len) {
-    // TODO: Understand the data
+    rm_protocol_t* rm_protocol = (rm_protocol_t*) data;
+    switch(rm_protocol->cmd_id) {
+        case RM_CMDID_GAME_STATE:
+            rm_state.game_state = rm_protocol->game_state;
+            break;
+        case RM_CMDID_GAME_RESULT:
+            rm_state.game_result = rm_protocol->game_result;
+            break;
+        case RM_CMDID_ROBOT_ALIVE:
+            rm_state.robot_alive = rm_protocol->robot_alive;
+            break;
+        case RM_CMDID_REGION_EVENT:
+            rm_state.region_event = rm_protocol->region_event;
+            break;
+        case RM_CMDID_SUPPLY_ACTION:
+            rm_state.supply_action = rm_protocol->supply_action;
+            break;
+        case RM_CMDID_SUPPLY_REQUEST:
+            break;
+        case RM_CMDID_ROBOT_STATE:
+            rm_state.robot_state = rm_protocol->robot_state;
+            break;
+        case RM_CMDID_POWER_HEAT:
+            rm_state.power_heat = rm_protocol->power_heat;
+            break;
+        case RM_CMDID_ROBOT_POSITION:
+            rm_state.robot_position = rm_protocol->robot_position;
+            break;
+        case RM_CMDID_ROBOT_BUFF:
+            rm_state.robot_buff = rm_protocol->robot_buff;
+            break;
+        case RM_CMDID_DRONE_ENERGY:
+            rm_state.drone_energy = rm_protocol->drone_energy;
+            break;
+        case RM_CMDID_DAMAGE:
+            rm_state.damage = rm_protocol->damage;
+            break;
+        case RM_CMDID_BULLET_STATE:
+            rm_state.bullet_state = rm_protocol->bullet_state;
+            break;
+        case RM_CMDID_CUSTOM_GIMBAL_CURRENT:
+            rm_state.custom_gimbal_current = rm_protocol->custom_gimbal_current;
+            break;
+        default:
+            cerror << "Unrecognized cmd_id: " << rm_protocol->cmd_id << endlog;
+            return false;
+    }
+
     return true;
 }
 

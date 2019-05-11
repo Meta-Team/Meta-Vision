@@ -6,6 +6,7 @@
 #include "video_targets/webserver.hpp"
 
 #include <unistd.h>
+#include <math.h>
 
 /**
  * @brief Main logic of the program.
@@ -89,9 +90,9 @@ int Main::main(int argc, char** argv){
 
             // cwarning << "Center: " << centerX << ", " << centerY << endlog;
 
-            int dYaw = (2 * centerX / _video_src->getWidth() - 1) * config["system"]["target_calibration"]["view_angle_x"].as<int>();
-            int dPitch = (1 - 2 * centerY / _video_src->getHeight()) * config["system"]["target_calibration"]["view_angle_y"].as<int>();
-
+            double dYaw = _fraction2angle(centerX / _video_src->getWidth() - 0.5, config["system"]["target_calibration"]["view_angle_x"].as<double>());
+            double dPitch = _fraction2angle(0.5 - centerY / _video_src->getHeight(), config["system"]["target_calibration"]["view_angle_y"].as<double>());
+            
             cwarning << "D-Angle: Pitch " << dPitch << ", Yaw " << dYaw << endlog;
 
             _serial->send_gimbal(dYaw, dPitch);
@@ -102,6 +103,28 @@ int Main::main(int argc, char** argv){
     }
 
     return 0;
+}
+
+/**
+ * @brief 
+ * 
+ * @param fraction Fraction of position on the direction, -1 to 1.
+ * @param maxAngle Max angle the camera can capture.
+ * @return int Difference in angle to point to the position
+ */
+double Main::_fraction2angle(double fraction, double maxAngle) {
+    if(maxAngle > 90.0 || maxAngle < 0.0) {
+        cerror << "Main::_fraction2angle: maxAngle out of range: " << maxAngle << endlog;
+        return 0;
+    }
+    if(fraction > 1.0 || fraction < -1.0) {
+        cerror << "Main::_fraction2angle: Fraction out of range: " << fraction << endlog;
+        return 0;
+    }
+
+    double tan_maxAngle = tan(maxAngle / 180 * M_PI);
+    double tan_angle = tan_maxAngle * fraction;
+    return round(atan(tan_angle) / M_PI * 180);
 }
 
 /**

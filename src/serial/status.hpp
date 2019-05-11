@@ -1,11 +1,16 @@
 #ifndef _SERIAL_STATUS_HPP_
 #define _SERIAL_STATUS_HPP_
 
+#include "../global.hpp"
 #include "serial.hpp"
+#include "rm_protocol.hpp"
 #include "../interfaces/multithread.hpp"
 #include "../logging/timing.hpp"
 
 #include <boost/crc.hpp>
+
+typedef boost::crc_optimal<8, 0x31, 0, 0, true, true> rm_crc8_t;
+typedef boost::crc_16_type rm_crc16_t;
 
 class SerialStatus : public Thread {
 public:
@@ -15,9 +20,16 @@ public:
     bool parse(unsigned char* data, unsigned int len);
     ~SerialStatus();
 
+    rm_state_t rm_state;
+
 private:
-    boost::crc_optimal<8, 0x31, 0, 0, true, true> _crc8;
-    boost::crc_16_type _crc16;
+    int _packet_get_length(rm_protocol_t* packet);
+    int _packet_generate_crc(rm_protocol_t* packet, int packet_len);
+    int _packet_generate_header(rm_protocol_t* packet, int packet_len);
+    int _packet_send(rm_protocol_t* packet);
+
+    rm_crc8_t _crc8;
+    rm_crc16_t _crc16;
 
     int _serial_fd = -1;
 
