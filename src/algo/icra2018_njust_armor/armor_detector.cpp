@@ -372,16 +372,11 @@ namespace ICRA2018_NJUST_Armor {
         avg_score /= score.size();
         double template_dist_threshold = 0.20;
         double percent_large_grad_threshold = 0.25;
-        double max_wh_ratio = 5.2, min_wh_ratio = 1.25;
+        double max_wh_ratio = 3.0, min_wh_ratio = 1.25;
         const double avg_slope = 4.0;
         const double degree2rad_scale = 3.1415926 / 180.0;
         const double exp_weight_scale = 15.0;
-        if (_is_lost == false){
-            template_dist_threshold = 0.4;
-            percent_large_grad_threshold = 0.5;
-            max_wh_ratio += 0.5;
-            min_wh_ratio -= 0.2;
-        }
+        
         double weight = template_dist_threshold *percent_large_grad_threshold
                 /exp(-(avg_slope + avg_score) * degree2rad_scale * exp_weight_scale);
 
@@ -392,8 +387,9 @@ namespace ICRA2018_NJUST_Armor {
             double w = rect.size.width;
             double h = rect.size.height;
             double wh_ratio = w / h;
-            if (wh_ratio > max_wh_ratio || wh_ratio < min_wh_ratio)
+            if (wh_ratio > max_wh_ratio || wh_ratio < min_wh_ratio) {
                 continue;
+            }
 
             // width must close to the last result
             const Size2f size_last = _res_last.size;

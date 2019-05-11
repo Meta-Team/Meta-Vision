@@ -81,7 +81,7 @@ void SerialStatus::thread_job() {
 
         // Read the cmd_id & data & frame_tail
         len = buf[1] + (buf[2] << 8) + 4;
-        for(int i = 0; i < len && thread_should_run; i++) {
+        for(unsigned int i = 0; i < len && thread_should_run; i++) {
             while(0 == read(_serial_fd, buf + buf_pos, 1) && thread_should_run) {}
             buf_pos++;
         }
