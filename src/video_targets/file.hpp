@@ -4,7 +4,6 @@
 #include <opencv2/opencv.hpp>
 #include "../interfaces/multithread.hpp"
 #include "../interfaces/video_target.hpp"
-#include "../logging/timing.hpp"
 #include <queue>
 #include <mutex>
 #include <ctime>
@@ -58,11 +57,6 @@ private:
      * @brief The time when the previous video file was created.
      */
     time_t _prev_file_time;
-
-    /**
-     * @brief Timing object to show operation per second statistics.
-     */
-    Timing _timing;
 
     void _createNewFile();
 public:

@@ -1,6 +1,7 @@
 #include "file.hpp"
 #include "../logging/logging.hpp"
 #include "../global.hpp"
+#include "../logging/timing.hpp"
 #include <stdexcept>
 
 using namespace std;
@@ -30,8 +31,6 @@ VideoTargetFile::VideoTargetFile(string folder, int width, int height, int fps, 
     string filepath = _folder + "/" + string(filename);
 
     _createNewFile();
-
-    _timing.set_name("Video Target/File");
 
     // Start processing thread immediately
     thread_run();
@@ -69,7 +68,7 @@ void VideoTargetFile::_createNewFile() {
     _wri = new VideoWriter(filepath, VideoWriter::fourcc('m', 'p', '4', 'v'), _fps, Size(_width, _height));
     if(!_wri->isOpened()) throw std::invalid_argument("Invalid output file");
 
-    cwarning << "Video Target/File: " << filepath;
+    cwarning << filepath;
 }
 
 /**
@@ -77,6 +76,8 @@ void VideoTargetFile::_createNewFile() {
  *        Pops image from queue and writes it to disk.
  */
 void VideoTargetFile::thread_job() {
+    TIME_THIS;
+
     Mat local_frame, local_frame_resized;
     time_t current_time;
     while(thread_should_run) {
@@ -94,9 +95,9 @@ void VideoTargetFile::thread_job() {
         resize(local_frame, local_frame_resized, Size(_width, _height));
         _wri->write(local_frame_resized);
 
-        _timing.op_done();
+        TIME_DONE;
     }
-    _timing.job_end();
+    
 }
 
 /**

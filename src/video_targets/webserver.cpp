@@ -1,6 +1,7 @@
 #include "webserver.hpp"
 #include "../logging/logging.hpp"
 #include "../global.hpp"
+#include "../logging/timing.hpp"
 #include <stdexcept>
 
 using namespace std;
@@ -14,9 +15,7 @@ using namespace cv;
 VideoTargetWebserver::VideoTargetWebserver(int port) {
     _mjpegWriter = new MJPEGWriter(port);
 
-    _timing.set_name("Video Target/Web Server");
-
-    cwarning << "Video Target/Web Server: Port " << port;
+    cwarning << "Port " << port;
 
     // Start processing thread immediately
     thread_run();
@@ -39,6 +38,8 @@ VideoTargetWebserver::~VideoTargetWebserver() {
  *        Pops image from queue and sends it to webserver.
  */
 void VideoTargetWebserver::thread_job() {
+    TIME_THIS;
+
     Mat local_frame;
 
     // Don't start webserver until first frame arrives
@@ -56,7 +57,7 @@ void VideoTargetWebserver::thread_job() {
         _mjpegWriter->write(local_frame);
         _mjpegWriter->start();
 
-        _timing.op_done();
+        TIME_DONE;
     } while(0);
 
     while(thread_should_run) {
@@ -68,9 +69,9 @@ void VideoTargetWebserver::thread_job() {
 
         _mjpegWriter->write(local_frame);
 
-        _timing.op_done();
+        TIME_DONE;
     }
-    _timing.job_end();
+    
     _mjpegWriter->stop();
 }
 

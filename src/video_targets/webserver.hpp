@@ -4,7 +4,6 @@
 #include <opencv2/opencv.hpp>
 #include "../interfaces/multithread.hpp"
 #include "../interfaces/video_target.hpp"
-#include "../logging/timing.hpp"
 #include <MJPEGWriter.h>
 #include <queue>
 #include <mutex>
@@ -29,11 +28,6 @@ private:
      * @brief Mutex to ensure thread safety of the queue.
      */
     std::mutex _queue_mutex;
-
-    /**
-     * @brief Timing object to show operation per second statistics.
-     */
-    Timing _timing;
 public:
     VideoTargetWebserver(int port = 2019);
     ~VideoTargetWebserver();

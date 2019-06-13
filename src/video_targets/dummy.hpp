@@ -4,7 +4,6 @@
 #include <opencv2/opencv.hpp>
 #include "../interfaces/multithread.hpp"
 #include "../interfaces/video_target.hpp"
-#include "../logging/timing.hpp"
 #include <queue>
 #include <mutex>
 
@@ -22,11 +21,6 @@ private:
      * @brief Mutex to ensure thread safety of the counter.
      */
     std::mutex _counter_mutex;
-
-    /**
-     * @brief Timing object to show operation per second statistics.
-     */
-    Timing _timing;
 public:
     VideoTargetDummy();
     ~VideoTargetDummy();

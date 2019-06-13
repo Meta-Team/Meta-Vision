@@ -4,7 +4,6 @@
 #include <opencv2/opencv.hpp>
 #include "../interfaces/multithread.hpp"
 #include "../interfaces/video_source.hpp"
-#include "../logging/timing.hpp"
 #include <mutex>
 
 /**
@@ -36,11 +35,6 @@ private:
      * @brief ID of the current frame, used to prevent repetition of frames.
      */
     int _id = 0;
-
-    /**
-     * @brief Timing object to show operation per second statistics.
-     */
-    Timing _timing;
 public:
     VideoSourceCamera(int id, int width, int height, int fps);
     ~VideoSourceCamera();

@@ -1,5 +1,6 @@
 #include "status.hpp"
 #include "../logging/logging.hpp"
+#include "../logging/timing.hpp"
 
 #include <termios.h>
 #include <fcntl.h>
@@ -44,14 +45,14 @@ SerialStatus::SerialStatus(string serial_device, int baudrate) {
         return;
     }
 
-    _timing.set_name("Serial");
-
     memset(&rm_state, 0, sizeof(rm_state));
 
     thread_run();
 }
 
 void SerialStatus::thread_job() {
+    TIME_THIS;
+
     unsigned char buf[257];
     unsigned int buf_pos = 0;
     unsigned int len = 0;
@@ -98,9 +99,8 @@ void SerialStatus::thread_job() {
         }
 
         parse(buf, buf_pos);
-        _timing.op_done();
+        TIME_DONE;
     }
-    _timing.job_end();
 }
 
 void SerialStatus::send_gimbal(int yaw, int pitch) {

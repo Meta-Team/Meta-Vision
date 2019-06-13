@@ -1,5 +1,6 @@
 #include "camera.hpp"
 #include "../logging/logging.hpp"
+#include "../logging/timing.hpp"
 #include <stdexcept>
 #include <chrono>
 
@@ -31,9 +32,7 @@ VideoSourceCamera::VideoSourceCamera(int id, int width, int height, int fps) {
     _cap->set(CAP_PROP_FOURCC, VideoWriter::fourcc('M', 'J', 'P', 'G'));
     _cap->set(CAP_PROP_FPS, fps);
 
-    cwarning << "Video Source/Camera: " << getWidth() << "x" << getHeight() << " @" << getFPS();
-
-    _timing.set_name("Video Source/Camera");
+    cwarning << getWidth() << "x" << getHeight() << " @" << getFPS();
 
     thread_run();
 }
@@ -56,6 +55,8 @@ VideoSourceCamera::~VideoSourceCamera() {
  *        to avoid being blocked by other routine (such as armor detection).
  */
 void VideoSourceCamera::thread_job() {
+    TIME_THIS;
+
     Mat local_frame;
 
     // Mark source ready to serve images
@@ -69,12 +70,12 @@ void VideoSourceCamera::thread_job() {
         _id++;                  // Indicating it is a different frame now
         _frame_mutex.unlock();
 
-        _timing.op_done();
+        TIME_DONE;
     }
 
     // When file is closed, mark this source as unavailable
     _available = false;
-    _timing.job_end();
+    
     thread_should_run = false;
 }
 

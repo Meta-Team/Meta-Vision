@@ -21,8 +21,14 @@ std::string Logging::_currentDateTime() const {
     return str;
 }
 
-void Logging::_newline(int fg_color, int bg_color) {
-    std::cout << "\r" << color(fg_color, bg_color) << "[" << _currentDateTime() << "] ";
+void Logging::_newline(int fg_color, int bg_color, const std::string& function_prettyprint) {
+    std::size_t bracket_pos = function_prettyprint.find('(');
+    if(bracket_pos == std::string::npos) {
+        bracket_pos = function_prettyprint.length();
+    }
+    std::string function_nameonly = function_prettyprint.substr(0, bracket_pos);
+
+    std::cout << "\r" << color(fg_color, bg_color) << "[" << _currentDateTime() << "] " << color(FG_BLUE, bg_color) << function_nameonly << ": " << color(fg_color, bg_color);
 }
 
 Logging::~Logging() {

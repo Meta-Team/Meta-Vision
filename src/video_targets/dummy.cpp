@@ -1,5 +1,6 @@
 #include "dummy.hpp"
 #include "../global.hpp"
+#include "../logging/timing.hpp"
 #include <stdexcept>
 
 using namespace std;
@@ -10,8 +11,6 @@ using namespace cv;
  *        Used only for debugging and benchmarking.
  */
 VideoTargetDummy::VideoTargetDummy() {
-    _timing.set_name("Video Target/Dummy");
-
     // Start processing thread immediately
     thread_run();
 }
@@ -27,15 +26,17 @@ VideoTargetDummy::~VideoTargetDummy() {
  * @brief Main routine, only decreases a counter for statistical purposes, does nothing otherwise
  */
 void VideoTargetDummy::thread_job() {
+    TIME_THIS;
+
     while(thread_should_run) {
         if(_counter == 0) continue;
         _counter_mutex.lock();
         _counter--;
         _counter_mutex.unlock();
         
-        _timing.op_done();
+        TIME_DONE;
     }
-    _timing.job_end();
+    
 }
 
 /**

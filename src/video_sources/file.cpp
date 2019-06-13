@@ -1,5 +1,6 @@
 #include "file.hpp"
 #include "../logging/logging.hpp"
+#include "../logging/timing.hpp"
 #include <stdexcept>
 #include <chrono>
 
@@ -23,9 +24,7 @@ VideoSourceFile::VideoSourceFile(std::string filename) {
         throw std::invalid_argument("Failed to open camera");
     } while(0);
 
-    cwarning << "Video Source/File: " << getWidth() << "x" << getHeight() << " @" << getFPS();
-
-    _timing.set_name("Video Source/File");
+    cwarning << getWidth() << "x" << getHeight() << " @" << getFPS();
 
     thread_run();
 }
@@ -49,6 +48,8 @@ VideoSourceFile::~VideoSourceFile() {
  *        Note that the actual FPS will be a bit lower than the source file due to waiting.
  */
 void VideoSourceFile::thread_job() {
+    TIME_THIS;
+
     Mat local_frame;
     chrono::high_resolution_clock::time_point op_timepoint = chrono::high_resolution_clock::now();
     chrono::duration<int, std::micro> interval((int) (1000000 / _cap->get(CAP_PROP_FPS)));
@@ -64,7 +65,7 @@ void VideoSourceFile::thread_job() {
         _id++;                  // Indicating it is a different frame now
         _frame_mutex.unlock();
 
-        _timing.op_done();
+        TIME_DONE;
         
         // Limit video reading speed to avoid excessive frame dropping
         op_timepoint += interval;
@@ -73,7 +74,7 @@ void VideoSourceFile::thread_job() {
 
     // When file is closed, mark this source as unavailable
     _available = false;
-    _timing.job_end();
+    
     thread_should_run = false;
 }
 

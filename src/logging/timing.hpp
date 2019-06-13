@@ -30,12 +30,15 @@ private:
     int _timing_interval;
 
 public:
-    Timing();
+    Timing(const std::string& function_name);
     void set_name(std::string name);
     void set_name(const char* name);
 
     void op_done();
-    void job_end();
+    ~Timing();
 };
+
+#define TIME_THIS Timing _timing(__PRETTY_FUNCTION__)
+#define TIME_DONE _timing.op_done()
 
 #endif

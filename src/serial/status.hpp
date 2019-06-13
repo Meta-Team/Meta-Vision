@@ -5,7 +5,6 @@
 #include "serial.hpp"
 #include "rm_protocol.hpp"
 #include "../interfaces/multithread.hpp"
-#include "../logging/timing.hpp"
 
 #include <termios.h>
 #include <boost/crc.hpp>
@@ -97,11 +96,6 @@ private:
 
     /** File Descriptor to serial port */
     int _serial_fd = -1;
-
-    /**
-     * @brief Timing object to show operation per second statistics.
-     */
-    Timing _timing;
 };
 
 #endif
