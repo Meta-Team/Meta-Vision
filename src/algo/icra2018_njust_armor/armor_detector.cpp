@@ -16,7 +16,7 @@ using namespace std;
 
 namespace ICRA2018_NJUST_Armor {
     void ArmorDetector::setImage(const cv::Mat& src) {
-        // cout << __PRETTY_FUNCTION__ << endl;
+        // cout << __PRETTY_FUNCTION__;
         const cv::Point& last_result = _res_last.center;
         if(last_result.x == 0 || last_result.y == 0){
             _src = src;
@@ -77,7 +77,7 @@ namespace ICRA2018_NJUST_Armor {
     }
 
     void ArmorDetector::initTemplate(const Mat &_template){
-        // cout << __PRETTY_FUNCTION__ << endl;
+        // cout << __PRETTY_FUNCTION__;
         vector<cv::Mat> bgr;
         bgr.resize(3);
         Mat temp_green;
@@ -88,7 +88,7 @@ namespace ICRA2018_NJUST_Armor {
     }
 
     int ArmorDetector::templateDist(const Mat &img){
-        // cout << __PRETTY_FUNCTION__ << endl;
+        // cout << __PRETTY_FUNCTION__;
         int dist = 0;
         const uchar threshold_value = _para.min_light_gray - 15;
         int total_pixel = img.rows * img.cols;
@@ -106,7 +106,7 @@ namespace ICRA2018_NJUST_Armor {
         vector<vector<Point2i>> &contours_left,
         vector<vector<Point2i>> &contours_right
     ) {
-        // cout << __PRETTY_FUNCTION__ << endl;
+        // cout << __PRETTY_FUNCTION__;
         vector<vector<Point2i>> contours_br;
         vector<Vec4i> hierarchy;
         findContours(_max_color, contours_br, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
@@ -211,7 +211,7 @@ namespace ICRA2018_NJUST_Armor {
                             *(unsigned char*)(ptr_left+offset_2) = 0xff;
 
                             count_left += 3;
-                            // cout << "sum_x:" << sum_x << "\tsum_o:" << sum_o << endl;
+                            // cout << "sum_x:" << sum_x << "\tsum_o:" << sum_o;
                         }
                     }//End of "if (i +margin_o + margin_x < _max_color.cols)"
 
@@ -246,7 +246,7 @@ namespace ICRA2018_NJUST_Armor {
                             *(unsigned char*)(ptr_right+offset_2) = 0xff;
 
                             count_right += 3;
-                            // cout << "sum_x:" << sum_x << "\tsum_o:" << sum_o << endl;
+                            // cout << "sum_x:" << sum_x << "\tsum_o:" << sum_o;
                         }
                     }
                 }
@@ -256,16 +256,16 @@ namespace ICRA2018_NJUST_Armor {
         findContours(left, contours_left, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
         findContours(right, contours_right, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
 
-        // cout << "contours_br:" << contours_br.size() << endl;
-        // cout << "contours_left:" << contours_left.size() << endl;
-        // cout << "contours_right:" << contours_right.size() << endl;
+        // cout << "contours_br:" << contours_br.size();
+        // cout << "contours_left:" << contours_left.size();
+        // cout << "contours_right:" << contours_right.size();
     }
 
     cv::RotatedRect ArmorDetector::boundingRRect(
         const cv::RotatedRect & left,
         const cv::RotatedRect & right
     ){
-        // cout << __PRETTY_FUNCTION__ << endl;
+        // cout << __PRETTY_FUNCTION__;
         const Point & pl = left.center, & pr = right.center;
         Point2f center = (pl + pr) / 2.0;
         cv::Size2f wh_l = left.size;
@@ -278,7 +278,7 @@ namespace ICRA2018_NJUST_Armor {
     }
 
     RotatedRect ArmorDetector::adjustRRect(const RotatedRect & rect){
-        // cout << __PRETTY_FUNCTION__ << endl;
+        // cout << __PRETTY_FUNCTION__;
         const Size2f & s = rect.size;
         if (s.width < s.height)
                 return rect;
@@ -291,7 +291,7 @@ namespace ICRA2018_NJUST_Armor {
         vector<cv::RotatedRect> & rects,
         vector<double> & score
     ) {
-        // cout << __PRETTY_FUNCTION__ << endl;
+        // cout << __PRETTY_FUNCTION__;
         // 用直线拟合轮廓，找出符合斜率范围的轮廓
         vector<RotatedRect> final_contour_rect_left, final_contour_rect_right;
         vector<double> score_left, score_right;
@@ -358,7 +358,7 @@ namespace ICRA2018_NJUST_Armor {
         const vector<cv::RotatedRect> & rects,
         const vector<double> & score
     ) {
-        // cout << __PRETTY_FUNCTION__ << endl;
+        // cout << __PRETTY_FUNCTION__;
         if (rects.size() < 1){
             _is_lost = true;
             return RotatedRect();
@@ -396,7 +396,7 @@ namespace ICRA2018_NJUST_Armor {
             if(_is_lost == false && size_last.width > _para.min_light_delta_h){
                 double percent = 0.50 * size_last.width;
                 if (abs(w - size_last.width) > percent){
-                    // cout << "refused 0 : size_last.width: " << size_last.width << "\tcur width: "  << w << endl;
+                    // cout << "refused 0 : size_last.width: " << size_last.width << "\tcur width: "  << w;
                     continue;
                 }
             }
@@ -467,15 +467,15 @@ namespace ICRA2018_NJUST_Armor {
             int side_total = black_side * 2 * gray_mid_black.rows;
             avg_green_side /= side_total;
             if (avg_green_mid > _para.avg_board_gray_threshold){
-                // cout << "refused 1 : avg_green: " << avg_green_mid << "\tavg_board_gray_threshold: "  << (int)_para.avg_board_gray_threshold << endl;
+                // cout << "refused 1 : avg_green: " << avg_green_mid << "\tavg_board_gray_threshold: "  << (int)_para.avg_board_gray_threshold;
                 continue;
             }
 
             if (_enemy_color == RED && avg_red_side - 10 < avg_blue_side){
-                // cout << "refused 1.1 : red < blue:  red:" << avg_red_side/side_total << "\tblue: "  << avg_blue_side/side_total << endl;
+                // cout << "refused 1.1 : red < blue:  red:" << avg_red_side/side_total << "\tblue: "  << avg_blue_side/side_total;
                 continue;
             } else if (_enemy_color == BLUE && avg_blue_side - 10 < avg_red_side){
-                // cout << "refused 1.2 : red > blue:  red:" << avg_red_side/side_total << "\tblue: "  << avg_blue_side/side_total << endl;
+                // cout << "refused 1.2 : red > blue:  red:" << avg_red_side/side_total << "\tblue: "  << avg_blue_side/side_total;
                 continue;
             }
 
@@ -535,7 +535,7 @@ namespace ICRA2018_NJUST_Armor {
                 double dist = templateDist(armor);
                 dist = dist / (cur_size.width * cur_size.height);
                 if(dist >  template_dist_threshold){
-                    // cout << "refused 3: dist: " << dist << "\tdist threshold:" << (cur_size.width * cur_size.height) / 4 << endl;
+                    // cout << "refused 3: dist: " << dist << "\tdist threshold:" << (cur_size.width * cur_size.height) / 4;
                     continue;
                 }
 
@@ -547,10 +547,10 @@ namespace ICRA2018_NJUST_Armor {
                     weight = cur_weight;
                     ret_idx = i;
                 } else {
-                    // cout << "refused 4: cur_weight: " << cur_weight << "\tweight threshold:" << weight << endl;
+                    // cout << "refused 4: cur_weight: " << cur_weight << "\tweight threshold:" << weight;
                 }
             } else {
-                // cout << "refused 3: (x_grad, y_grad): (" << avg_x << ", " << avg_y << ")\t avg_grad_threshold: " <<  (int)_para.avg_board_grad_threshold << endl;
+                // cout << "refused 3: (x_grad, y_grad): (" << avg_x << ", " << avg_y << ")\t avg_grad_threshold: " <<  (int)_para.avg_board_grad_threshold;
             }
         }
 
@@ -570,7 +570,7 @@ namespace ICRA2018_NJUST_Armor {
     }
 
     cv::RotatedRect ArmorDetector::getTargetAera(const cv::Mat & src){
-        // cout << __PRETTY_FUNCTION__ << endl;
+        // cout << __PRETTY_FUNCTION__;
         setImage(src);
         cv::Mat contrast_left, contrast_right;
         vector<vector<Point2i> > contours_left;

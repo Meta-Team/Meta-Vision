@@ -69,7 +69,7 @@ void VideoTargetFile::_createNewFile() {
     _wri = new VideoWriter(filepath, VideoWriter::fourcc('m', 'p', '4', 'v'), _fps, Size(_width, _height));
     if(!_wri->isOpened()) throw std::invalid_argument("Invalid output file");
 
-    cwarning << "Video Target/File: " << filepath << endlog;
+    cwarning << "Video Target/File: " << filepath;
 }
 
 /**

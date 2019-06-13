@@ -31,7 +31,7 @@ VideoSourceCamera::VideoSourceCamera(int id, int width, int height, int fps) {
     _cap->set(CAP_PROP_FOURCC, VideoWriter::fourcc('M', 'J', 'P', 'G'));
     _cap->set(CAP_PROP_FPS, fps);
 
-    cwarning << "Video Source/Camera: " << getWidth() << "x" << getHeight() << " @" << getFPS() << endlog;
+    cwarning << "Video Source/Camera: " << getWidth() << "x" << getHeight() << " @" << getFPS();
 
     _timing.set_name("Video Source/Camera");
 

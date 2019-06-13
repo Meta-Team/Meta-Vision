@@ -43,7 +43,7 @@ void Timing::op_done() {
 
     if(time_passed >= _timing_interval) {
         _prev_notify = now;
-        cmessage << color(FG_BLUE) << _name << color(FG_DEFAULT) << ": " << color(FG_GREEN) << (1.0 * _ops_passed / time_passed) << color(FG_DEFAULT) << " op/s (" << color(FG_GREEN) << _ops_passed << color(FG_DEFAULT) << " ops in " << color(FG_GREEN) << time_passed << color(FG_DEFAULT) << "s)" << endlog;
+        cmessage << color(FG_BLUE) << _name << color(FG_DEFAULT) << ": " << color(FG_GREEN) << (1.0 * _ops_passed / time_passed) << color(FG_DEFAULT) << " op/s (" << color(FG_GREEN) << _ops_passed << color(FG_DEFAULT) << " ops in " << color(FG_GREEN) << time_passed << color(FG_DEFAULT) << "s)";
         _ops_passed = 0;
     }
 }
@@ -57,5 +57,5 @@ void Timing::job_end() {
     double time_passed = chrono::duration_cast<chrono::duration<double>>(now - _prev_notify).count();
 
     _prev_notify = now;
-    cmessage << color(FG_BLUE) << _name << color(FG_DEFAULT) << ": " << color(FG_GREEN) << (1.0 * _ops_passed / time_passed) << color(FG_DEFAULT) << " op/s (" << color(FG_GREEN) << _ops_passed << color(FG_DEFAULT) << " ops in " << color(FG_GREEN) << time_passed << color(FG_DEFAULT) << "s, " << color(FG_RED) << "end" << color(FG_DEFAULT) << ")" << endlog;
+    cmessage << color(FG_BLUE) << _name << color(FG_DEFAULT) << ": " << color(FG_GREEN) << (1.0 * _ops_passed / time_passed) << color(FG_DEFAULT) << " op/s (" << color(FG_GREEN) << _ops_passed << color(FG_DEFAULT) << " ops in " << color(FG_GREEN) << time_passed << color(FG_DEFAULT) << "s, " << color(FG_RED) << "end" << color(FG_DEFAULT) << ")";
 }

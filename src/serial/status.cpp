@@ -11,18 +11,18 @@ SerialStatus::SerialStatus(string serial_device, int baudrate) {
     _serial_fd = open(serial_device.c_str(), O_RDWR | O_NONBLOCK | O_NOCTTY | O_NDELAY);
 
     if(-1 == _serial_fd) {
-        cerror << "Open serial device failed" << endl;
+        cerror << "Open serial device failed";
         return;
     }
 
     if(!isatty(_serial_fd)) {
-        cerror << "Not a serial device" << endl;
+        cerror << "Not a serial device";
         return;
     }
 
     struct termios config;
     if(tcgetattr(_serial_fd, &config) < 0) {
-        cerror << "Failed to get serial configuration" << endl;
+        cerror << "Failed to get serial configuration";
         return;
     }
 
@@ -35,16 +35,18 @@ SerialStatus::SerialStatus(string serial_device, int baudrate) {
     config.c_cc[VTIME] = 0;
 
     if(cfsetispeed(&config, baudrate) < 0 || cfsetospeed(&config, baudrate) < 0) {
-        cerror << "Failed to set port baudrate" << endl;
+        cerror << "Failed to set port baudrate";
         return;
     }
 
     if(tcsetattr(_serial_fd, TCSAFLUSH, &config) < 0) {
-        cerror << "Failed to apply serial settings" << endl;
+        cerror << "Failed to apply serial settings";
         return;
     }
 
     _timing.set_name("Serial");
+
+    memset(&rm_state, 0, sizeof(rm_state));
 
     thread_run();
 }
@@ -75,7 +77,7 @@ void SerialStatus::thread_job() {
         _crc8.reset();
         _crc8.process_bytes(buf, 4);
         if(_crc8.checksum() != buf[4]) {
-            cerror << "Serial: Received invalid header of length " << buf_pos << endlog;
+            cerror << "Serial: Received invalid header of length " << buf_pos;
             continue;
         }
 
@@ -91,7 +93,7 @@ void SerialStatus::thread_job() {
         _crc16.reset();
         _crc16.process_bytes(buf, 7 + len);
         if(_crc16.checksum() != (buf[7 + len] + (buf[8 + len] << 8))) {
-            cerror << "Serial: Received invalid data of length " << buf_pos << endlog;
+            cerror << "Serial: Received invalid data of length " << buf_pos;
             continue;
         }
 
@@ -111,13 +113,13 @@ void SerialStatus::send_gimbal(int yaw, int pitch) {
 
 int SerialStatus::_packet_get_length(RM_Protocol::rm_protocol_t* packet) {
     if(packet == NULL) {
-        cerror << "NULL passed to packet_get_length!" << endlog;
+        cerror << "NULL passed to packet_get_length!";
         return 0;
     }
 
     auto rm_map_result = RM_Protocol::rm_map_cmdid_packetsize.find(packet->cmd_id);
     if(rm_map_result == RM_Protocol::rm_map_cmdid_packetsize.end()) {
-        cerror << "Unknown cmdid " << packet->cmd_id << ", cannot generate CRC!" << endlog;
+        cerror << "Unknown cmdid " << packet->cmd_id << ", cannot generate CRC!";
         return 0;
     }
     return rm_map_result->second;
@@ -125,7 +127,7 @@ int SerialStatus::_packet_get_length(RM_Protocol::rm_protocol_t* packet) {
 
 int SerialStatus::_packet_generate_crc(RM_Protocol::rm_protocol_t* packet, int packet_len) {
     if(packet == NULL) {
-        cerror << "NULL passed to packet_generate_crc!" << endlog;
+        cerror << "NULL passed to packet_generate_crc!";
         return FAIL;
     }
 
@@ -155,7 +157,7 @@ int SerialStatus::_packet_generate_header(RM_Protocol::rm_protocol_t* packet, in
     static uint8_t packet_tx_seq = 0;
 
     if(packet == NULL) {
-        cerror << "NULL passed to packet_generate_header!" << endlog;
+        cerror << "NULL passed to packet_generate_header!";
         return FAIL;
     }
 
@@ -176,7 +178,7 @@ int SerialStatus::_packet_send(RM_Protocol::rm_protocol_t* packet) {
 
     if(FAIL == _packet_generate_header(packet, packet_len)) return FAIL;
     int ret = write(_serial_fd, packet, packet_len);
-    if(ret < 0) cerror << "packet_send fail: " << ret << endlog;
+    if(ret < 0) cerror << "packet_send fail: " << ret;
     return ret;
 }
 
@@ -225,7 +227,7 @@ bool SerialStatus::parse(unsigned char* data, unsigned int len) {
             rm_state.custom_gimbal_current = rm_protocol->custom_gimbal_current;
             break;
         default:
-            cerror << "Unrecognized cmd_id: " << rm_protocol->cmd_id << endlog;
+            cerror << "Unrecognized cmd_id: " << rm_protocol->cmd_id;
             return false;
     }
 

@@ -1,7 +1,7 @@
 system:
   timing_interval: 1
 
-  video_source: "camera"
+  video_source: "file"
   video_sources:
     file:
       filename: "../test_clips/步兵素材蓝车侧面-ev-0.MOV"
@@ -11,7 +11,7 @@ system:
       height: 360
       fps: 330
 
-  video_target: "file"
+  video_target: "dummy"
   video_targets:
     dummy: "dummy"
     file:

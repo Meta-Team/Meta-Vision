@@ -138,12 +138,12 @@ public:
         address.sin_port = htons(port);
         if (::bind(sock, (SOCKADDR*)&address, sizeof(SOCKADDR_IN)) == SOCKET_ERROR)
         {
-            cerr << "error : couldn't bind sock " << sock << " to port " << port << "!" << endl;
+            cerr << "error : couldn't bind sock " << sock << " to port " << port << "!";
             return release();
         }
         if (listen(sock, NUM_CONNECTIONS) == SOCKET_ERROR)
         {
-            cerr << "error : couldn't listen on sock " << sock << " on port " << port << " !" << endl;
+            cerr << "error : couldn't listen on sock " << sock << " on port " << port << " !";
             return release();
         }
         FD_SET(sock, &master);

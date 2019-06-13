@@ -16,7 +16,7 @@ VideoTargetWebserver::VideoTargetWebserver(int port) {
 
     _timing.set_name("Video Target/Web Server");
 
-    cwarning << "Video Target/Web Server: Port " << port << endlog;
+    cwarning << "Video Target/Web Server: Port " << port;
 
     // Start processing thread immediately
     thread_run();

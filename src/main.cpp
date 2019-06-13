@@ -30,7 +30,7 @@ int Main::main(int argc, char** argv){
     } else if("file" == config["system"]["video_source"].as<string>()) {
         _video_src = new VideoSourceFile(config["system"]["video_sources"]["file"]["filename"].as<string>());
     } else {
-        cerror << "Invalid video source" << endlog;
+        cerror << "Invalid video source";
         return -1;
     }
 
@@ -49,7 +49,7 @@ int Main::main(int argc, char** argv){
             config["system"]["video_targets"]["webserver"]["port"].as<int>()
         );
     } else {
-        cerror << "Invalid video target" << endlog;
+        cerror << "Invalid video target";
         return -1;
     }
 
@@ -91,12 +91,12 @@ int Main::main(int argc, char** argv){
             double centerX = (vertices[0].x + vertices[1].x + vertices[2].x + vertices[3].x) / 4;
             double centerY = (vertices[0].y + vertices[1].y + vertices[2].y + vertices[3].y) / 4;
 
-            // cwarning << "Center: " << centerX << ", " << centerY << endlog;
+            // cwarning << "Center: " << centerX << ", " << centerY;
 
             double yaw_target = yaw_current + _fraction2angle(2 * centerX / _video_src->getWidth() - 1, config["system"]["target_calibration"]["view_angle_x"].as<double>());
             double pitch_target = pitch_current + _fraction2angle(1 - 2 * centerY / _video_src->getHeight(), config["system"]["target_calibration"]["view_angle_y"].as<double>());
             
-            cwarning << "Pitch " << pitch_target << ", Yaw " << yaw_target << endlog;
+            cwarning << "Pitch " << pitch_target << ", Yaw " << yaw_target;
 
             _serial->send_gimbal(yaw_target, pitch_target);
         }
@@ -117,11 +117,11 @@ int Main::main(int argc, char** argv){
  */
 double Main::_fraction2angle(double fraction, double maxAngle) {
     if(maxAngle > 90.0 || maxAngle < 0.0) {
-        cerror << "Main::_fraction2angle: maxAngle out of range: " << maxAngle << endlog;
+        cerror << "Main::_fraction2angle: maxAngle out of range: " << maxAngle;
         return 0;
     }
     if(fraction > 1.0 || fraction < -1.0) {
-        cerror << "Main::_fraction2angle: Fraction out of range: " << fraction << endlog;
+        cerror << "Main::_fraction2angle: Fraction out of range: " << fraction;
         return 0;
     }
 
@@ -139,19 +139,19 @@ double Main::_fraction2angle(double fraction, double maxAngle) {
 void Main::_loadConfig(string filename) {
     // Load YAML file
     config = YAML::LoadFile(filename);
-    csuccess << "Config file " << filename << " loaded" << endlog;
+    csuccess << "Config file " << filename << " loaded";
 
     // Find base folder
     size_t last_slash = filename.find_last_of("/\\");
     string config_base_folder = (last_slash == string::npos ? "" : filename.substr(0, last_slash + 1));
     if(0 > chdir(config_base_folder.c_str())) {
-        cerror << "Failed to change to directory: " << config_base_folder << endl;
+        cerror << "Failed to change to directory: " << config_base_folder;
     } else {
         char buf[1024];
         if(getcwd(buf, 1024)) {
-            csuccess << "Changed to directory: " << string(buf) << endl;
+            csuccess << "Changed to directory: " << string(buf);
         } else {
-            csuccess << "Changed to directory: " << config_base_folder << endl;
+            csuccess << "Changed to directory: " << config_base_folder;
         }
     }
 }
@@ -168,16 +168,16 @@ void Main::_prepareArmorDetect() {
     std::transform(ourTeam.begin(), ourTeam.end(), ourTeam.begin(), ::tolower);
     if(ourTeam == "red") {
         cmessage << "We are Team " << color(FG_RED) << "RED" << color(FG_DEFAULT)
-             << ", Enemy is Team " << color(FG_BLUE) << "BLUE" << color(FG_DEFAULT) << endl;
+             << ", Enemy is Team " << color(FG_BLUE) << "BLUE" << color(FG_DEFAULT);
         _armorDetect->setEnemyColor(BLUE);
     } else if(ourTeam == "blue") {
         cmessage << "We are Team " << color(FG_BLUE) << "BLUE" << color(FG_DEFAULT)
-             << ", Enemy is Team " << color(FG_RED) << "RED" << color(FG_DEFAULT) << endl;
+             << ", Enemy is Team " << color(FG_RED) << "RED" << color(FG_DEFAULT);
         _armorDetect->setEnemyColor(RED);
     } else {
         throw std::invalid_argument("Invalid value of game/our_team");
     }
-    csuccess << "Initialized Armor Detection" << endlog;
+    csuccess << "Initialized Armor Detection";
 }
 
 /**

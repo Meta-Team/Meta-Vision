@@ -3,11 +3,6 @@
 #include "logging.hpp"
 #include "colortext.hpp"
 
-Logging normal(FG_DEFAULT);
-Logging success(FG_GREEN);
-Logging warn(FG_YELLOW);
-Logging err(FG_RED);
-
 /**
  * @brief Returns the current date time, formatted as Y-m-d H:M:S
  * 
@@ -26,14 +21,10 @@ std::string Logging::_currentDateTime() const {
     return str;
 }
 
-/**
- * @brief Prints the current date time at the beginning of the line.
- * 
- * @param os Ostream object, passed from the previous source
- * @param obj A logging object, sets the color of the date time
- * @return std::ostream& Ostream object, passed to the next source
- */
-std::ostream& operator<<(std::ostream& os, const Logging& obj) {
-    os << "\r" << color(obj._fg_color, obj._bg_color) << "[" << obj._currentDateTime() << "] ";
-    return os;
+void Logging::_newline(int fg_color, int bg_color) {
+    std::cout << "\r" << color(fg_color, bg_color) << "[" << _currentDateTime() << "] ";
+}
+
+Logging::~Logging() {
+    std::cout << color(FG_DEFAULT, BG_DEFAULT) << std::endl;
 }

@@ -34,12 +34,12 @@ MJPEGWriter::Listener()
                     SOCKET      client = accept(sock, (SOCKADDR*)&address, (socklen_t*)&addrlen);
                     if (client == SOCKET_ERROR)
                     {
-                        cerr << "error : couldn't accept connection on sock " << sock << " !" << endl;
+                        cerr << "error : couldn't accept connection on sock " << sock << " !";
                         return;
                     }
                     maxfd = (maxfd>client ? maxfd : client);
                     pthread_mutex_lock(&mutex_cout);
-                    cout << "new client " << client << endl;
+                    cout << "new client " << client;
                     char headers[4096] = "\0";
                     // int readBytes = _read(client, headers);
                     _read(client, headers);
@@ -112,7 +112,7 @@ MJPEGWriter::ClientWrite(clientFrame & cf)
       	it = find (clients.begin(), clients.end(), cf.client);
       	if (it != clients.end())
       	{
-      		cerr << "kill client " << cf.client << endl;
+      		cerr << "kill client " << cf.client;
       		clients.erase(std::remove(clients.begin(), clients.end(), cf.client));
             	::shutdown(cf.client, 2);
       	}

@@ -14,7 +14,7 @@ Main mainFunction;
 void ctrlc_handler(int signal) {
     // Do not show the message repeatedly
     if(mainFunction.should_run) {
-        cwarning << "Ctrl-C received, shutting down" << endlog;
+        cwarning << "Ctrl-C received, shutting down";
         mainFunction.should_run = false;
     }
 }
@@ -36,10 +36,10 @@ int main(int argc, char** argv) {
     try {
         return mainFunction.main(argc, argv);
     } catch(const std::invalid_argument& e) {
-        cerror << e.what() << endlog;
+        cerror << e.what();
         return -1;
     } catch(const std::runtime_error& e) {
-        cerror << e.what() << endlog;
+        cerror << e.what();
         return -1;
     }
 }
