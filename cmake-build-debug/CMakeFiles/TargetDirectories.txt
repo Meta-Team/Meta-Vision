@@ -1,0 +1,3 @@
+C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/CMakeFiles/armorDetector.dir
+C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="armorDetector"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\opencv\;CMake Files\..\..\..\..\opencv\mingw-build\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="armorDetector">
+				<Option output="C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/armorDetector.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/opencv/mingw-build"/>
+					<Add directory="C:/opencv/sources/include"/>
+					<Add directory="C:/opencv/sources/include/opencv"/>
+					<Add directory="C:/opencv/sources/modules/core/include"/>
+					<Add directory="C:/opencv/sources/modules/flann/include"/>
+					<Add directory="C:/opencv/sources/modules/imgproc/include"/>
+					<Add directory="C:/opencv/sources/modules/ml/include"/>
+					<Add directory="C:/opencv/sources/modules/photo/include"/>
+					<Add directory="C:/opencv/sources/modules/video/include"/>
+					<Add directory="C:/opencv/sources/modules/dnn/include"/>
+					<Add directory="C:/opencv/sources/modules/imgcodecs/include"/>
+					<Add directory="C:/opencv/sources/modules/shape/include"/>
+					<Add directory="C:/opencv/sources/modules/videoio/include"/>
+					<Add directory="C:/opencv/sources/modules/highgui/include"/>
+					<Add directory="C:/opencv/sources/modules/superres/include"/>
+					<Add directory="C:/opencv/sources/modules/ts/include"/>
+					<Add directory="C:/opencv/sources/modules/features2d/include"/>
+					<Add directory="C:/opencv/sources/modules/calib3d/include"/>
+					<Add directory="C:/opencv/sources/modules/objdetect/include"/>
+					<Add directory="C:/opencv/sources/modules/stitching/include"/>
+					<Add directory="C:/opencv/sources/modules/videostab/include"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 armorDetector"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="armorDetector/fast">
+				<Option output="C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/armorDetector.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/opencv/mingw-build"/>
+					<Add directory="C:/opencv/sources/include"/>
+					<Add directory="C:/opencv/sources/include/opencv"/>
+					<Add directory="C:/opencv/sources/modules/core/include"/>
+					<Add directory="C:/opencv/sources/modules/flann/include"/>
+					<Add directory="C:/opencv/sources/modules/imgproc/include"/>
+					<Add directory="C:/opencv/sources/modules/ml/include"/>
+					<Add directory="C:/opencv/sources/modules/photo/include"/>
+					<Add directory="C:/opencv/sources/modules/video/include"/>
+					<Add directory="C:/opencv/sources/modules/dnn/include"/>
+					<Add directory="C:/opencv/sources/modules/imgcodecs/include"/>
+					<Add directory="C:/opencv/sources/modules/shape/include"/>
+					<Add directory="C:/opencv/sources/modules/videoio/include"/>
+					<Add directory="C:/opencv/sources/modules/highgui/include"/>
+					<Add directory="C:/opencv/sources/modules/superres/include"/>
+					<Add directory="C:/opencv/sources/modules/ts/include"/>
+					<Add directory="C:/opencv/sources/modules/features2d/include"/>
+					<Add directory="C:/opencv/sources/modules/calib3d/include"/>
+					<Add directory="C:/opencv/sources/modules/objdetect/include"/>
+					<Add directory="C:/opencv/sources/modules/stitching/include"/>
+					<Add directory="C:/opencv/sources/modules/videostab/include"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 armorDetector/fast"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/CLionProjects/armorDetector/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/86134/CLionProjects/armorDetector/main.cpp">
+			<Option target="armorDetector"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/CLionProjects/armorDetector/myHeader.hpp">
+			<Option target="armorDetector"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/CLionProjects/armorDetector/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/CLionProjects/armorDetector/../../../../opencv/mingw-build/OpenCVConfig-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\opencv\mingw-build\"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/CLionProjects/armorDetector/../../../../opencv/mingw-build/OpenCVConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\opencv\mingw-build\"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/CLionProjects/armorDetector/../../../../opencv/mingw-build/OpenCVModules.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\opencv\mingw-build\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
