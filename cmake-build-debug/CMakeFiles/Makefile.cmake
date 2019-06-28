@@ -7,9 +7,6 @@ set(CMAKE_DEPENDS_GENERATOR "MinGW Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "C:/Program Files (x86)/OpenCV341-MinGW-Build-x64-master/OpenCVConfig-version.cmake"
-  "C:/Program Files (x86)/OpenCV341-MinGW-Build-x64-master/OpenCVConfig.cmake"
-  "C:/Program Files (x86)/OpenCV341-MinGW-Build-x64-master/OpenCVModules.cmake"
   "C:/Program Files/JetBrains/CLion 2018.3.3/bin/cmake/win/share/cmake-3.13/Modules/CMakeCInformation.cmake"
   "C:/Program Files/JetBrains/CLion 2018.3.3/bin/cmake/win/share/cmake-3.13/Modules/CMakeCXXInformation.cmake"
   "C:/Program Files/JetBrains/CLion 2018.3.3/bin/cmake/win/share/cmake-3.13/Modules/CMakeCommonLanguageInclude.cmake"
@@ -25,7 +22,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/Program Files/JetBrains/CLion 2018.3.3/bin/cmake/win/share/cmake-3.13/Modules/Compiler/GNU-C.cmake"
   "C:/Program Files/JetBrains/CLion 2018.3.3/bin/cmake/win/share/cmake-3.13/Modules/Compiler/GNU-CXX.cmake"
   "C:/Program Files/JetBrains/CLion 2018.3.3/bin/cmake/win/share/cmake-3.13/Modules/Compiler/GNU.cmake"
-  "C:/Program Files/JetBrains/CLion 2018.3.3/bin/cmake/win/share/cmake-3.13/Modules/FindDoxygen.cmake"
   "C:/Program Files/JetBrains/CLion 2018.3.3/bin/cmake/win/share/cmake-3.13/Modules/FindPackageHandleStandardArgs.cmake"
   "C:/Program Files/JetBrains/CLion 2018.3.3/bin/cmake/win/share/cmake-3.13/Modules/FindPackageMessage.cmake"
   "C:/Program Files/JetBrains/CLion 2018.3.3/bin/cmake/win/share/cmake-3.13/Modules/Platform/Windows-GNU-C-ABI.cmake"
@@ -42,6 +38,9 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.13.2/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.13.2/CMakeRCCompiler.cmake"
   "CMakeFiles/3.13.2/CMakeSystem.cmake"
+  "C:/opencv/mingw-build/OpenCVConfig-version.cmake"
+  "C:/opencv/mingw-build/OpenCVConfig.cmake"
+  "C:/opencv/mingw-build/OpenCVModules.cmake"
   )
 
 # The corresponding makefile is:
@@ -57,7 +56,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/MJPEGWriter.dir/DependInfo.cmake"
-  "CMakeFiles/yaml_cpp.dir/DependInfo.cmake"
-  "CMakeFiles/robomaster_meta_vision.dir/DependInfo.cmake"
+  "CMakeFiles/armorDetector.dir/DependInfo.cmake"
   )

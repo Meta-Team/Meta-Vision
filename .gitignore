@@ -1,9 +1,0 @@
-.DS_Store
-.ipynb_checkpoints
-.vscode
-
-test_clips
-build
-record
-
-*.mp4
