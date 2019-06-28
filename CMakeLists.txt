@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.10)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -9,7 +9,7 @@ set(CMAKE_C_FLAGS_RELEASE "-Wall -O3" CACHE STRING "")
 set(CMAKE_CXX_FLAGS_RELEASE "-Wall -O3" CACHE STRING "")
 set(CMAKE_BUILD_TYPE Debug)
 
-project(robomaster_meta_vision)
+project(Meta_Vision)
 
 # Build OpenCV
 find_package(OpenCV REQUIRED)
@@ -39,8 +39,12 @@ target_compile_definitions(yaml_cpp PUBLIC -DYAML_CPP_NO_CONTRIB)
 # Build RM Vision software
 file(GLOB_RECURSE SOURCES src/*.c src/*.cpp)
 file(GLOB_RECURSE HEADERS src/*.h src/*.hpp)
-add_executable(robomaster_meta_vision ${SOURCES} ${HEADERS})
-# add_executable(robomaster_meta_vision ${SOURCES} ${HEADERS} ${PROTO_SRCS} ${PROTO_HDRS})
+add_executable(Vision ${SOURCES} ${HEADERS})
+# add_executable(Vision ${SOURCES} ${HEADERS} ${PROTO_SRCS} ${PROTO_HDRS})
+
+# Include boost (for macOS to find the package)
+find_package(boost REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
 
 # Use Doxygen to generate documents
 find_package(Doxygen COMPONENTS dot OPTIONAL_COMPONENTS mscgen dia)
@@ -58,11 +62,10 @@ if(DOXYGEN_FOUND)
     set(DOXYGEN_MACRO_EXPANSION YES)
     set(DOXYGEN_EXPAND_ONLY_PREDEF YES)
     set(DOXYGEN_PREDEFINED "__attribute__(x)=")
-    doxygen_add_docs(robomaster_meta_vision_docs ${SOURCES} ${HEADERS} ALL)
+    doxygen_add_docs(Vision_Docs ${SOURCES} ${HEADERS} ALL)
 endif(DOXYGEN_FOUND)
 
-target_link_libraries(
-    robomaster_meta_vision
+target_link_libraries( Vision
     ${OpenCV_LIBRARIES}
     yaml_cpp
     MJPEGWriter
