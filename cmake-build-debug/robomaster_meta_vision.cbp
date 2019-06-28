@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="robomaster_meta_vision"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\Program Files (x86)\;CMake Files\..\..\..\..\..\..\Program Files (x86)\OpenCV341-MinGW-Build-x64-master\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="MJPEGWriter">
+				<Option output="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/libMJPEGWriter.dll" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/MJPEGWriter"/>
+					<Add directory="C:/opencv/mingw-build"/>
+					<Add directory="C:/opencv/sources/include"/>
+					<Add directory="C:/opencv/sources/include/opencv"/>
+					<Add directory="C:/opencv/sources/modules/core/include"/>
+					<Add directory="C:/opencv/sources/modules/flann/include"/>
+					<Add directory="C:/opencv/sources/modules/imgproc/include"/>
+					<Add directory="C:/opencv/sources/modules/ml/include"/>
+					<Add directory="C:/opencv/sources/modules/objdetect/include"/>
+					<Add directory="C:/opencv/sources/modules/photo/include"/>
+					<Add directory="C:/opencv/sources/modules/video/include"/>
+					<Add directory="C:/opencv/sources/modules/dnn/include"/>
+					<Add directory="C:/opencv/sources/modules/imgcodecs/include"/>
+					<Add directory="C:/opencv/sources/modules/shape/include"/>
+					<Add directory="C:/opencv/sources/modules/videoio/include"/>
+					<Add directory="C:/opencv/sources/modules/highgui/include"/>
+					<Add directory="C:/opencv/sources/modules/superres/include"/>
+					<Add directory="C:/opencv/sources/modules/ts/include"/>
+					<Add directory="C:/opencv/sources/modules/features2d/include"/>
+					<Add directory="C:/opencv/sources/modules/calib3d/include"/>
+					<Add directory="C:/opencv/sources/modules/stitching/include"/>
+					<Add directory="C:/opencv/sources/modules/videostab/include"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 MJPEGWriter"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="MJPEGWriter/fast">
+				<Option output="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/libMJPEGWriter.dll" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/MJPEGWriter"/>
+					<Add directory="C:/opencv/mingw-build"/>
+					<Add directory="C:/opencv/sources/include"/>
+					<Add directory="C:/opencv/sources/include/opencv"/>
+					<Add directory="C:/opencv/sources/modules/core/include"/>
+					<Add directory="C:/opencv/sources/modules/flann/include"/>
+					<Add directory="C:/opencv/sources/modules/imgproc/include"/>
+					<Add directory="C:/opencv/sources/modules/ml/include"/>
+					<Add directory="C:/opencv/sources/modules/objdetect/include"/>
+					<Add directory="C:/opencv/sources/modules/photo/include"/>
+					<Add directory="C:/opencv/sources/modules/video/include"/>
+					<Add directory="C:/opencv/sources/modules/dnn/include"/>
+					<Add directory="C:/opencv/sources/modules/imgcodecs/include"/>
+					<Add directory="C:/opencv/sources/modules/shape/include"/>
+					<Add directory="C:/opencv/sources/modules/videoio/include"/>
+					<Add directory="C:/opencv/sources/modules/highgui/include"/>
+					<Add directory="C:/opencv/sources/modules/superres/include"/>
+					<Add directory="C:/opencv/sources/modules/ts/include"/>
+					<Add directory="C:/opencv/sources/modules/features2d/include"/>
+					<Add directory="C:/opencv/sources/modules/calib3d/include"/>
+					<Add directory="C:/opencv/sources/modules/stitching/include"/>
+					<Add directory="C:/opencv/sources/modules/videostab/include"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 MJPEGWriter/fast"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="yaml_cpp">
+				<Option output="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/libyaml_cpp.dll" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DYAML_CPP_NO_CONTRIB"/>
+					<Add directory="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/include"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 yaml_cpp"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="yaml_cpp/fast">
+				<Option output="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/libyaml_cpp.dll" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DYAML_CPP_NO_CONTRIB"/>
+					<Add directory="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/include"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 yaml_cpp/fast"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="robomaster_meta_vision">
+				<Option output="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/robomaster_meta_vision.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DYAML_CPP_NO_CONTRIB"/>
+					<Add directory="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/include"/>
+					<Add directory="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/MJPEGWriter"/>
+					<Add directory="C:/opencv/mingw-build"/>
+					<Add directory="C:/opencv/sources/include"/>
+					<Add directory="C:/opencv/sources/include/opencv"/>
+					<Add directory="C:/opencv/sources/modules/core/include"/>
+					<Add directory="C:/opencv/sources/modules/flann/include"/>
+					<Add directory="C:/opencv/sources/modules/imgproc/include"/>
+					<Add directory="C:/opencv/sources/modules/ml/include"/>
+					<Add directory="C:/opencv/sources/modules/objdetect/include"/>
+					<Add directory="C:/opencv/sources/modules/photo/include"/>
+					<Add directory="C:/opencv/sources/modules/video/include"/>
+					<Add directory="C:/opencv/sources/modules/dnn/include"/>
+					<Add directory="C:/opencv/sources/modules/imgcodecs/include"/>
+					<Add directory="C:/opencv/sources/modules/shape/include"/>
+					<Add directory="C:/opencv/sources/modules/videoio/include"/>
+					<Add directory="C:/opencv/sources/modules/highgui/include"/>
+					<Add directory="C:/opencv/sources/modules/superres/include"/>
+					<Add directory="C:/opencv/sources/modules/ts/include"/>
+					<Add directory="C:/opencv/sources/modules/features2d/include"/>
+					<Add directory="C:/opencv/sources/modules/calib3d/include"/>
+					<Add directory="C:/opencv/sources/modules/stitching/include"/>
+					<Add directory="C:/opencv/sources/modules/videostab/include"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 robomaster_meta_vision"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="robomaster_meta_vision/fast">
+				<Option output="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/robomaster_meta_vision.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DYAML_CPP_NO_CONTRIB"/>
+					<Add directory="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/include"/>
+					<Add directory="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/MJPEGWriter"/>
+					<Add directory="C:/opencv/mingw-build"/>
+					<Add directory="C:/opencv/sources/include"/>
+					<Add directory="C:/opencv/sources/include/opencv"/>
+					<Add directory="C:/opencv/sources/modules/core/include"/>
+					<Add directory="C:/opencv/sources/modules/flann/include"/>
+					<Add directory="C:/opencv/sources/modules/imgproc/include"/>
+					<Add directory="C:/opencv/sources/modules/ml/include"/>
+					<Add directory="C:/opencv/sources/modules/objdetect/include"/>
+					<Add directory="C:/opencv/sources/modules/photo/include"/>
+					<Add directory="C:/opencv/sources/modules/video/include"/>
+					<Add directory="C:/opencv/sources/modules/dnn/include"/>
+					<Add directory="C:/opencv/sources/modules/imgcodecs/include"/>
+					<Add directory="C:/opencv/sources/modules/shape/include"/>
+					<Add directory="C:/opencv/sources/modules/videoio/include"/>
+					<Add directory="C:/opencv/sources/modules/highgui/include"/>
+					<Add directory="C:/opencv/sources/modules/superres/include"/>
+					<Add directory="C:/opencv/sources/modules/ts/include"/>
+					<Add directory="C:/opencv/sources/modules/features2d/include"/>
+					<Add directory="C:/opencv/sources/modules/calib3d/include"/>
+					<Add directory="C:/opencv/sources/modules/stitching/include"/>
+					<Add directory="C:/opencv/sources/modules/videostab/include"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 robomaster_meta_vision/fast"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/MJPEGWriter/MJPEGWriter.cpp">
+			<Option target="MJPEGWriter"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/MJPEGWriter/MJPEGWriter.h">
+			<Option target="MJPEGWriter"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/MJPEGWriter/main.cpp">
+			<Option target="MJPEGWriter"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/binary.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/collectionstack.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/convert.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/directives.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/directives.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/emit.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/emitfromevents.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/emitter.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/emitterstate.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/emitterstate.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/emitterutils.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/emitterutils.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/exceptions.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/exp.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/exp.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/indentation.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/memory.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/node.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/node_data.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/nodebuilder.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/nodebuilder.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/nodeevents.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/nodeevents.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/null.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/ostream_wrapper.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/parse.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/parser.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/ptr_vector.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/regex_yaml.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/regex_yaml.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/regeximpl.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/scanner.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/scanner.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/scanscalar.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/scanscalar.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/scantag.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/scantag.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/scantoken.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/setting.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/simplekey.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/singledocparser.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/singledocparser.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/stream.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/stream.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/streamcharsource.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/stringsource.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/tag.cpp">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/tag.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/lib/yaml-cpp/src/token.h">
+			<Option target="yaml_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/algo/icra2018_njust_armor/armor_detector.cpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/algo/icra2018_njust_armor/armor_detector.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/algo/icra2018_njust_armor/interface.cpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/algo/icra2018_njust_armor/interface.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/algo/icra2018_njust_armor/settings.cpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/algo/icra2018_njust_armor/settings.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/algo/icra2018_njust_armor/sse_to_neon.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/entrypoint.cpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/entrypoint.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/global.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/interfaces/multithread.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/interfaces/video_source.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/interfaces/video_target.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/logging/colortext.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/logging/logging.cpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/logging/logging.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/logging/timing.cpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/logging/timing.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/main.cpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/main.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/serial/rm_protocol.cpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/serial/rm_protocol.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/serial/serial.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/serial/status.cpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/serial/status.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/video_sources/camera.cpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/video_sources/camera.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/video_sources/file.cpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/video_sources/file.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/video_targets/dummy.cpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/video_targets/dummy.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/video_targets/file.cpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/video_targets/file.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/video_targets/webserver.cpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/src/video_targets/webserver.hpp">
+			<Option target="robomaster_meta_vision"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/../../../../../../Program Files (x86)/OpenCV341-MinGW-Build-x64-master/OpenCVConfig-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\Program Files (x86)\OpenCV341-MinGW-Build-x64-master\"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/../../../../../../Program Files (x86)/OpenCV341-MinGW-Build-x64-master/OpenCVConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\Program Files (x86)\OpenCV341-MinGW-Build-x64-master\"/>
+		</Unit>
+		<Unit filename="C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/../../../../../../Program Files (x86)/OpenCV341-MinGW-Build-x64-master/OpenCVModules.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\Program Files (x86)\OpenCV341-MinGW-Build-x64-master\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

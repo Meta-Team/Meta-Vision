@@ -1,0 +1,44 @@
+"C:\Program Files\JetBrains\CLion 2018.3.3\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_C_COMPILER=C:/Program Files (x86)/GNU Tools Arm Embedded/8 2018-q4-major/bin/arm-none-eabi-gcc.exe" "-DCMAKE_CXX_COMPILER=C:/Program Files (x86)/GNU Tools Arm Embedded/8 2018-q4-major/bin/arm-none-eabi-g++.exe" -G "CodeBlocks - MinGW Makefiles" C:\Users\86134\Desktop\2019_spring\RM_project\Meta-Vision
+-- The C compiler identification is GNU 8.2.1
+-- The CXX compiler identification is GNU 8.2.1
+-- Check for working C compiler: C:/Program Files (x86)/GNU Tools Arm Embedded/8 2018-q4-major/bin/arm-none-eabi-gcc.exe
+-- Check for working C compiler: C:/Program Files (x86)/GNU Tools Arm Embedded/8 2018-q4-major/bin/arm-none-eabi-gcc.exe -- broken
+CMake Error at C:/Program Files/JetBrains/CLion 2018.3.3/bin/cmake/win/share/cmake-3.13/Modules/CMakeTestCCompiler.cmake:52 (message):
+  The C compiler
+
+    "C:/Program Files (x86)/GNU Tools Arm Embedded/8 2018-q4-major/bin/arm-none-eabi-gcc.exe"
+
+  is not able to compile a simple test program.
+
+  It fails with the following output:
+
+    Change Dir: C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug-armtoolchain/CMakeFiles/CMakeTmp
+    
+    Run Build Command:"C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe" "cmTC_eda54/fast"
+    C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f CMakeFiles\cmTC_eda54.dir\build.make CMakeFiles/cmTC_eda54.dir/build
+    mingw32-make.exe[1]: Entering directory 'C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug-armtoolchain/CMakeFiles/CMakeTmp'
+    Building C object CMakeFiles/cmTC_eda54.dir/testCCompiler.c.obj
+    C:\PROGRA~2\GNUTOO~1\82018-~1\bin\AR19DD~1.EXE    -o CMakeFiles\cmTC_eda54.dir\testCCompiler.c.obj   -c C:\Users\86134\Desktop\2019_spring\RM_project\Meta-Vision\cmake-build-debug-armtoolchain\CMakeFiles\CMakeTmp\testCCompiler.c
+    Linking C executable cmTC_eda54.exe
+    "C:\Program Files\JetBrains\CLion 2018.3.3\bin\cmake\win\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_eda54.dir\link.txt --verbose=1
+    "C:\Program Files\JetBrains\CLion 2018.3.3\bin\cmake\win\bin\cmake.exe" -E remove -f CMakeFiles\cmTC_eda54.dir/objects.a
+    C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\ar.exe cr CMakeFiles\cmTC_eda54.dir/objects.a @CMakeFiles\cmTC_eda54.dir\objects1.rsp
+    C:\PROGRA~2\GNUTOO~1\82018-~1\bin\AR19DD~1.EXE      -Wl,--whole-archive CMakeFiles\cmTC_eda54.dir/objects.a -Wl,--no-whole-archive  -o cmTC_eda54.exe -Wl,--out-implib,libcmTC_eda54.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
+    c:/progra~2/gnutoo~1/82018-~1/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/bin/ld.exe: unrecognized option '--major-image-version'
+    c:/progra~2/gnutoo~1/82018-~1/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/bin/ld.exe: use the --help option for usage information
+    collect2.exe: error: ld returned 1 exit status
+    mingw32-make.exe[1]: *** [CMakeFiles\cmTC_eda54.dir\build.make:87: cmTC_eda54.exe] Error 1
+    mingw32-make.exe[1]: Leaving directory 'C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug-armtoolchain/CMakeFiles/CMakeTmp'
+    mingw32-make.exe: *** [Makefile:120: cmTC_eda54/fast] Error 2
+    
+
+  
+
+  CMake will not be able to correctly generate this project.
+Call Stack (most recent call first):
+  CMakeLists.txt:12 (project)
+
+
+-- Configuring incomplete, errors occurred!
+See also "C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug-armtoolchain/CMakeFiles/CMakeOutput.log".
+See also "C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug-armtoolchain/CMakeFiles/CMakeError.log".

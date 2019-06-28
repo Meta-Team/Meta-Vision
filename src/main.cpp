@@ -18,7 +18,7 @@
  */
 int Main::main(int argc, char** argv){
     _loadConfig((argc > 1) ? argv[1] : DEFAULT_CONFIG_NAME);
-    _prepareArmorDetect();
+    //_prepareArmorDetect();
 
     if("camera" == config["system"]["video_source"].as<string>()) {
         _video_src = new VideoSourceCamera(
@@ -33,6 +33,9 @@ int Main::main(int argc, char** argv){
         cerror << "Invalid video source";
         return -1;
     }
+
+    //setup the ArmorDetector;
+    _prepareArmorDetect();
 
     if("file" == config["system"]["video_target"].as<string>()) {
         _video_tgt = new VideoTargetFile(
@@ -74,6 +77,7 @@ int Main::main(int argc, char** argv){
         int yaw_current = _serial->rm_state.custom_gimbal_current.yaw;
         int pitch_current = _serial->rm_state.custom_gimbal_current.pitch;
 
+        /*
         // Call Armor Detect routine, draw armor borderline
         RotatedRect rect = _armorDetect->analyze(frame);
         Point2f vertices[4];
@@ -99,7 +103,17 @@ int Main::main(int argc, char** argv){
             cwarning << "Pitch " << pitch_target << ", Yaw " << yaw_target;
 
             _serial->send_gimbal(yaw_target, pitch_target);
-        }
+        }*/
+
+        // Call Armor Detect routine
+        Point2f targetInPhoto = _armorDetect->analyze(frame);
+
+
+        double yaw_target = yaw_current + _fraction2angle(2 * targetInPhoto.x / _video_src->getWidth() - 1, config["system"]["target_calibration"]["view_angle_x"].as<double>());
+        double pitch_target = pitch_current + _fraction2angle(1 - 2 * targetInPhoto.y / _video_src->getHeight(), config["system"]["target_calibration"]["view_angle_y"].as<double>());
+        cwarning << "Pitch " << pitch_target << ", Yaw " << yaw_target;
+
+        _serial->send_gimbal(yaw_target, pitch_target);
 
         // Write image
         _video_tgt->writeFrame(frame);
@@ -136,6 +150,7 @@ double Main::_fraction2angle(double fraction, double maxAngle) {
  * 
  * @param filename Filename to the config file
  */
+
 void Main::_loadConfig(string filename) {
     // Load YAML file
     config = YAML::LoadFile(filename);
@@ -161,7 +176,9 @@ void Main::_loadConfig(string filename) {
  *        Currently it only uses the ICRA2018_NJUST algorithm.
  */
 void Main::_prepareArmorDetect() {
-    _armorDetect = new ICRA2018_NJUST_Armor::Armor_Interface(config["algorithm"]["icra2018_njust_armor"]);
+
+    //_armorDetect = new ICRA2018_NJUST_Armor::Armor_Interface(config["algorithm"]["icra2018_njust_armor"]);
+    _armorDetect = new Armors(_video_src->getWidth(),_video_src->getHeight());
 
     // Read color of our team, configure armor detect algorithm to aim for enemy
     string ourTeam = config["game"]["our_team"].as<string>();
@@ -177,7 +194,8 @@ void Main::_prepareArmorDetect() {
     } else {
         throw std::invalid_argument("Invalid value of game/our_team");
     }
-    csuccess << "Initialized Armor Detection";
+    csuccess << "Initialized Armor Detection";*/
+
 }
 
 /**

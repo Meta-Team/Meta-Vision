@@ -1,0 +1,90 @@
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: C:/Program Files (x86)/GNU Tools Arm Embedded/8 2018-q4-major/bin/arm-none-eabi-gcc.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+1
+c:/program files (x86)/gnu tools arm embedded/8 2018-q4-major/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/bin/ld.exe: c:/program files (x86)/gnu tools arm embedded/8 2018-q4-major/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/lib\libc.a(lib_a-exit.o): in function `exit':
+exit.c:(.text.exit+0x2c): undefined reference to `_exit'
+collect2.exe: error: ld returned 1 exit status
+
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler: C:/Program Files (x86)/GNU Tools Arm Embedded/8 2018-q4-major/bin/arm-none-eabi-g++.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+1
+c:/program files (x86)/gnu tools arm embedded/8 2018-q4-major/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/bin/ld.exe: c:/program files (x86)/gnu tools arm embedded/8 2018-q4-major/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/lib\libc.a(lib_a-exit.o): in function `exit':
+exit.c:(.text.exit+0x2c): undefined reference to `_exit'
+collect2.exe: error: ld returned 1 exit status
+
+
+Determining if the C compiler works failed with the following output:
+Change Dir: C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug-armtoolchain/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe" "cmTC_61a4a/fast"
+C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f CMakeFiles\cmTC_61a4a.dir\build.make CMakeFiles/cmTC_61a4a.dir/build
+mingw32-make.exe[1]: Entering directory 'C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug-armtoolchain/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_61a4a.dir/testCCompiler.c.obj
+C:\PROGRA~2\GNUTOO~1\82018-~1\bin\AR19DD~1.EXE    -o CMakeFiles\cmTC_61a4a.dir\testCCompiler.c.obj   -c C:\Users\86134\Desktop\2019_spring\RM_project\Meta-Vision\cmake-build-debug-armtoolchain\CMakeFiles\CMakeTmp\testCCompiler.c
+Linking C executable cmTC_61a4a.exe
+"C:\Program Files\JetBrains\CLion 2018.3.3\bin\cmake\win\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_61a4a.dir\link.txt --verbose=1
+"C:\Program Files\JetBrains\CLion 2018.3.3\bin\cmake\win\bin\cmake.exe" -E remove -f CMakeFiles\cmTC_61a4a.dir/objects.a
+C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\ar.exe cr CMakeFiles\cmTC_61a4a.dir/objects.a @CMakeFiles\cmTC_61a4a.dir\objects1.rsp
+C:\PROGRA~2\GNUTOO~1\82018-~1\bin\AR19DD~1.EXE      -Wl,--whole-archive CMakeFiles\cmTC_61a4a.dir/objects.a -Wl,--no-whole-archive  -o cmTC_61a4a.exe -Wl,--out-implib,libcmTC_61a4a.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
+c:/progra~2/gnutoo~1/82018-~1/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/bin/ld.exe: unrecognized option '--major-image-version'
+c:/progra~2/gnutoo~1/82018-~1/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/bin/ld.exe: use the --help option for usage information
+collect2.exe: error: ld returned 1 exit status
+mingw32-make.exe[1]: *** [CMakeFiles\cmTC_61a4a.dir\build.make:87: cmTC_61a4a.exe] Error 1
+mingw32-make.exe[1]: Leaving directory 'C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug-armtoolchain/CMakeFiles/CMakeTmp'
+mingw32-make.exe: *** [Makefile:120: cmTC_61a4a/fast] Error 2
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: C:/Program Files (x86)/GNU Tools Arm Embedded/8 2018-q4-major/bin/arm-none-eabi-gcc.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+1
+c:/program files (x86)/gnu tools arm embedded/8 2018-q4-major/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/bin/ld.exe: c:/program files (x86)/gnu tools arm embedded/8 2018-q4-major/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/lib\libc.a(lib_a-exit.o): in function `exit':
+exit.c:(.text.exit+0x2c): undefined reference to `_exit'
+collect2.exe: error: ld returned 1 exit status
+
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler: C:/Program Files (x86)/GNU Tools Arm Embedded/8 2018-q4-major/bin/arm-none-eabi-g++.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+1
+c:/program files (x86)/gnu tools arm embedded/8 2018-q4-major/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/bin/ld.exe: c:/program files (x86)/gnu tools arm embedded/8 2018-q4-major/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/lib\libc.a(lib_a-exit.o): in function `exit':
+exit.c:(.text.exit+0x2c): undefined reference to `_exit'
+collect2.exe: error: ld returned 1 exit status
+
+
+Determining if the C compiler works failed with the following output:
+Change Dir: C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug-armtoolchain/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe" "cmTC_eda54/fast"
+C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f CMakeFiles\cmTC_eda54.dir\build.make CMakeFiles/cmTC_eda54.dir/build
+mingw32-make.exe[1]: Entering directory 'C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug-armtoolchain/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_eda54.dir/testCCompiler.c.obj
+C:\PROGRA~2\GNUTOO~1\82018-~1\bin\AR19DD~1.EXE    -o CMakeFiles\cmTC_eda54.dir\testCCompiler.c.obj   -c C:\Users\86134\Desktop\2019_spring\RM_project\Meta-Vision\cmake-build-debug-armtoolchain\CMakeFiles\CMakeTmp\testCCompiler.c
+Linking C executable cmTC_eda54.exe
+"C:\Program Files\JetBrains\CLion 2018.3.3\bin\cmake\win\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_eda54.dir\link.txt --verbose=1
+"C:\Program Files\JetBrains\CLion 2018.3.3\bin\cmake\win\bin\cmake.exe" -E remove -f CMakeFiles\cmTC_eda54.dir/objects.a
+C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\ar.exe cr CMakeFiles\cmTC_eda54.dir/objects.a @CMakeFiles\cmTC_eda54.dir\objects1.rsp
+C:\PROGRA~2\GNUTOO~1\82018-~1\bin\AR19DD~1.EXE      -Wl,--whole-archive CMakeFiles\cmTC_eda54.dir/objects.a -Wl,--no-whole-archive  -o cmTC_eda54.exe -Wl,--out-implib,libcmTC_eda54.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
+c:/progra~2/gnutoo~1/82018-~1/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/bin/ld.exe: unrecognized option '--major-image-version'
+c:/progra~2/gnutoo~1/82018-~1/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/bin/ld.exe: use the --help option for usage information
+collect2.exe: error: ld returned 1 exit status
+mingw32-make.exe[1]: *** [CMakeFiles\cmTC_eda54.dir\build.make:87: cmTC_eda54.exe] Error 1
+mingw32-make.exe[1]: Leaving directory 'C:/Users/86134/Desktop/2019_spring/RM_project/Meta-Vision/cmake-build-debug-armtoolchain/CMakeFiles/CMakeTmp'
+mingw32-make.exe: *** [Makefile:120: cmTC_eda54/fast] Error 2
+
+

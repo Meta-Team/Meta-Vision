@@ -6,12 +6,15 @@
 #include <opencv2/opencv.hpp>
 #include "global.hpp"
 #include "logging/logging.hpp"
-#include "algo/icra2018_njust_armor/interface.hpp"
+//#include "algo/icra2018_njust_armor/interface.hpp"
+#include "algo/icra2018_njust_armor/myHeader.hpp"
 
 #include "interfaces/multithread.hpp"
 #include "interfaces/video_source.hpp"
 #include "interfaces/video_target.hpp"
 #include "serial/status.hpp"
+#include <yaml-cpp/yaml.h>
+
 
 using namespace std;
 using namespace cv;
@@ -54,7 +57,8 @@ private:
     /**
      * @brief Armor Detect interface for this session. Currently only ICRA2018_NJUST_Armor is available.
      */
-    ICRA2018_NJUST_Armor::Armor_Interface* _armorDetect = NULL;
+    //ICRA2018_NJUST_Armor::Armor_Interface* _armorDetect = NULL;
+    Armors *_armorDetect;//instance of Armors for amror detect
 
     /**
      * @brief Serial interface to communicate with RMBoard and judge system.

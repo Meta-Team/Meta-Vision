@@ -1,0 +1,3 @@
+"C:\Program Files\JetBrains\CLion 2018.3.3\bin\cmake\win\bin\cmake.exe" -E remove -f CMakeFiles\robomaster_meta_vision.dir/objects.a
+C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\ar.exe cr CMakeFiles\robomaster_meta_vision.dir/objects.a @CMakeFiles\robomaster_meta_vision.dir\objects1.rsp
+C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE -Wall -g   -Wl,--whole-archive CMakeFiles\robomaster_meta_vision.dir/objects.a -Wl,--no-whole-archive  -o robomaster_meta_vision.exe -Wl,--out-implib,librobomaster_meta_vision.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\robomaster_meta_vision.dir\linklibs.rsp
