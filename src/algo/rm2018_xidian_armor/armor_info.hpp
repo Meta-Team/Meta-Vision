@@ -13,7 +13,7 @@
 
 using namespace std;
 
-namespace RM2018_XiDian_Armor {
+namespace RM2018_Xidian_Armor {
 
     /**
      * @brief: 装甲板算法的阈值参数
@@ -124,6 +124,6 @@ namespace RM2018_XiDian_Armor {
     };
 
 
-} // namespace RM2018_XiDian_Armor
+} // namespace RM2018_Xidian_Armor
 
 #endif // ARMOR_INFO_H

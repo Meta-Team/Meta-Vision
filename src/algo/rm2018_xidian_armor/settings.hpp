@@ -8,7 +8,7 @@
 
 using namespace cv;
 
-namespace RM2018_XiDian_Armor {
+namespace RM2018_Xidian_Armor {
     /**
      * @brief Settings parser & converter from YAML to internal struct
      *        of ICRA2018_NJUST_Armor algorithm.
@@ -56,6 +56,9 @@ namespace RM2018_XiDian_Armor {
         /** Path to template image file */
         string big_armor_pic_file;
         string small_armor_pic_file;
+
+        /** Camera info file */
+        string camera_info_file;
     };
 }
 

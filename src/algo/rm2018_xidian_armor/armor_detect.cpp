@@ -19,7 +19,7 @@
 
 //#define SHOW_DEBUG_IMG  //define了之后就会显示识别处理过程中的中间图像 
 
-namespace RM2018_XiDian_Armor {
+namespace RM2018_Xidian_Armor {
 
     // 记录时间
     std::chrono::steady_clock::time_point speed_test_start_begin_time;
@@ -1038,4 +1038,4 @@ namespace RM2018_XiDian_Armor {
     }
 
 
-} // namespace RM2018_XiDian_Armor
+} // namespace RM2018_Xidian_Armor

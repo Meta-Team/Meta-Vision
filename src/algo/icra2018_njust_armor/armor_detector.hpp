@@ -6,7 +6,7 @@
 #include <iostream>
 #include "../../global.hpp"
 
-//#include "armor_detector.hpp"
+//#include "armorDetector.hpp"
 using namespace cv;
 using namespace std;
 

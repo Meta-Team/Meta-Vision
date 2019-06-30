@@ -9,42 +9,44 @@
 
 #include "armor_info.hpp"
 #include "armor_detect.hpp"
+#include "armor_recorder.hpp"
+#include "camera_info.hpp"
+#include "angle_slover.hpp"
+
 #include "settings.hpp"
 
 using namespace std;
 using namespace cv;
 
-namespace RM2018_XiDian_Armor {
+namespace RM2018_Xidian_Armor {
     
     /** Interface for integration with main vision program */
     
-    class Armor_Interface {
+    class MetaInterface {
         
     public:
 
-        /** RM2018_XiDian_Armor Settings object, read xml file */
         Settings *settings;
 
-        /** Main Armor Detector object */
-        ArmorDetector *armor_detector;
+        ArmorDetector *armorDetector;
+        ArmorRecorder *armorRecorder;
+
+        CameraInfo *cameraInfo;
+        AngleSolver *angleSolver;
+        AngleSolverFactory *angleSolverFactory;
 
     public:
-
-//        /**
-//         * @brief Construct a new Armor_Interface object
-//         */
-//        Armor_Interface();
 
         /**
          * @brief Construct a new Armor_Interface object, read settings from YAML node
          * @param root Node containing config to algorithm
          */
-        Armor_Interface(const YAML::Node& root);
+        MetaInterface(const YAML::Node& root);
 
         /**
          * @brief Destroy the Armor_Interface object
          */
-        ~Armor_Interface();
+        ~MetaInterface();
 
         /**
          * @brief Set color of enemy

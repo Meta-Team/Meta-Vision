@@ -162,8 +162,8 @@ void Main::_loadConfig(const string& filename) {
  *        Currently it only uses the ICRA2018_NJUST algorithm.
  */
 void Main::_prepareArmorDetect() {
-//    _armorDetect = new ICRA2018_NJUST_Armor::Armor_Interface(config["algorithm"]["icra2018_njust_armor"]);
-    _armorDetect = new RM2018_XiDian_Armor::Armor_Interface(config["algorithm"]["rm2018_xidian_armor"]);
+//    _armorDetect = new ICRA2018_NJUST_Armor::MetaInterface(config["algorithm"]["icra2018_njust_armor"]);
+    _armorDetect = new RM2018_Xidian_Armor::MetaInterface(config["algorithm"]["rm2018_xidian_armor"]);
 
     // Read color of our team, configure armor detect algorithm to aim for enemy
     string ourTeam = config["game"]["our_team"].as<string>();

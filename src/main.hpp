@@ -55,8 +55,8 @@ private:
     /**
      * @brief Armor Detect interface for this session. Currently only ICRA2018_NJUST_Armor is available.
      */
-//    ICRA2018_NJUST_Armor::Armor_Interface* _armorDetect = NULL;
-    RM2018_XiDian_Armor::Armor_Interface* _armorDetect = NULL;
+//    ICRA2018_NJUST_Armor::MetaInterface* _armorDetect = NULL;
+    RM2018_Xidian_Armor::MetaInterface* _armorDetect = NULL;
 
     /**
      * @brief Serial interface to communicate with RMBoard and judge system.

@@ -25,7 +25,7 @@ using namespace cv::ml;
 
 #define POINT_DIST(p1, p2) std::sqrt((p1.x-p2.x)*(p1.x-p2.x) + (p1.y-p2.y)*(p1.y-p2.y))
 
-namespace RM2018_XiDian_Armor {
+namespace RM2018_Xidian_Armor {
 
     // FIXME: for version adaption
 #define CV_RETR_EXTERNAL RETR_EXTERNAL
@@ -196,6 +196,6 @@ namespace RM2018_XiDian_Armor {
     int armorToarmorTest(const cv::RotatedRect &_rect1, const cv::RotatedRect &_rect2);
 
 
-} // namespace RM2018_XiDian_Armor
+} // namespace RM2018_Xidian_Armor
 
 #endif

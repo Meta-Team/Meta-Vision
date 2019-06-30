@@ -8,7 +8,7 @@
 
 #include "armor_info.hpp"
 
-namespace RM2018_XiDian_Armor {
+namespace RM2018_Xidian_Armor {
 
     ArmorParam::ArmorParam(const string &xmlFile) {
 
@@ -60,4 +60,4 @@ namespace RM2018_XiDian_Armor {
         std::cout << "Successful load ArmorParam" << std::endl;
     }
 
-} // RM2018_XiDian_Armor
+} // RM2018_Xidian_Armor

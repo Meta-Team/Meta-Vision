@@ -1,6 +1,6 @@
 #include "settings.hpp"
 
-namespace RM2018_XiDian_Armor {
+namespace RM2018_Xidian_Armor {
 
     void Settings::read(const YAML::Node &root) {
 
@@ -44,6 +44,8 @@ namespace RM2018_XiDian_Armor {
 
         big_armor_pic_file = root["big_armor_pic_file"].as<string>();
         small_armor_pic_file = root["small_armor_pic_file"].as<string>();
+
+        camera_info_file = root["camera_info_file"].as<string>();
     }
 
 }

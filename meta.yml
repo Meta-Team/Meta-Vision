@@ -4,9 +4,9 @@ system:
   video_source: "file"
   video_sources:
     file:
-      filename: "test_clips/步兵素材蓝车正面-ev--3.MOV"
+      filename: "test_clips/步兵素材蓝车侧面-ev-0.MOV"
     camera:
-      id: 0
+      id: 1
       width: 640
       height: 360
       fps: 330
@@ -76,3 +76,4 @@ algorithm:
     height: 50
     big_armor_pic_file: "src/algo/rm2018_xidian_armor/config/armor2ev0.jpg"
     small_armor_pic_file: "src/algo/rm2018_xidian_armor/config/armor2ev-3.jpg"
+    camera_info_file: "src/algo/rm2018_xidian_armor/calibration-param/480P_120_MH.xml"
