@@ -15,6 +15,7 @@ using namespace std;
 #define SKIP_UNSAFE_RECT(rect, max_size) {if (makeRectSafe(rect, max_size) == false) continue;}
 
 namespace ICRA2018_NJUST_Armor {
+
     void ArmorDetector::setImage(const cv::Mat& src) {
         // cout << __PRETTY_FUNCTION__;
         const cv::Point& last_result = _res_last.center;

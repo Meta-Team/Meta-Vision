@@ -65,7 +65,7 @@ if(DOXYGEN_FOUND)
     doxygen_add_docs(Vision_Docs ${SOURCES} ${HEADERS} ALL)
 endif(DOXYGEN_FOUND)
 
-target_link_libraries( Vision
+target_link_libraries(Vision
     ${OpenCV_LIBRARIES}
     yaml_cpp
     MJPEGWriter

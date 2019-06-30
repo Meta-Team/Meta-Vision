@@ -71,8 +71,8 @@ int Main::main(int argc, char** argv){
         prev_id = next_id;
 
         // Get yaw/pitch before time-costly analyzation to ensure accuracy
-        int yaw_current = _serial->rm_state.custom_gimbal_current.yaw;
-        int pitch_current = _serial->rm_state.custom_gimbal_current.pitch;
+//        int yaw_current = _serial->rm_state.custom_gimbal_current.yaw;
+//        int pitch_current = _serial->rm_state.custom_gimbal_current.pitch;
 
         // Call Armor Detect routine, draw armor borderline
         RotatedRect rect = _armorDetect->analyze(frame);
@@ -93,8 +93,9 @@ int Main::main(int argc, char** argv){
 
             // cwarning << "Center: " << centerX << ", " << centerY;
 
-            double yaw_target = yaw_current + _fraction2angle(2 * centerX / _video_src->getWidth() - 1, config["system"]["target_calibration"]["view_angle_x"].as<double>());
-            double pitch_target = pitch_current + _fraction2angle(1 - 2 * centerY / _video_src->getHeight(), config["system"]["target_calibration"]["view_angle_y"].as<double>());
+            // Return angle difference between target and current
+            double yaw_target = /*yaw_current +*/ _fraction2angle(2 * centerX / _video_src->getWidth() - 1, config["system"]["target_calibration"]["view_angle_x"].as<double>());
+            double pitch_target = /*pitch_current +*/ _fraction2angle(1 - 2 * centerY / _video_src->getHeight(), config["system"]["target_calibration"]["view_angle_y"].as<double>());
             
             cwarning << "Pitch " << pitch_target << ", Yaw " << yaw_target;
 
@@ -136,7 +137,7 @@ double Main::_fraction2angle(double fraction, double maxAngle) {
  * 
  * @param filename Filename to the config file
  */
-void Main::_loadConfig(string filename) {
+void Main::_loadConfig(const string& filename) {
     // Load YAML file
     config = YAML::LoadFile(filename);
     csuccess << "Config file " << filename << " loaded";
@@ -161,7 +162,8 @@ void Main::_loadConfig(string filename) {
  *        Currently it only uses the ICRA2018_NJUST algorithm.
  */
 void Main::_prepareArmorDetect() {
-    _armorDetect = new ICRA2018_NJUST_Armor::Armor_Interface(config["algorithm"]["icra2018_njust_armor"]);
+//    _armorDetect = new ICRA2018_NJUST_Armor::Armor_Interface(config["algorithm"]["icra2018_njust_armor"]);
+    _armorDetect = new RM2018_XiDian_Armor::Armor_Interface(config["algorithm"]["rm2018_xidian_armor"]);
 
     // Read color of our team, configure armor detect algorithm to aim for enemy
     string ourTeam = config["game"]["our_team"].as<string>();
