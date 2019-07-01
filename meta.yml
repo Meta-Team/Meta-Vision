@@ -4,7 +4,7 @@ system:
   video_source: "file"
   video_sources:
     file:
-      filename: "test_clips/步兵素材蓝车侧面-ev-0.MOV"
+      filename: "test_clips/armors/small_4_2.MOV"
     camera:
       id: 1
       width: 640

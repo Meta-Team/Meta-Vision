@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_C_FLAGS_DEBUG "-Wall -g" CACHE STRING "")       
+set(CMAKE_C_FLAGS_DEBUG "-Wall -g" CACHE STRING "")
 set(CMAKE_CXX_FLAGS_DEBUG "-Wall -g" CACHE STRING "")
 set(CMAKE_C_FLAGS_RELEASE "-Wall -O3" CACHE STRING "")
 set(CMAKE_CXX_FLAGS_RELEASE "-Wall -O3" CACHE STRING "")
@@ -43,12 +43,21 @@ add_executable(Vision ${SOURCES} ${HEADERS})
 # add_executable(Vision ${SOURCES} ${HEADERS} ${PROTO_SRCS} ${PROTO_HDRS})
 
 # Include boost (for macOS to find the package)
-find_package(boost REQUIRED)
-include_directories(${Boost_INCLUDE_DIRS})
+if (CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
+    find_package(boost REQUIRED)
+    include_directories(${Boost_INCLUDE_DIRS})
+endif ()
+
+target_link_libraries(Vision
+        ${OpenCV_LIBRARIES}
+        yaml_cpp
+        MJPEGWriter
+        pthread
+        )
 
 # Use Doxygen to generate documents
 find_package(Doxygen COMPONENTS dot OPTIONAL_COMPONENTS mscgen dia)
-if(DOXYGEN_FOUND)
+if (DOXYGEN_FOUND)
     set(DOXYGEN_PROJECT_NAME "RoboMaster Meta Vision")
     set(DOXYGEN_EXTRACT_PRIVATE YES)
     set(DOXYGEN_EXTRACT_PACKAGE YES)
@@ -63,11 +72,15 @@ if(DOXYGEN_FOUND)
     set(DOXYGEN_EXPAND_ONLY_PREDEF YES)
     set(DOXYGEN_PREDEFINED "__attribute__(x)=")
     doxygen_add_docs(Vision_Docs ${SOURCES} ${HEADERS} ALL)
-endif(DOXYGEN_FOUND)
+endif (DOXYGEN_FOUND)
 
-target_link_libraries(Vision
-    ${OpenCV_LIBRARIES}
-    yaml_cpp
-    MJPEGWriter
-    pthread
-)
+# RM2019 Xidian SVM training exectuable
+file(GLOB_RECURSE ARMOR_SAMPLE_SOURCES utilities/armor_sample/*.c utilities/armor_sample/*.cpp)
+file(GLOB_RECURSE ARMOR_SAMPLE_HEADERS utilities/armor_sample/*.h utilities/armor_sample/*.hpp)
+add_executable(Xidian_Armor_Sample ${ARMOR_SAMPLE_SOURCES} ${ARMOR_SAMPLE_HEADERS})
+target_link_libraries(Xidian_Armor_Sample ${OpenCV_LIBRARIES})
+
+file(GLOB_RECURSE SVM_TRAINER_SOURCES utilities/train/*.c utilities/train/*.cpp)
+file(GLOB_RECURSE SVM_TRAINER_HEADERS utilities/train/*.h utilities/train/*.hpp)
+add_executable(Xidian_SVM_Trainer ${SVM_TRAINER_SOURCES} ${SVM_TRAINER_HEADERS})
+target_link_libraries(Xidian_SVM_Trainer ${OpenCV_LIBRARIES})

@@ -20,17 +20,17 @@
 //#include "slover/armor_recorder.hpp"
 //#include "common/common_serial.h"
 
+// FIXME: for version adaption
+#define CV_RETR_EXTERNAL RETR_EXTERNAL
+#define CV_CHAIN_APPROX_SIMPLE CHAIN_APPROX_SIMPLE
+#define CV_THRESH_BINARY THRESH_BINARY
+
 using namespace cv;
 using namespace cv::ml;
 
 #define POINT_DIST(p1, p2) std::sqrt((p1.x-p2.x)*(p1.x-p2.x) + (p1.y-p2.y)*(p1.y-p2.y))
 
 namespace RM2018_Xidian_Armor {
-
-    // FIXME: for version adaption
-#define CV_RETR_EXTERNAL RETR_EXTERNAL
-#define CV_CHAIN_APPROX_SIMPLE CHAIN_APPROX_SIMPLE
-#define CV_THRESH_BINARY THRESH_BINARY
 
     enum EnemyColor {
         RED = 0, BLUE = 1
@@ -43,8 +43,8 @@ namespace RM2018_Xidian_Armor {
         ArmorDetector(const ArmorParam &para) : _para(para) {
 //            initArmorHist("../config/armor2ev0.jpg", "../config/armor2ev-3.jpg"); // load big armor
             // FIXME: this two file is missing
-//            svm_big = StatModel::load<SVM>("../config/big_armor_model.yml");
-//            svm_small = StatModel::load<SVM>("../config/armor_model.yml");
+            svm_big = StatModel::load<SVM>("src/algo/rm2018_xidian_armor/config/armor_model.yml");
+            svm_small = StatModel::load<SVM>("src/algo/rm2018_xidian_armor/config/armor_model.yml");
         };
 
         void setPara(const ArmorParam &para) {

@@ -67,7 +67,7 @@ namespace RM2018_Xidian_Armor {
         {
             armorRecorder->miss_detection_cnt = 0;
             armorRecorder->setLastResult(armorPos, std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() -  armorRecorder->recorder_time).count() / 1000.0);
-            std::cout << "Pitch: "<< armorPos.angle_y << ", Yaw " << armorPos.angle_x << endl;
+            std::cout << "Pitch: "<< armorPos.angle_y << ", Yaw " << armorPos.angle_x << ". Count = " << armors.size() << endl;
             return finalArmor.rect;
         }
         else {

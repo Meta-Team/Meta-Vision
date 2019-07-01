@@ -5,5 +5,7 @@
 test_clips
 build
 record
+training
 
 *.mp4
+*.mov
