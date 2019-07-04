@@ -4,14 +4,14 @@ system:
   video_source: "file"
   video_sources:
     file:
-      filename: "../test_clips/步兵素材蓝车侧面-ev-0.MOV"
+      filename: "test_clips/armors/small_4_2.MOV"
     camera:
-      id: 0
+      id: 1
       width: 640
       height: 360
       fps: 330
 
-  video_target: "dummy"
+  video_target: "webserver"
   video_targets:
     dummy: "dummy"
     file:
@@ -47,3 +47,35 @@ algorithm:
     br_threshold: 30
     template_image_file: "src/algo/icra2018_njust_armor/template/template.bmp"
     small_template_image_file: "src/algo/icra2018_njust_armor/template/small_template.bmp"
+
+  rm2018_xidian_armor:
+    show_image: 1
+    save_result: 1
+    light_threshold_val: 200
+    red_color_diff: 40
+    blue_color_diff: 70
+    light_min_aspect_ratio: 1.2
+    light_max_aspect_ratio: 10.0
+    light_min_area: 20
+    light_max_area: 0.04
+    light_max_angle: 35
+    light_max_angle_diff: 40
+    light_max_height_diff: 0.5
+    light_max_width_diff: 0.5
+    armor_min_ratio: 1.2
+    armor_max_ratio: 5.0
+    armor_light_angle_diff: 35
+    armor_max_angle: 30
+    armor_min_area: 50
+    armor_max_area: 32000
+    filter_armor_area: 200
+    armor_max_aspect_ratio: 3.8
+    armor_max_pixel_val: 100.0
+    armor_max_stddev: 40
+    width: 40
+    height: 50
+    big_armor_pic_file: "src/algo/rm2018_xidian_armor/config/armor2ev0.jpg"
+    small_armor_pic_file: "src/algo/rm2018_xidian_armor/config/armor2ev-3.jpg"
+    camera_info_file: "src/algo/rm2018_xidian_armor/calibration-param/iPhoneXS-1920P.xml"
+    big_armor_svm_file: "src/algo/rm2018_xidian_armor/config/armor_model.yml"
+    small_armor_svm_file: "src/algo/rm2018_xidian_armor/config/armor_model.yml"

@@ -6,7 +6,8 @@
 #include <opencv2/opencv.hpp>
 #include "global.hpp"
 #include "logging/logging.hpp"
-#include "algo/icra2018_njust_armor/interface.hpp"
+//#include "algo/icra2018_njust_armor/interface.hpp"
+#include "algo/rm2018_xidian_armor/interface.hpp"
 
 #include "interfaces/multithread.hpp"
 #include "interfaces/video_source.hpp"
@@ -35,7 +36,7 @@ public:
      */
     YAML::Node config;
 private:
-    void _loadConfig(string filename);
+    void _loadConfig(const string& filename);
 
     void _prepareArmorDetect();
 
@@ -54,7 +55,8 @@ private:
     /**
      * @brief Armor Detect interface for this session. Currently only ICRA2018_NJUST_Armor is available.
      */
-    ICRA2018_NJUST_Armor::Armor_Interface* _armorDetect = NULL;
+//    ICRA2018_NJUST_Armor::MetaInterface* _armorDetect = NULL;
+    RM2018_Xidian_Armor::MetaInterface* _armorDetect = NULL;
 
     /**
      * @brief Serial interface to communicate with RMBoard and judge system.

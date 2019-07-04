@@ -1,6 +1,7 @@
 #include "settings.hpp"
 
 namespace ICRA2018_NJUST_Armor {
+
     void Settings::read(const YAML::Node& root){
         armor.min_light_gray = root["min_light_gray"].as<int>();
         armor.min_light_height = root["min_light_height"].as<int>();
