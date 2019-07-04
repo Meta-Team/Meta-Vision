@@ -27,13 +27,14 @@ IN THE SOFTWARE.
 
 #include <list>
 #include <chrono>
-#include "armor_info.hpp"
-#include "angle_slover.hpp"
+#include "armor_param.hpp"
+#include "angle_solver.hpp"
 
 namespace RM2018_Xidian_Armor {
-/**
- * @brief 记录历史信息,然后进行弹道预测.
- */
+
+    /**
+     * @brief 记录历史信息,然后进行弹道预测.
+     */
     class ArmorRecorder {
 
     public:

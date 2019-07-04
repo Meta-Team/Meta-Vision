@@ -46,6 +46,8 @@ namespace RM2018_Xidian_Armor {
         small_armor_pic_file = root["small_armor_pic_file"].as<string>();
 
         camera_info_file = root["camera_info_file"].as<string>();
-    }
 
+        big_armor_svm_file = root["big_armor_svm_file"].as<string>();
+        small_armor_svm_file = root["small_armor_svm_file"].as<string>();
+    }
 }

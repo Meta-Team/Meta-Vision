@@ -24,8 +24,6 @@ namespace RM2018_Xidian_Armor {
 
         ArmorParam() {};
 
-        ArmorParam(const string &xmlFile);
-
         float light_threshold_val;      // 环境亮度
 
         float light_min_aspect_ratio;   // 灯条最小纵横比

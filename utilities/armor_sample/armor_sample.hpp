@@ -77,7 +77,7 @@ private:
 
     void FilterArmors(std::vector<armor_info> &armors, int);
 
-    //void FilterArmors(cv::Mat & src, std::vector<armor_info> &armors);
+    //void filterArmors(cv::Mat & src, std::vector<armor_info> &armors);
     void DetectLights(const cv::Mat &src, std::vector<cv::RotatedRect> &lights);  //, double yaw_diff = 0);
 
     void FilterLights(std::vector<cv::RotatedRect> &lights);   //, double yaw_diff = 0);

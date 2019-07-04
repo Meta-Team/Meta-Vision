@@ -11,7 +11,7 @@ system:
       height: 360
       fps: 330
 
-  video_target: "file"
+  video_target: "webserver"
   video_targets:
     dummy: "dummy"
     file:
@@ -76,4 +76,6 @@ algorithm:
     height: 50
     big_armor_pic_file: "src/algo/rm2018_xidian_armor/config/armor2ev0.jpg"
     small_armor_pic_file: "src/algo/rm2018_xidian_armor/config/armor2ev-3.jpg"
-    camera_info_file: "src/algo/rm2018_xidian_armor/calibration-param/480P_120_MH.xml"
+    camera_info_file: "src/algo/rm2018_xidian_armor/calibration-param/iPhoneXS-1920P.xml"
+    big_armor_svm_file: "src/algo/rm2018_xidian_armor/config/armor_model.yml"
+    small_armor_svm_file: "src/algo/rm2018_xidian_armor/config/armor_model.yml"

@@ -24,7 +24,7 @@ namespace RM2018_Xidian_Armor {
     // 记录时间
     std::chrono::steady_clock::time_point speed_test_start_begin_time;
 
-    int armorToarmorTest(const cv::RotatedRect &_rect1, const cv::RotatedRect &_rect2) {
+    int ArmorDetector::armorToArmorTest(const cv::RotatedRect &_rect1, const cv::RotatedRect &_rect2) {
         cv::Point2f center1 = _rect1.center;
         cv::Point2f center2 = _rect2.center;
         cv::Rect rect1 = _rect1.boundingRect();
@@ -41,7 +41,7 @@ namespace RM2018_Xidian_Armor {
         return -1;
     }
 
-    bool makeRectSafe(cv::Rect &rect, cv::Size size) {
+    bool ArmorDetector::makeRectSafe(cv::Rect &rect, cv::Size size) {
         if (rect.x < 0)
             rect.x = 0;
         if (rect.x + rect.width > size.width)
@@ -55,7 +55,7 @@ namespace RM2018_Xidian_Armor {
         return true;
     }
 
-    void adjustRect(cv::RotatedRect &rect) {
+    void ArmorDetector::adjustRect(cv::RotatedRect &rect) {
         if (rect.size.width > rect.size.height) {
             auto temp = rect.size.height;
             rect.size.height = rect.size.width;
@@ -71,9 +71,30 @@ namespace RM2018_Xidian_Armor {
             rect.angle += 90;   // 左灯条角度为负, 右灯条角度为正
     }
 
-/**
- * @brief: 针对平凡的情况
- */
+    void ArmorDetector::initArmorHist(const std::string &smallArmorPic, const std::string &bigArmorPic) {
+        cv::Mat smallArmorHist = cv::imread(bigArmorPic, cv::IMREAD_GRAYSCALE);
+        cv::Mat bigArmorHist = cv::imread(smallArmorPic, cv::IMREAD_GRAYSCALE);
+        if (bigArmorHist.empty()) {
+            std::cout << smallArmorPic << "can not open! check path!" << std::endl;
+        }
+        if (smallArmorHist.empty()) {
+            std::cout << bigArmorPic << "can not open! check path!" << std::endl;
+        }
+        int histSize = 256;
+        float range[] = {0, 256};
+        const float *histRange = {range};
+        int channels[] = {0};
+        bool uniform = true;
+        bool accumulate = false;
+        cv::calcHist(&smallArmorHist, 1, channels, cv::Mat(), armor_1_hist, 1, &histSize, &histRange, uniform,
+                     accumulate); // use 0.7ms
+        cv::calcHist(&bigArmorHist, 1, channels, cv::Mat(), armor_2_hist, 1, &histSize, &histRange, uniform,
+                     accumulate); // use 0.7ms
+    }
+
+    /**
+     * @brief: 针对平凡的情况
+     */
     cv::RotatedRect ArmorDetector::boundingRRect(const cv::RotatedRect &left, const cv::RotatedRect &right) {
         const Point &pl = left.center, &pr = right.center;
         Point2f center;
@@ -87,9 +108,9 @@ namespace RM2018_Xidian_Armor {
         return RotatedRect(center, Size2f(width, height), angle * 180 / CV_PI);
     }
 
-/**
- * @brief: 针对快速平移的情况
- */
+    /**
+     * @brief: 针对快速平移的情况
+     */
     cv::RotatedRect ArmorDetector::boundingRRectFast(const cv::RotatedRect &left, const cv::RotatedRect &right) {
         const Point &pl = left.center, &pr = right.center;
         Point2f center;
@@ -103,9 +124,9 @@ namespace RM2018_Xidian_Armor {
         return RotatedRect(center, Size2f(width, height), angle * 180 / CV_PI);
     }
 
-/**
- * @brief: 针对慢速平移的情况
- */
+    /**
+     * @brief: 针对慢速平移的情况
+     */
     cv::RotatedRect ArmorDetector::boundingRRectSlow(const cv::RotatedRect &left, const cv::RotatedRect &right) {
         const Point &pl = left.center, &pr = right.center;
         Point2f center;
@@ -119,7 +140,7 @@ namespace RM2018_Xidian_Armor {
         return RotatedRect(center, Size2f(width, height), angle * 180 / CV_PI);
     }
 
-    void ArmorDetector::DetectLights(const cv::Mat &src, std::vector<cv::RotatedRect> &lights) {
+    void ArmorDetector::detectLights(const cv::Mat &src, std::vector<cv::RotatedRect> &lights) {
         // speed_test_reset();
 #ifdef SHOW_DEBUG_IMG
         show_lights_before_filter_ = cv::Mat::zeros(src.size(), CV_8UC3);
@@ -127,12 +148,12 @@ namespace RM2018_Xidian_Armor {
         show_armors_befor_filter_ = src.clone();
         show_armors_after_filter_ = src.clone();
 #endif
-        // auto color_light = DistillationColor(src, _para.enemy_color);
+        // auto color_light = distillationColor(src, para_.enemy_color);
         cv::Mat color_light;
         std::vector<cv::Mat> bgr_channel;
         cv::split(src, bgr_channel);
 
-        if (_para.enemy_color == RED)
+        if (para_.enemy_color == RED)
             cv::subtract(bgr_channel[2], bgr_channel[1], color_light);
         else
             cv::subtract(bgr_channel[0], bgr_channel[1], color_light);
@@ -145,13 +166,13 @@ namespace RM2018_Xidian_Armor {
         // TODO(noah.guo): param
         // cv::adaptiveThreshold(gray_img_, binary_brightness_img, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY,7,5);
         // 环境亮度是显著因素之一
-        cv::threshold(gray_img_, binary_brightness_img, _para.light_threshold_val, 255, CV_THRESH_BINARY);  //200
+        cv::threshold(gray_img_, binary_brightness_img, para_.light_threshold_val, 255, CV_THRESH_BINARY);  //200
         //TODO(noah.guo): param
         float thresh;
-        if (_para.enemy_color == BLUE) // 这里对快速移动依然有影响
-            thresh = _para.blue_color_diff;
+        if (para_.enemy_color == BLUE) // 这里对快速移动依然有影响
+            thresh = para_.blue_color_diff;
         else
-            thresh = _para.red_color_diff;  //50
+            thresh = para_.red_color_diff;  //50
         //  cv::adaptiveThreshold(color_light, binary_color_img, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 7, 5);
         cv::threshold(color_light, binary_color_img, thresh, 255, CV_THRESH_BINARY);
         // 这里的形态学需要考虑一下,尤其是装甲板快速移动时
@@ -160,10 +181,10 @@ namespace RM2018_Xidian_Armor {
         //cv::morphologyEx(binary_color_img,binary_color_img, MORPH_OPEN, element);
         binary_light_img = binary_color_img & binary_brightness_img;
 
-        // auto contours_light = FindContours(binary_light_img);
+        // auto contours_light = findContours(binary_light_img);
         std::vector<std::vector<cv::Point>> contours_light;
         cv::findContours(binary_light_img, contours_light, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
-        // auto contours_brightness = FindContours(binary_brightness_img);
+        // auto contours_brightness = findContours(binary_brightness_img);
         std::vector<std::vector<cv::Point>> contours_brightness;
         cv::findContours(binary_brightness_img, contours_brightness, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
 
@@ -177,7 +198,7 @@ namespace RM2018_Xidian_Armor {
                         cv::RotatedRect single_light = cv::minAreaRect(contours_brightness[j]);
                         lights.push_back(single_light);
 #ifdef SHOW_DEBUG_IMG
-                        DrawRotatedRect(show_lights_before_filter_, single_light, cv::Scalar(0,255,0), 1);
+                        drawRotatedRect(show_lights_before_filter_, single_light, cv::Scalar(0,255,0), 1);
 #endif
                         is_processes[j] = true;
                         break;
@@ -192,10 +213,10 @@ namespace RM2018_Xidian_Armor {
         cv::imshow("binary_brightness_img", binary_brightness_img);
         cv::imshow("lights_before_filter", show_lights_before_filter_);
 #endif
-        // speed_test_end("DetectLights 用时 = ", "ms");
+        // speed_test_end("detectLights 用时 = ", "ms");
     }
 
-    void ArmorDetector::FilterLights(std::vector<cv::RotatedRect> &lights) {
+    void ArmorDetector::filterLights(std::vector<cv::RotatedRect> &lights) {
         // speed_test_reset();
         light_rects.clear();
 #pragma omp parallel for
@@ -210,36 +231,36 @@ namespace RM2018_Xidian_Armor {
 
             if (//80 <= abs(angle) && abs(angle) <= 90   // 高速水平移动的灯条,带有拖影  // 特殊情况,无论横竖, 旧版本有这一行代码
                     light_aspect_ratio <= 2.5
-                    && armor_light.size.area() >= _para.light_min_area // 1.0
+                    && armor_light.size.area() >= para_.light_min_area // 1.0
                     && armor_light.size.area() <
-                       100000)  //_para.light_max_area * src_img_.size().height * src_img_.size().width) // 0.04
+                       100000)  //para_.light_max_area * src_img_.size().height * src_img_.size().width) // 0.04
             {
                 light_rects.push_back(armor_light); // 高速水平移动的灯条
 #ifdef SHOW_DEBUG_IMG
-                DrawRotatedRect(show_lights_after_filter_, armor_light, cv::Scalar(255,0,0), 1);
+                drawRotatedRect(show_lights_after_filter_, armor_light, cv::Scalar(255,0,0), 1);
 #endif
             }
-                // 针对灯条细小的情况, 没有最大比例的判断, 较为理想的灯条
-            else if (armor_light.size.area() >= _para.light_min_area // 1.0
+            // 针对灯条细小的情况, 没有最大比例的判断, 较为理想的灯条
+            else if (armor_light.size.area() >= para_.light_min_area // 1.0
                      && armor_light.size.area() <
-                        100000  //_para.light_max_area * src_img_.size().height * src_img_.size().width // 0.04
-                     && abs(angle) < _para.light_max_angle) // 与垂直的偏角17.5 , 这里是可以取消/2的,进一步细化
+                        100000  //para_.light_max_area * src_img_.size().height * src_img_.size().width // 0.04
+                     && abs(angle) < para_.light_max_angle) // 与垂直的偏角17.5 , 这里是可以取消/2的,进一步细化
             {
                 light_rects.push_back(armor_light); // 接近于垂直的灯条, 由于阈值不够合理, 细小的灯条
 #ifdef SHOW_DEBUG_IMG
-                DrawRotatedRect(show_lights_after_filter_, armor_light, cv::Scalar(0,255,0), 1);
+                drawRotatedRect(show_lights_after_filter_, armor_light, cv::Scalar(0,255,0), 1);
 #endif
             }
-                // 检测最为平凡的情况
-            else if (//light_aspect_ratio < _para.light_max_aspect_ratio  // 6.8
-                    armor_light.size.area() >= _para.light_min_area // 1.0
+            // 检测最为平凡的情况
+            else if (//light_aspect_ratio < para_.light_max_aspect_ratio  // 6.8
+                    armor_light.size.area() >= para_.light_min_area // 1.0
                     && armor_light.size.area() <
-                       _para.light_max_area * src_img_.size().height * src_img_.size().width // 0.04
-                    && abs(angle) < _para.light_max_angle) // 与垂直的偏角35
+                       para_.light_max_area * src_img_.size().height * src_img_.size().width // 0.04
+                    && abs(angle) < para_.light_max_angle) // 与垂直的偏角35
             {
                 light_rects.push_back(armor_light);
 #ifdef SHOW_DEBUG_IMG
-                DrawRotatedRect(show_lights_after_filter_, armor_light, cv::Scalar(0,0,255), 1);
+                drawRotatedRect(show_lights_after_filter_, armor_light, cv::Scalar(0,0,255), 1);
 #endif
             }
         }
@@ -247,14 +268,43 @@ namespace RM2018_Xidian_Armor {
         cv::imshow("lights_after_filter", show_lights_after_filter_);
 #endif
         lights = light_rects;
-        // speed_test_end("FilterLights 用时 = ", "ms");
+        // speed_test_end("filterLights 用时 = ", "ms");
     }
 
-/**
- * @brief: 多装甲板检测
- */
-    void ArmorDetector::choose_target_from_lights(std::vector<cv::RotatedRect> &lights,
-                                                  std::vector<ArmorInfo> &armor_vector) {
+    void ArmorDetector::drawRotatedRect(cv::Mat &img, const cv::RotatedRect &rect, const cv::Scalar &color, int thickness) {
+        cv::Point2f vertex[4];
+        rect.points(vertex);
+        for (int i = 0; i < 4; i++)
+            cv::line(img, vertex[i], vertex[(i + 1) % 4], color, thickness);
+    }
+
+    std::vector<std::vector<cv::Point>> ArmorDetector::findContours(const cv::Mat &binary_img) {
+        std::vector<std::vector<cv::Point>> contours;
+        const auto mode = CV_RETR_EXTERNAL;
+        const auto method = CV_CHAIN_APPROX_SIMPLE;
+        cv::findContours(binary_img, contours, mode, method);
+        return contours;
+    }
+
+    cv::Mat ArmorDetector::distillationColor(const cv::Mat &src_img, unsigned int color) {
+        std::vector<cv::Mat> bgr_channel;
+        cv::split(src_img, bgr_channel);
+        if (color == RED) {
+            cv::Mat result_img;
+            cv::subtract(bgr_channel[2], bgr_channel[1], result_img);
+            return result_img;
+        } else {
+            cv::Mat result_img;
+            cv::subtract(bgr_channel[0], bgr_channel[1], result_img);
+            return result_img;
+        }
+    }
+
+    /**
+     * @brief: 多装甲板检测
+     */
+    void ArmorDetector::chooseTargetFromLights(std::vector<cv::RotatedRect> &lights,
+                                               std::vector<ArmorInfo> &armor_vector) {
         // speed_test_reset();
 
         for (int i = 0; i < lights.size(); ++i) {
@@ -270,8 +320,8 @@ namespace RM2018_Xidian_Armor {
                 auto width_diff = abs(lights[i].size.width - lights[j].size.width) /
                                   std::max(lights[i].size.width, lights[j].size.width);
 
-// 快速平移的情况 Fast Move
-                // 2个严格平行
+                /// 快速平移的情况 Fast Move
+                /// 2个严格平行
                 if (1 < light_aspect_ratio1 && light_aspect_ratio1 <= 2.5
                     && 1 < light_aspect_ratio2 && light_aspect_ratio2 <= 2.5
                     && abs(lights[i].angle) == 90 && abs(lights[j].angle) == 90     // 角度为0
@@ -288,7 +338,7 @@ namespace RM2018_Xidian_Armor {
                     auto armor_area = possible_rect.size.area();
                     // auto armor_light_angle_diff = abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
-                    if (armor_area > _para.armor_min_area
+                    if (armor_area > para_.armor_min_area
                         && armor_ratio < 4.5                // 经验参数
                         && abs(armor_angle) < 20)          // 经验参数
                     {
@@ -297,9 +347,8 @@ namespace RM2018_Xidian_Armor {
                         ArmorInfo armor(possible_rect, armor_twist);
                         armor_vector.push_back(armor);
                     } // get_armor
-                }// 2个严格平行
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    // 2个当中有一个略不平行
+                }
+                /// 2个当中有一个略不平行
                 else if (1 < light_aspect_ratio1 && light_aspect_ratio1 <= 2.5
                          && 1 < light_aspect_ratio2 && light_aspect_ratio2 <= 2.5
                          && ((abs(lights[i].angle) == 90 && abs(lights[j].angle) > 80) ||
@@ -318,7 +367,7 @@ namespace RM2018_Xidian_Armor {
                     // auto armor_light_angle_diff = abs(lights[i].angle) == 90 ?
                     //						 	     abs(armor_angle) + abs(armor_angle - lights[j].angle - 90); // 左右灯条的积累差
 
-                    if (armor_area > _para.armor_min_area
+                    if (armor_area > para_.armor_min_area
                         && armor_ratio < 4.5                // 经验参数
                         && abs(armor_angle) < 20)          // 经验参数
                     {
@@ -326,17 +375,20 @@ namespace RM2018_Xidian_Armor {
                         LINE("[快速移动] armor")
                         ArmorInfo armor(possible_rect, armor_twist);
                         armor_vector.push_back(armor);
-                    } // get_armor
-                }// 2个当中有一个略不平行
-// 快速平移的情况 Fast Move
-// 中速平移的情况 Mid Move
-                    // 2个严格平行
+                    }
+                }
+
+                /** -------------------------------------------------------------------------------------------- */
+
+
+                /// 中速平移的情况 Mid Move
+                /// 2个严格平行
                 else if (((light_aspect_ratio1 == 1 && light_aspect_ratio2 <= 1.5)
                           || (light_aspect_ratio1 <= 1.5 && light_aspect_ratio2 == 1))   // 其中一个为正方形
-                         && static_cast<int>(abs(angle_diff)) % 90 == 0                 // 角度差为0
+                         && static_cast<int>(abs(angle_diff)) % 90 == 0                  // 角度差为0
                          && static_cast<int>(abs(lights[i].angle)) % 90 == 0             // 角度为0 或 90
                          && static_cast<int>(abs(lights[j].angle)) % 90 == 0             // 角度为0 或 90
-                         && height_diff < 0.5 && width_diff < 0.5)                     // 形状差异
+                         && height_diff < 0.5 && width_diff < 0.5)                       // 形状差异
                 {
                     cv::RotatedRect possible_rect;
                     if (lights[i].center.x < lights[j].center.x)
@@ -349,7 +401,7 @@ namespace RM2018_Xidian_Armor {
                     auto armor_area = possible_rect.size.area();
                     // auto armor_light_angle_diff = abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
-                    if (armor_area > _para.armor_min_area        // 经验参数
+                    if (armor_area > para_.armor_min_area        // 经验参数
                         && armor_ratio < 4                      // 经验参数 （步兵应该只有3, 英雄可能会到5）
                         && abs(armor_angle) < 20)             // 经验参数
                     {
@@ -357,11 +409,10 @@ namespace RM2018_Xidian_Armor {
                         LINE("[中等速度] armor")
                         ArmorInfo armor(possible_rect, armor_twist);
                         armor_vector.push_back(armor);
-                    } // get_armor
+                    }
                 }
-                    // 2个严格平行
 
-                    // 1个竖着 1个横着
+                /// 1个竖着 1个横着
                 else if (1 < light_aspect_ratio1 && light_aspect_ratio1 < 1.3
                          && 1 < light_aspect_ratio2 && light_aspect_ratio2 < 1.3
                          && static_cast<int>(abs(angle_diff)) % 180 == 90            // 角度差为0
@@ -380,7 +431,7 @@ namespace RM2018_Xidian_Armor {
                     auto armor_area = possible_rect.size.area();
                     // auto armor_light_angle_diff = abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
-                    if (armor_area > _para.armor_min_area            // 经验参数
+                    if (armor_area > para_.armor_min_area            // 经验参数
                         && armor_ratio < 4                          // 经验参数 （步兵应该只有3, 英雄可能会到5）
                         && abs(armor_angle) < 20)                 // 经验参数
                     {
@@ -388,11 +439,13 @@ namespace RM2018_Xidian_Armor {
                         LINE("[中等速度] armor")
                         ArmorInfo armor(possible_rect, armor_twist);
                         armor_vector.push_back(armor);
-                    } // get_armor
-                }// 1个竖着 1个横着
-// 中速平移的情况 Mid Move
-// 慢速移动的情况 Low Move
-                    // 都是竖着的
+                    }
+                }
+
+                /** -------------------------------------------------------------------------------------------- */
+
+                /// 慢速移动的情况 Low Move
+                /// 都是竖着的
                 else if (1 < light_aspect_ratio1 && light_aspect_ratio1 < 1.5
                          && 1 < light_aspect_ratio2 && light_aspect_ratio2 < 1.5
                          && static_cast<int>(abs(angle_diff)) % 180 == 0                 // 角度差为0
@@ -410,7 +463,7 @@ namespace RM2018_Xidian_Armor {
                     auto armor_area = possible_rect.size.area();
                     // auto armor_light_angle_diff = abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
-                    if (armor_area > _para.armor_min_area     // 经验参数
+                    if (armor_area > para_.armor_min_area     // 经验参数
                         && armor_ratio < 4                   // 经验参数 （步兵应该只有3, 英雄可能会到5）
                         && abs(armor_angle) < 20)          // 经验参数
                     {
@@ -418,11 +471,10 @@ namespace RM2018_Xidian_Armor {
                         LINE("[缓慢移动] armor")
                         ArmorInfo armor(possible_rect, armor_twist);
                         armor_vector.push_back(armor);
-                    } // get_armor
+                    }
                 }
-                    // 都是竖着的
 
-                    // 其中一块略有倾斜
+                /// 其中一块略有倾斜
                 else if (1 < light_aspect_ratio1 && light_aspect_ratio1 < 1.5
                          && 1 < light_aspect_ratio2 && light_aspect_ratio2 < 1.5
                          && ((abs(lights[i].angle) == 0 && abs(lights[j].angle) < 10) ||
@@ -441,7 +493,7 @@ namespace RM2018_Xidian_Armor {
                     auto armor_light_angle_diff =
                             abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
-                    if (armor_area > _para.armor_min_area            // 经验参数
+                    if (armor_area > para_.armor_min_area            // 经验参数
                         && armor_ratio < 4                          // 经验参数 （步兵应该只有3, 英雄可能会到5）
                         && abs(armor_angle) < 20                   // 经验参数
                         && armor_light_angle_diff < 20) {
@@ -449,18 +501,19 @@ namespace RM2018_Xidian_Armor {
                         LINE("[缓慢移动] armor")
                         ArmorInfo armor(possible_rect, armor_twist);
                         armor_vector.push_back(armor);
-                    } // get_armor
+                    }
                 }
-                    // 其中一块略有倾斜
 
-// 慢速移动的情况 Low Move
+                /** -------------------------------------------------------------------------------------------- */
 
-// 平凡的情况
-                    // 灯条近乎平行,至少在同一侧
+                /// 慢速移动的情况 Low Move
+
+                /// 平凡的情况
+                // 灯条近乎平行,至少在同一侧
                 else if (lights[i].angle * lights[j].angle >= 0              // 灯条近乎同侧 , 或者有一个为0
                          && abs(angle_diff) <
-                            30                             //  _para.light_max_angle_diff   // 20   // 18   这些都要换成相对值
-                    // && height_diff < _para.light_max_height_diff      // 20  不需要宽度
+                            30                             //  para_.light_max_angle_diff   // 20   // 18   这些都要换成相对值
+                    // && height_diff < para_.light_max_height_diff      // 20  不需要宽度
                         ) {
                     cv::RotatedRect possible_rect;
                     // 2灯条近乎平行 中速移动
@@ -480,12 +533,12 @@ namespace RM2018_Xidian_Armor {
                             auto armor_light_angle_diff =
                                     abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
-                            if (armor_area > _para.armor_min_area
+                            if (armor_area > para_.armor_min_area
                                 && armor_ratio >
-                                   1                                       // _para.small_armor_min_ratio   // 1.5
-                                && armor_ratio < _para.armor_max_ratio                   // 3.0
-                                && abs(armor_angle) < _para.armor_max_angle
-                                && armor_light_angle_diff < _para.armor_light_angle_diff // 应该要更为严格
+                                   1                                       // para_.small_armor_min_ratio   // 1.5
+                                && armor_ratio < para_.armor_max_ratio                   // 3.0
+                                && abs(armor_angle) < para_.armor_max_angle
+                                && armor_light_angle_diff < para_.armor_light_angle_diff // 应该要更为严格
                                     ) {
                                 Armor_Twist armor_twist = MID_MOVE;
                                 LINE("armor同侧,这是中速移动的armor,1-1.5,平躺")
@@ -507,12 +560,12 @@ namespace RM2018_Xidian_Armor {
                             auto armor_light_angle_diff =
                                     abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
-                            if (armor_area > _para.armor_min_area
+                            if (armor_area > para_.armor_min_area
                                 && armor_ratio >
-                                   1                                       // _para.small_armor_min_ratio   // 1.5
-                                && armor_ratio < _para.armor_max_ratio                   // 3.0
-                                && abs(armor_angle) < _para.armor_max_angle
-                                && armor_light_angle_diff < _para.armor_light_angle_diff // 应该要更为严格
+                                   1                                       // para_.small_armor_min_ratio   // 1.5
+                                && armor_ratio < para_.armor_max_ratio                   // 3.0
+                                && abs(armor_angle) < para_.armor_max_angle
+                                && armor_light_angle_diff < para_.armor_light_angle_diff // 应该要更为严格
                                     ) {
                                 Armor_Twist armor_twist = LOW_MOVE;
                                 LINE("[缓慢移动] armor")
@@ -537,10 +590,10 @@ namespace RM2018_Xidian_Armor {
                             auto armor_angle = possible_rect.angle;
                             auto armor_area = possible_rect.size.area();
 
-                            if (armor_area > _para.armor_min_area
-                                && armor_ratio > 1                       // _para.small_armor_min_ratio   // 1.5
-                                && armor_ratio < _para.armor_max_ratio   // 3.0
-                                && abs(armor_angle) < _para.armor_max_angle
+                            if (armor_area > para_.armor_min_area
+                                && armor_ratio > 1                       // para_.small_armor_min_ratio   // 1.5
+                                && armor_ratio < para_.armor_max_ratio   // 3.0
+                                && abs(armor_angle) < para_.armor_max_angle
                                     ) {
                                 Armor_Twist armor_twist = FAST_MOVE;
                                 LINE("[快速移动] armor")
@@ -562,12 +615,12 @@ namespace RM2018_Xidian_Armor {
                             auto armor_light_angle_diff =
                                     abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
-                            if (armor_area > _para.armor_min_area
+                            if (armor_area > para_.armor_min_area
                                 && armor_ratio >
-                                   1                                       // _para.small_armor_min_ratio   // 1.5
-                                && armor_ratio < _para.armor_max_ratio                   // 3.0
-                                && abs(armor_angle) < _para.armor_max_angle
-                                && armor_light_angle_diff < _para.armor_light_angle_diff // 应该要更为严格
+                                   1                                       // para_.small_armor_min_ratio   // 1.5
+                                && armor_ratio < para_.armor_max_ratio                   // 3.0
+                                && abs(armor_angle) < para_.armor_max_angle
+                                && armor_light_angle_diff < para_.armor_light_angle_diff // 应该要更为严格
                                     ) {
                                 Armor_Twist armor_twist = LOW_MOVE;
                                 LINE("[缓慢移动] armor")
@@ -577,10 +630,10 @@ namespace RM2018_Xidian_Armor {
                         }// 2灯条近乎平行 慢速移动
                     }// 2灯条近乎平行 快速移动
 
-                    else if (_para.light_min_aspect_ratio<
-                            light_aspect_ratio1    // && light_aspect_ratio1 < _para.light_max_aspect_ratio
-                            && _para.light_min_aspect_ratio<
-                                    light_aspect_ratio2 // && light_aspect_ratio2 < _para.light_max_aspect_ratio
+                    else if (para_.light_min_aspect_ratio<
+                            light_aspect_ratio1    // && light_aspect_ratio1 < para_.light_max_aspect_ratio
+                            && para_.light_min_aspect_ratio<
+                                    light_aspect_ratio2 // && light_aspect_ratio2 < para_.light_max_aspect_ratio
                                     && (lights[i].center.y + lights[i].size.height / 2)>(
                                     lights[j].center.y - lights[j].size.height / 2)
                             && (lights[j].center.y + lights[j].size.height / 2)>(
@@ -597,12 +650,12 @@ namespace RM2018_Xidian_Armor {
                         auto armor_light_angle_diff =
                                 abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
-                        if (armor_area > _para.armor_min_area
+                        if (armor_area > para_.armor_min_area
                             && armor_ratio >
-                               1                                         // _para.small_armor_min_ratio   // 1.5
-                            && armor_ratio < 4.5                                       // _para.armor_max_ratio   // 3.0
-                            && abs(armor_angle) < _para.armor_max_angle
-                            && armor_light_angle_diff < _para.armor_light_angle_diff) // 应该要更为严格
+                               1                                         // para_.small_armor_min_ratio   // 1.5
+                            && armor_ratio < 4.5                                       // para_.armor_max_ratio   // 3.0
+                            && abs(armor_angle) < para_.armor_max_angle
+                            && armor_light_angle_diff < para_.armor_light_angle_diff) // 应该要更为严格
                         {
                             LINE_INFO("angle_1", lights[i].angle)
                             LINE_INFO("angle_2", lights[j].angle)
@@ -621,8 +674,8 @@ namespace RM2018_Xidian_Armor {
                     }
                 } // 灯条严格平行
 
-// 灯条(误差) 并不同侧
-                else if (abs(angle_diff) < _para.light_max_angle_diff)     // 40
+                // 灯条(误差) 并不同侧
+                else if (abs(angle_diff) < para_.light_max_angle_diff)     // 40
                 {
                     cv::RotatedRect possible_rect;
                     // 2灯条 中速移动
@@ -642,11 +695,11 @@ namespace RM2018_Xidian_Armor {
                             auto armor_light_angle_diff =
                                     abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
-                            if (armor_area > _para.armor_min_area
-                                && armor_ratio > 1  // _para.small_armor_min_ratio   // 1.5
-                                && armor_ratio < _para.armor_max_ratio   // 3.0
-                                && abs(armor_angle) < _para.armor_max_angle
-                                && armor_light_angle_diff < _para.armor_light_angle_diff // 应该要更为严格
+                            if (armor_area > para_.armor_min_area
+                                && armor_ratio > 1  // para_.small_armor_min_ratio   // 1.5
+                                && armor_ratio < para_.armor_max_ratio   // 3.0
+                                && abs(armor_angle) < para_.armor_max_angle
+                                && armor_light_angle_diff < para_.armor_light_angle_diff // 应该要更为严格
                                     ) {
                                 Armor_Twist armor_twist = MID_MOVE;
                                 LINE("armor不同侧, 中速的armor, 竖直")
@@ -672,11 +725,11 @@ namespace RM2018_Xidian_Armor {
                             auto armor_light_angle_diff =
                                     abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
-                            if (armor_area > _para.armor_min_area
-                                && armor_ratio > 1 // _para.small_armor_min_ratio   // 1.5
-                                && armor_ratio < _para.armor_max_ratio   // 3.0
-                                && abs(armor_angle) < _para.armor_max_angle
-                                && armor_light_angle_diff < _para.armor_light_angle_diff)// 应该要更为严格
+                            if (armor_area > para_.armor_min_area
+                                && armor_ratio > 1 // para_.small_armor_min_ratio   // 1.5
+                                && armor_ratio < para_.armor_max_ratio   // 3.0
+                                && abs(armor_angle) < para_.armor_max_angle
+                                && armor_light_angle_diff < para_.armor_light_angle_diff)// 应该要更为严格
                             {
                                 Armor_Twist armor_twist = LOW_MOVE;
                                 LINE("[缓慢移动] armor")
@@ -686,10 +739,10 @@ namespace RM2018_Xidian_Armor {
                         }// 2灯条近乎平行 慢速移动
                     }// 2灯条近乎平行 快速移动
 
-                    else if (_para.light_min_aspect_ratio<
-                            light_aspect_ratio1 //&& light_aspect_ratio1 < _para.light_max_aspect_ratio
-                            && _para.light_min_aspect_ratio<
-                                    light_aspect_ratio2 //&& light_aspect_ratio2 < _para.light_max_aspect_ratio
+                    else if (para_.light_min_aspect_ratio<
+                            light_aspect_ratio1 //&& light_aspect_ratio1 < para_.light_max_aspect_ratio
+                            && para_.light_min_aspect_ratio<
+                                    light_aspect_ratio2 //&& light_aspect_ratio2 < para_.light_max_aspect_ratio
                                     && (lights[i].center.y + lights[i].size.height / 2)>(
                                     lights[j].center.y - lights[j].size.height / 2)
                             && (lights[j].center.y + lights[j].size.height / 2)>(
@@ -705,11 +758,11 @@ namespace RM2018_Xidian_Armor {
                         auto armor_light_angle_diff =
                                 abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
-                        if (armor_area > _para.armor_min_area
-                            && armor_ratio > 1 // _para.small_armor_min_ratio   // 1.5
-                            && armor_ratio < 4.5 // _para.armor_max_ratio   // 3.0
-                            && abs(armor_angle) < _para.armor_max_angle
-                            && armor_light_angle_diff < _para.armor_light_angle_diff) // 应该要更为严格
+                        if (armor_area > para_.armor_min_area
+                            && armor_ratio > 1 // para_.small_armor_min_ratio   // 1.5
+                            && armor_ratio < 4.5 // para_.armor_max_ratio   // 3.0
+                            && abs(armor_angle) < para_.armor_max_angle
+                            && armor_light_angle_diff < para_.armor_light_angle_diff) // 应该要更为严格
                         {
                             LINE_INFO("angle_1", lights[i].angle)
                             LINE_INFO("angle_2", lights[j].angle)
@@ -744,11 +797,11 @@ namespace RM2018_Xidian_Armor {
                             auto armor_area = possible_rect.size.area();
                             //auto armor_light_angle_diff = abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
-                            if (armor_area > _para.armor_min_area
-                                && armor_ratio > 1 // _para.small_armor_min_ratio   // 1.5
-                                && armor_ratio < _para.armor_max_ratio   // 3.0
-                                && abs(armor_angle) < _para.armor_max_angle
-                                // && armor_light_angle_diff < _para.armor_light_angle_diff // 应该要更为严格
+                            if (armor_area > para_.armor_min_area
+                                && armor_ratio > 1 // para_.small_armor_min_ratio   // 1.5
+                                && armor_ratio < para_.armor_max_ratio   // 3.0
+                                && abs(armor_angle) < para_.armor_max_angle
+                                // && armor_light_angle_diff < para_.armor_light_angle_diff // 应该要更为严格
                                     ) {
                                 Armor_Twist armor_twist = MID_MOVE;
                                 LINE("[中速运动] armor")
@@ -771,11 +824,11 @@ namespace RM2018_Xidian_Armor {
                             auto armor_light_angle_diff =
                                     abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
-                            if (armor_area > _para.armor_min_area
-                                && armor_ratio > 1 // _para.small_armor_min_ratio   // 1.5
-                                && armor_ratio < _para.armor_max_ratio   // 3.0
-                                && abs(armor_angle) < _para.armor_max_angle
-                                && armor_light_angle_diff < _para.armor_light_angle_diff // 应该要更为严格
+                            if (armor_area > para_.armor_min_area
+                                && armor_ratio > 1 // para_.small_armor_min_ratio   // 1.5
+                                && armor_ratio < para_.armor_max_ratio   // 3.0
+                                && abs(armor_angle) < para_.armor_max_angle
+                                && armor_light_angle_diff < para_.armor_light_angle_diff // 应该要更为严格
                                     ) {
                                 Armor_Twist armor_twist = LOW_MOVE;
                                 LINE("[慢速运动] armor")
@@ -792,7 +845,7 @@ namespace RM2018_Xidian_Armor {
         // speed_test_end("choose_armor_from_light 用时 = ", "ms");
     }
 
-    void ArmorDetector::calu_meanstdev(cv::Mat &mask, const cv::RotatedRect &rect, double &m, double &stddev) {
+    void ArmorDetector::calcMeanStdDev(cv::Mat &mask, const cv::RotatedRect &rect, double &m, double &stddev) {
         // speed_test_reset();
         cv::Point pts[4];
         cv::Point2f temp[4];
@@ -808,11 +861,11 @@ namespace RM2018_Xidian_Armor {
         cv::meanStdDev(gray_img_, mat_mean, mat_stddev, mask);
         m = mat_mean.at<double>(0, 0);
         stddev = mat_stddev.at<double>(0, 0);
-        // speed_test_end("ArmorDetector::calu_meanstdev 用时 = ", "ms");
+        // speed_test_end("ArmorDetector::calcMeanStdDev 用时 = ", "ms");
 
     }
 
-    double ArmorDetector::armor_hist_diff(cv::Mat &mask, const cv::RotatedRect &rect, bool Visual) {
+    double ArmorDetector::calcHistDiff(cv::Mat &mask, const cv::RotatedRect &rect, bool Visual) {
         // speed_test_reset();
         cv::Point pts[4];
         cv::Point2f temp[4];
@@ -850,11 +903,11 @@ namespace RM2018_Xidian_Armor {
             imshow("histImage", histImage);
         }
         double val = cv::compareHist(armor_2_hist, hist, HISTCMP_CORREL);
-        // speed_test_end("ArmorDetector::armor_hist_diff 用时 = ", "ms");
+        // speed_test_end("ArmorDetector::calcHistDiff 用时 = ", "ms");
         return val;
     }
 
-    float ArmorDetector::small_armor_svm(Mat &img_roi) {
+    float ArmorDetector::calcSmallArmorSVM(Mat &img_roi) {
         // speed_test_reset();
         cv::Mat gradient_lst;
         HOGDescriptor hog;
@@ -868,13 +921,12 @@ namespace RM2018_Xidian_Armor {
                         wsize.width,
                         wsize.height);
         hog.compute(img_roi(roi), descriptors, Size(8, 8), Size(0, 0));
-//        float response = svm_small->predict(descriptors);
-        float response = 0;
-        // speed_test_end("armor_svm 用时 = ", "ms");
+        float response = svm_small->predict(descriptors);
+        // speed_test_end("calcSmallArmorSVM 用时 = ", "ms");
         return response;
     }
 
-    float ArmorDetector::armor_svm(Mat &img_roi) {
+    float ArmorDetector::calcBigArmorSVM(Mat &img_roi) {
         // speed_test_reset();
         cv::Mat gradient_lst;
         HOGDescriptor hog;
@@ -888,13 +940,12 @@ namespace RM2018_Xidian_Armor {
                         wsize.width,
                         wsize.height);
         hog.compute(img_roi(roi), descriptors, Size(8, 8), Size(0, 0));
-//        float response = svm_big->predict(descriptors);
-        float response = 0;
-        // speed_test_end("armor_svm 用时 = ", "ms");
+        float response = svm_big->predict(descriptors);
+        // speed_test_end("calcBigArmorSVM 用时 = ", "ms");
         return response;
     }
 
-    float ArmorDetector::get_armor_roi(cv::RotatedRect &rect, bool visual) {
+    float ArmorDetector::calcArmorROI(cv::RotatedRect &rect, bool visual) {
         auto center = rect.center;
         cv::Mat rot_mat = cv::getRotationMatrix2D(rect.center, rect.angle, 1);
         cv::Mat img;
@@ -913,22 +964,22 @@ namespace RM2018_Xidian_Armor {
             // 这里简单地根据装甲片的长宽比例判定了大小装甲，然后最终用的是SVM分类器
             float val;
             if (ratio < 3.5)
-                val = small_armor_svm(armor_roi);
+                val = calcSmallArmorSVM(armor_roi);
             else
-                val = armor_svm(armor_roi);
-            // std::cout << "svm lebel:" << val << std::endl;
+                val = calcBigArmorSVM(armor_roi);
+            // std::cout << "svm label:" << val << std::endl;
             return val;
         } else
             return 0;
     }
 
-    void ArmorDetector::FilterArmors(std::vector<ArmorInfo> &armors) {
+    void ArmorDetector::filterArmors(std::vector<ArmorInfo> &armors) {
         // speed_test_reset();
         std::vector<bool> is_armor(armors.size(), true);
 
         for (int i = 0; i < armors.size(); i++) {
             for (int j = i + 1; j < armors.size(); j++) {
-                int ojbk = armorToarmorTest(armors[i].rect, armors[j].rect);
+                int ojbk = armorToArmorTest(armors[i].rect, armors[j].rect);
                 if (ojbk == 1) is_armor[i] = false;
                 else if (ojbk == 2) is_armor[j] = false;
             }
@@ -965,8 +1016,8 @@ namespace RM2018_Xidian_Armor {
                         } else if (armors.at(i).rect.size.area() - armors.at(j).rect.size.area() > 100) {
                             is_armor[i] = false;
                         } else {
-                            float val_i = get_armor_roi(armors[i].rect);
-                            float val_j = get_armor_roi(armors[j].rect);
+                            float val_i = calcArmorROI(armors[i].rect);
+                            float val_j = calcArmorROI(armors[j].rect);
 
                             if (val_i > 0 && val_j < 0) {
                                 is_armor[j] = false;
@@ -992,15 +1043,15 @@ namespace RM2018_Xidian_Armor {
 
     static int cnt = 0;  // 临时写的，用同一段视频调试时，根据有多少帧识别到了来评价算法好坏
 
-    bool ArmorDetector::detect(const cv::Mat &src, std::vector<ArmorInfo> &armors_candidate) {
+    bool ArmorDetector::detect(const cv::Mat &src, std::vector<ArmorInfo> &armorsCandidate) {
         // speed_test_reset();
         std::vector<cv::RotatedRect> lights;
-        DetectLights(src, lights);   //  5ms
+        detectLights(src, lights);   //  5ms
         if (lights.size() > 200) return false; // 防止被敌方激光瞄到视野（画面内太多红光确实会一下子灯条数量爆表，然后程序崩掉）
-        FilterLights(lights);        //  0.1ms
+        filterLights(lights);        //  0.1ms
 
         if (lights.size() > 1) {
-            choose_target_from_lights(lights, armors_candidate);  // 0.001 ms
+            chooseTargetFromLights(lights, armorsCandidate);  // 0.001 ms
             // for(auto armor : armors_candidate) draw_rotated_rect(src, armor.rect, Scalar(0,0,255), 2);
             // std::cout << "before filter:" << armors_candidate.size() <<std::endl;
             /*
@@ -1012,7 +1063,7 @@ namespace RM2018_Xidian_Armor {
                 putText(src, str, armors_candidate[i].rect.center, CV_FONT_HERSHEY_COMPLEX_SMALL, 1, CV_RGB(0,205,0), 1);
             }
             */
-            FilterArmors(armors_candidate);
+            filterArmors(armorsCandidate);
             /*
             for(int i =0;i < armors_candidate.size();++i)
             {
@@ -1023,8 +1074,8 @@ namespace RM2018_Xidian_Armor {
             // std::cout << "after filter:" << armors_candidate.size() <<std::endl;
 
             // 进行一次多目标的 SHOW_DEBUG
-            for (auto armor : armors_candidate) {
-//                DrawRotatedRect(src, armor.rect, Scalar(0, 255, 0), 2);
+            for (auto armor : armorsCandidate) {
+//                drawRotatedRect(src, armor.rect, Scalar(0, 255, 0), 2);
                 if (armor.rect.size.area()) cnt++;
             }
             // std::cout << "识别数:\t" << cnt << std::endl;

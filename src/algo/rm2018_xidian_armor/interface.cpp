@@ -20,8 +20,9 @@ namespace RM2018_Xidian_Armor {
     MetaInterface::MetaInterface(const YAML::Node &root) {
         settings = new Settings(root);
 
-        armorDetector = new ArmorDetector(settings->armor);
-        armorDetector->initArmorHist(settings->small_armor_pic_file, settings->big_armor_pic_file);
+        armorDetector = new ArmorDetector(settings->armor,
+                                          settings->small_armor_pic_file, settings->big_armor_pic_file,
+                                          settings->small_armor_svm_file, settings->big_armor_svm_file);
 
         armorRecorder = new ArmorRecorder;
 
@@ -32,7 +33,7 @@ namespace RM2018_Xidian_Armor {
 
         angleSolverFactory = new AngleSolverFactory;
         angleSolverFactory->setTargetSize(21.6, 5.4, AngleSolverFactory::TARGET_ARMOR);
-        angleSolverFactory->setTargetSize(12.4, 5.4, AngleSolverFactory::TARGET_SAMLL_ARMOR);
+        angleSolverFactory->setTargetSize(12.4, 5.4, AngleSolverFactory::TARGET_SMALL_ARMOR);
         angleSolverFactory->setSolver(angleSolver);
     }
 

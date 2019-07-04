@@ -72,7 +72,7 @@ namespace ICRA2018_NJUST_Armor {
             if (r > _para.min_light_gray) {
                 *ptr_max_color = 255;
             }
-            //if (r - b > _para.br_threshold && r >= g)
+            //if (r - b > para_.br_threshold && r >= g)
             //   *ptr_max_color = 255;
         }
     }
@@ -468,7 +468,7 @@ namespace ICRA2018_NJUST_Armor {
             int side_total = black_side * 2 * gray_mid_black.rows;
             avg_green_side /= side_total;
             if (avg_green_mid > _para.avg_board_gray_threshold){
-                // cout << "refused 1 : avg_green: " << avg_green_mid << "\tavg_board_gray_threshold: "  << (int)_para.avg_board_gray_threshold;
+                // cout << "refused 1 : avg_green: " << avg_green_mid << "\tavg_board_gray_threshold: "  << (int)para_.avg_board_gray_threshold;
                 continue;
             }
 
@@ -551,7 +551,7 @@ namespace ICRA2018_NJUST_Armor {
                     // cout << "refused 4: cur_weight: " << cur_weight << "\tweight threshold:" << weight;
                 }
             } else {
-                // cout << "refused 3: (x_grad, y_grad): (" << avg_x << ", " << avg_y << ")\t avg_grad_threshold: " <<  (int)_para.avg_board_grad_threshold;
+                // cout << "refused 3: (x_grad, y_grad): (" << avg_x << ", " << avg_y << ")\t avg_grad_threshold: " <<  (int)para_.avg_board_grad_threshold;
             }
         }
 

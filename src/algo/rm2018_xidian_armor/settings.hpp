@@ -17,10 +17,10 @@ namespace RM2018_Xidian_Armor {
 
     public:
 
-//        /**
-//         * @brief Construct a new Settings object
-//         */
-//        Settings() {}
+        /**
+         * @brief Construct a new Settings object
+         */
+        Settings() {}
 
         /**
          * @brief Construct a new Settings object from a YAML config file
@@ -53,9 +53,13 @@ namespace RM2018_Xidian_Armor {
         /** ArmorParam object to store config, for use with main algorithm */
         ArmorParam armor;
 
-        /** Path to template image file */
+        /** Path to template image files */
         string big_armor_pic_file;
         string small_armor_pic_file;
+
+        /** Path to SVM model files */
+        string big_armor_svm_file;
+        string small_armor_svm_file;
 
         /** Camera info file */
         string camera_info_file;

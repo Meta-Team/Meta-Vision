@@ -14,7 +14,7 @@ namespace RM2018_Xidian_Armor {
 
         cv::FileStorage fs(infoFile, cv::FileStorage::READ);
         if (!fs.isOpened())
-            std::cout << "Cannot open [" << infoFile << "], please check if the file is exist." << std::endl;
+            std::cout << "Cannot open " << infoFile << ", please check if the file is exist." << std::endl;
         cv::FileNode root = fs.root();
 
         // driver_mul

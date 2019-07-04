@@ -6,12 +6,12 @@
  * documentation files(the "Software"), to deal in the Software without restriction.
  */
 #include "armor_recorder.hpp"
-#include "angle_slover.hpp"
+#include "angle_solver.hpp"
 
 namespace RM2018_Xidian_Armor {
 
 
-//#define show_src_rect
+//#define SHOW_SRC_RECT
 
     const int bullet_speed = 18;
     const cv::Point ptoffset = cv::Point(22, 0); // 子弹的偏移量 offset x → y ↓
@@ -30,7 +30,7 @@ namespace RM2018_Xidian_Armor {
                                              ArmorInfo &final_armor) {
         std::vector<ArmorPos> pos_vect;
         std::vector<ArmorInfo> selected_vect;
-#ifdef show_src_rect
+#ifdef SHOW_SRC_RECT
         std::vector<ArmorInfo> armor_vect;
 #endif
         ArmorPos ArmorPos_;
@@ -39,14 +39,14 @@ namespace RM2018_Xidian_Armor {
                                  std::min(armor.rect.size.width, armor.rect.size.height);
             cv::RotatedRect rect = armor.rect;
             if (armor_ratio < 4) {
-                if (angle_solver_factory.getAngle(rect, AngleSolverFactory::TARGET_SAMLL_ARMOR, ArmorPos_.angle_x,
+                if (angle_solver_factory.getAngle(rect, AngleSolverFactory::TARGET_SMALL_ARMOR, ArmorPos_.angle_x,
                                                   ArmorPos_.angle_y, bullet_speed, ptoffset) == true) {
                     this->miss_detection_cnt = 0;
                     ArmorPos_.Flag = armor.state; // [1 2 3 4]
                     ArmorPos_.angle_z = angle_solver._distance;
                     pos_vect.push_back(ArmorPos_);
                     selected_vect.push_back(armor);
-#ifdef show_src_rect
+#ifdef SHOW_SRC_RECT
                     armor_vect.push_back(armor);
 #endif
                 } else {
@@ -61,7 +61,7 @@ namespace RM2018_Xidian_Armor {
                     ArmorPos_.angle_z = angle_solver._distance;
                     pos_vect.push_back(ArmorPos_);
                     selected_vect.push_back(armor);
-#ifdef show_src_rect
+#ifdef SHOW_SRC_RECT
                     armor_vect.push_back(armor);
 #endif
                 } else {
@@ -87,7 +87,7 @@ namespace RM2018_Xidian_Armor {
                     idx = i;
                 }
             }
-#ifdef show_src_rect
+#ifdef SHOW_SRC_RECT
             draw_rotated_rect(src, armor_vect[idx].rect, cv::Scalar(0, 255, 255), 2);
 #endif
             final_armor = selected_vect[idx];

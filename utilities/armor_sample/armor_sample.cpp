@@ -135,10 +135,10 @@ void armor_sample::DetectLights(const cv::Mat &src, std::vector<cv::RotatedRect>
     //cv::morphologyEx(binary_color_img,binary_color_img, MORPH_OPEN, element);
     binary_light_img = binary_color_img & binary_brightness_img;
 
-    // auto contours_light = FindContours(binary_light_img);
+    // auto contours_light = findContours(binary_light_img);
     std::vector<std::vector<cv::Point>> contours_light;
     cv::findContours(binary_light_img, contours_light, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
-    // auto contours_brightness = FindContours(binary_brightness_img);
+    // auto contours_brightness = findContours(binary_brightness_img);
     std::vector<std::vector<cv::Point>> contours_brightness;
     cv::findContours(binary_brightness_img, contours_brightness, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
 
@@ -176,20 +176,20 @@ void armor_sample::FilterLights(std::vector<cv::RotatedRect> &lights)
         if(//80 <= abs(angle) && abs(angle) <= 90   // 高速水平移动的灯条,带有拖影  // 特殊情况,无论横竖, 旧版本有这一行代码
                 light_aspect_ratio <= 2.5
                 && armor_light.size.area() >= _para.light_min_area // 1.0
-                && armor_light.size.area() < 100000)  //_para.light_max_area * src_img_.size().height * src_img_.size().width) // 0.04
+                && armor_light.size.area() < 100000)  //para_.light_max_area * src_img_.size().height * src_img_.size().width) // 0.04
         {
             light_rects.push_back(armor_light); // 高速水平移动的灯条
         }
             // 针对灯条细小的情况, 没有最大比例的判断, 较为理想的灯条
         else if(armor_light.size.area() >= _para.light_min_area // 1.0
-                && armor_light.size.area() < 100000  //_para.light_max_area * src_img_.size().height * src_img_.size().width // 0.04
+                && armor_light.size.area() < 100000  //para_.light_max_area * src_img_.size().height * src_img_.size().width // 0.04
                 && abs(angle) < _para.light_max_angle) // 与垂直的偏角17.5 , 这里是可以取消/2的,进一步细化
         {
             light_rects.push_back(armor_light); // 接近于垂直的灯条, 由于阈值不够合理, 细小的灯条
 
         }
             // 检测最为平凡的情况
-        else if (//light_aspect_ratio < _para.light_max_aspect_ratio  // 6.8
+        else if (//light_aspect_ratio < para_.light_max_aspect_ratio  // 6.8
                 armor_light.size.area() >= _para.light_min_area // 1.0
                 && armor_light.size.area() < _para.light_max_area * src_img_.size().height * src_img_.size().width // 0.04
                 && abs(angle) < _para.light_max_angle) // 与垂直的偏角35
@@ -300,7 +300,7 @@ void armor_sample::choose_target_from_lights(std::vector<cv::RotatedRect> &light
                 //auto armor_light_angle_diff = abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
                 if (armor_area > _para.armor_min_area			// ok ! param! 步兵
-                    && armor_ratio < 4      // ok ! param! 步兵         //_para.armor_max_ratio , 步兵应该只有3, 英雄可能会到5
+                    && armor_ratio < 4      // ok ! param! 步兵         //para_.armor_max_ratio , 步兵应该只有3, 英雄可能会到5
                     && abs(armor_angle) <  20 )  // ok ! param! 步兵
                 {
                     Armor_Twist armor_twist = MID_MOVE;
@@ -329,7 +329,7 @@ void armor_sample::choose_target_from_lights(std::vector<cv::RotatedRect> &light
                 //auto armor_light_angle_diff = abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
                 if (armor_area > _para.armor_min_area			// ok ! param! 步兵
-                    && armor_ratio < 4      // ok ! param! 步兵         //_para.armor_max_ratio , 步兵应该只有3, 英雄可能会到5
+                    && armor_ratio < 4      // ok ! param! 步兵         //para_.armor_max_ratio , 步兵应该只有3, 英雄可能会到5
                     && abs(armor_angle) <  20 )  // ok ! param! 步兵
                 {
                     Armor_Twist armor_twist = MID_MOVE;
@@ -355,7 +355,7 @@ void armor_sample::choose_target_from_lights(std::vector<cv::RotatedRect> &light
                 //auto armor_light_angle_diff = abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
                 if (armor_area > _para.armor_min_area			// ok ! param! 步兵
-                    && armor_ratio < 4      // ok ! param! 步兵                           //_para.armor_max_ratio , 步兵应该只有3, 英雄可能会到5
+                    && armor_ratio < 4      // ok ! param! 步兵                           //para_.armor_max_ratio , 步兵应该只有3, 英雄可能会到5
                     && abs(armor_angle) <  20 )  // ok ! param! 步兵
                 {
                     Armor_Twist armor_twist = LOW_MOVE;
@@ -383,7 +383,7 @@ void armor_sample::choose_target_from_lights(std::vector<cv::RotatedRect> &light
                 auto armor_light_angle_diff = abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
                 if (armor_area > _para.armor_min_area			// ok ! param! 步兵
-                    && armor_ratio < 4      // ok ! param! 步兵                           //_para.armor_max_ratio , 步兵应该只有3, 英雄可能会到5
+                    && armor_ratio < 4      // ok ! param! 步兵                           //para_.armor_max_ratio , 步兵应该只有3, 英雄可能会到5
                     && abs(armor_angle) <  20    // ok ! param! 步兵
                     && armor_light_angle_diff < 20 )
                 {
@@ -401,8 +401,8 @@ void armor_sample::choose_target_from_lights(std::vector<cv::RotatedRect> &light
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 // 灯条近乎平行,至少在同一侧
             else if (lights[i].angle * lights[j].angle >= 0            // 灯条近乎同侧 , 或者有一个为0
-                     && abs(angle_diff) < 30                            //  _para.light_max_angle_diff   // 20   // 18   这些都要换成相对值
-                //&& height_diff < _para.light_max_height_diff  	   // 20  不需要宽度
+                     && abs(angle_diff) < 30                            //  para_.light_max_angle_diff   // 20   // 18   这些都要换成相对值
+                //&& height_diff < para_.light_max_height_diff  	   // 20  不需要宽度
                     )
             {
                 cv::RotatedRect possible_rect;
@@ -425,7 +425,7 @@ void armor_sample::choose_target_from_lights(std::vector<cv::RotatedRect> &light
                         auto armor_light_angle_diff = abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
                         if (armor_area > _para.armor_min_area
-                            && armor_ratio > 1 // _para.small_armor_min_ratio   // 1.5
+                            && armor_ratio > 1 // para_.small_armor_min_ratio   // 1.5
                             && armor_ratio < _para.armor_max_ratio   // 3.0
                             && abs(armor_angle) < _para.armor_max_angle
                             && armor_light_angle_diff < _para.armor_light_angle_diff // 应该要更为严格
@@ -450,7 +450,7 @@ void armor_sample::choose_target_from_lights(std::vector<cv::RotatedRect> &light
                         auto armor_light_angle_diff = abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
                         if (armor_area > _para.armor_min_area
-                            && armor_ratio > 1 // _para.small_armor_min_ratio   // 1.5
+                            && armor_ratio > 1 // para_.small_armor_min_ratio   // 1.5
                             && armor_ratio < _para.armor_max_ratio   // 3.0
                             && abs(armor_angle) < _para.armor_max_angle
                             && armor_light_angle_diff < _para.armor_light_angle_diff // 应该要更为严格
@@ -480,7 +480,7 @@ void armor_sample::choose_target_from_lights(std::vector<cv::RotatedRect> &light
                         auto armor_area = possible_rect.size.area();
 
                         if (armor_area > _para.armor_min_area
-                            && armor_ratio > 1 // _para.small_armor_min_ratio   // 1.5
+                            && armor_ratio > 1 // para_.small_armor_min_ratio   // 1.5
                             && armor_ratio < _para.armor_max_ratio   // 3.0
                             && abs(armor_angle) < _para.armor_max_angle
                                 )
@@ -504,7 +504,7 @@ void armor_sample::choose_target_from_lights(std::vector<cv::RotatedRect> &light
                         auto armor_light_angle_diff = abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
                         if (armor_area > _para.armor_min_area
-                            && armor_ratio > 1 // _para.small_armor_min_ratio   // 1.5
+                            && armor_ratio > 1 // para_.small_armor_min_ratio   // 1.5
                             && armor_ratio < _para.armor_max_ratio   // 3.0
                             && abs(armor_angle) < _para.armor_max_angle
                             && armor_light_angle_diff < _para.armor_light_angle_diff // 应该要更为严格
@@ -517,8 +517,8 @@ void armor_sample::choose_target_from_lights(std::vector<cv::RotatedRect> &light
                     }// 2灯条近乎平行 慢速移动
                 }// 2灯条近乎平行 快速移动
 
-                else if (_para.light_min_aspect_ratio < light_aspect_ratio1 // && light_aspect_ratio1 < _para.light_max_aspect_ratio
-                                                        && _para.light_min_aspect_ratio < light_aspect_ratio2 // && light_aspect_ratio2 < _para.light_max_aspect_ratio
+                else if (_para.light_min_aspect_ratio < light_aspect_ratio1 // && light_aspect_ratio1 < para_.light_max_aspect_ratio
+                                                        && _para.light_min_aspect_ratio < light_aspect_ratio2 // && light_aspect_ratio2 < para_.light_max_aspect_ratio
                                                                                           && (lights[i].center.y + lights[i].size.height / 2) > (lights[j].center.y - lights[j].size.height / 2)
                                                         && (lights[j].center.y + lights[j].size.height / 2) > (lights[i].center.y - lights[i].size.height / 2)
                          && abs(lights[i].angle) < 30 && abs(lights[j].angle) < 30)
@@ -534,8 +534,8 @@ void armor_sample::choose_target_from_lights(std::vector<cv::RotatedRect> &light
                     auto armor_light_angle_diff = abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
                     if (armor_area > _para.armor_min_area
-                        && armor_ratio > 1 // _para.small_armor_min_ratio   // 1.5
-                        && armor_ratio < 4.5 // _para.armor_max_ratio   // 3.0
+                        && armor_ratio > 1 // para_.small_armor_min_ratio   // 1.5
+                        && armor_ratio < 4.5 // para_.armor_max_ratio   // 3.0
                         && abs(armor_angle) < _para.armor_max_angle
                         && armor_light_angle_diff < _para.armor_light_angle_diff ) // 应该要更为严格
                     {
@@ -572,7 +572,7 @@ void armor_sample::choose_target_from_lights(std::vector<cv::RotatedRect> &light
                         auto armor_light_angle_diff = abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
                         if (armor_area > _para.armor_min_area
-                            && armor_ratio > 1 // _para.small_armor_min_ratio   // 1.5
+                            && armor_ratio > 1 // para_.small_armor_min_ratio   // 1.5
                             && armor_ratio < _para.armor_max_ratio   // 3.0
                             && abs(armor_angle) < _para.armor_max_angle
                             && armor_light_angle_diff < _para.armor_light_angle_diff // 应该要更为严格
@@ -603,7 +603,7 @@ void armor_sample::choose_target_from_lights(std::vector<cv::RotatedRect> &light
                         auto armor_light_angle_diff = abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
                         if (armor_area > _para.armor_min_area
-                            && armor_ratio > 1 // _para.small_armor_min_ratio   // 1.5
+                            && armor_ratio > 1 // para_.small_armor_min_ratio   // 1.5
                             && armor_ratio < _para.armor_max_ratio   // 3.0
                             && abs(armor_angle) < _para.armor_max_angle
                             && armor_light_angle_diff < _para.armor_light_angle_diff )// 应该要更为严格
@@ -615,8 +615,8 @@ void armor_sample::choose_target_from_lights(std::vector<cv::RotatedRect> &light
                     }// 2灯条近乎平行 慢速移动
                 }// 2灯条近乎平行 快速移动
 
-                else if (_para.light_min_aspect_ratio < light_aspect_ratio1 //&& light_aspect_ratio1 < _para.light_max_aspect_ratio
-                                                        && _para.light_min_aspect_ratio < light_aspect_ratio2 //&& light_aspect_ratio2 < _para.light_max_aspect_ratio
+                else if (_para.light_min_aspect_ratio < light_aspect_ratio1 //&& light_aspect_ratio1 < para_.light_max_aspect_ratio
+                                                        && _para.light_min_aspect_ratio < light_aspect_ratio2 //&& light_aspect_ratio2 < para_.light_max_aspect_ratio
                                                                                           && (lights[i].center.y + lights[i].size.height / 2) > (lights[j].center.y - lights[j].size.height / 2)
                                                         && (lights[j].center.y + lights[j].size.height / 2) > (lights[i].center.y - lights[i].size.height / 2))
                 {
@@ -631,8 +631,8 @@ void armor_sample::choose_target_from_lights(std::vector<cv::RotatedRect> &light
                     auto armor_light_angle_diff = abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
                     if (armor_area > _para.armor_min_area
-                        && armor_ratio > 1 // _para.small_armor_min_ratio   // 1.5
-                        && armor_ratio < 4.5 // _para.armor_max_ratio   // 3.0
+                        && armor_ratio > 1 // para_.small_armor_min_ratio   // 1.5
+                        && armor_ratio < 4.5 // para_.armor_max_ratio   // 3.0
                         && abs(armor_angle) < _para.armor_max_angle
                         && armor_light_angle_diff < _para.armor_light_angle_diff) // 应该要更为严格
                     {
@@ -664,10 +664,10 @@ void armor_sample::choose_target_from_lights(std::vector<cv::RotatedRect> &light
                         //auto armor_light_angle_diff = abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
                         if (armor_area > _para.armor_min_area
-                            && armor_ratio > 1 // _para.small_armor_min_ratio   // 1.5
+                            && armor_ratio > 1 // para_.small_armor_min_ratio   // 1.5
                             && armor_ratio < _para.armor_max_ratio   // 3.0
                             && abs(armor_angle) < _para.armor_max_angle
-                            //&& armor_light_angle_diff < _para.armor_light_angle_diff // 应该要更为严格
+                            //&& armor_light_angle_diff < para_.armor_light_angle_diff // 应该要更为严格
                                 )
                         {
                             Armor_Twist armor_twist = MID_MOVE;
@@ -693,7 +693,7 @@ void armor_sample::choose_target_from_lights(std::vector<cv::RotatedRect> &light
                         auto armor_light_angle_diff = abs(armor_angle - lights[i].angle) + abs(armor_angle - lights[j].angle); // 左右灯条的积累差
 
                         if (armor_area > _para.armor_min_area
-                            && armor_ratio > 1 // _para.small_armor_min_ratio   // 1.5
+                            && armor_ratio > 1 // para_.small_armor_min_ratio   // 1.5
                             && armor_ratio < _para.armor_max_ratio   // 3.0
                             && abs(armor_angle) < _para.armor_max_angle
                             && armor_light_angle_diff < _para.armor_light_angle_diff // 应该要更为严格

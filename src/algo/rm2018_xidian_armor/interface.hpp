@@ -7,11 +7,11 @@
 #include <yaml-cpp/yaml.h>
 #include <iostream>
 
-#include "armor_info.hpp"
+#include "armor_param.hpp"
 #include "armor_detect.hpp"
 #include "armor_recorder.hpp"
 #include "camera_info.hpp"
-#include "angle_slover.hpp"
+#include "angle_solver.hpp"
 
 #include "settings.hpp"
 

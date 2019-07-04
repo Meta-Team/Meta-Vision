@@ -16,7 +16,7 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/video/tracking.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
-#include "armor_info.hpp"
+#include "armor_param.hpp"
 //#include "slover/armor_recorder.hpp"
 //#include "common/common_serial.h"
 
@@ -40,93 +40,49 @@ namespace RM2018_Xidian_Armor {
 
     public:
 
-        ArmorDetector(const ArmorParam &para) : _para(para) {
-//            initArmorHist("../config/armor2ev0.jpg", "../config/armor2ev-3.jpg"); // load big armor
-            // FIXME: this two file is missing
-            svm_big = StatModel::load<SVM>("src/algo/rm2018_xidian_armor/config/armor_model.yml");
-            svm_small = StatModel::load<SVM>("src/algo/rm2018_xidian_armor/config/armor_model.yml");
-        };
-
-        void setPara(const ArmorParam &para) {
-            _para = para;
+        ArmorDetector(const ArmorParam &para, const std::string &smallArmorPic, const std::string &bigArmorPic,
+                      const std::string &smallArmorSVMFile, const std::string &bigArmorSVMFile)
+                      : para_(para) {
+            initArmorHist(smallArmorPic, bigArmorPic); // load big armor
+            svm_big = StatModel::load<SVM>(bigArmorSVMFile);
+            svm_small = StatModel::load<SVM>(smallArmorSVMFile);
         };
 
         void setEnemyColor(int enemyColor) {
-            _para.enemy_color = enemyColor;
+            para_.enemy_color = enemyColor;
         }
 
-        void initArmorHist(const std::string &small_armor_pic, const std::string &big_armor_pic) {
-            cv::Mat armor_Hist = cv::imread(big_armor_pic, cv::IMREAD_GRAYSCALE);
-            cv::Mat bigarmor_Hist = cv::imread(small_armor_pic, cv::IMREAD_GRAYSCALE);
-            if (bigarmor_Hist.empty()) {
-                std::cout << small_armor_pic << "can not open! check path!" << std::endl;
-            }
-            if (armor_Hist.empty()) {
-                std::cout << big_armor_pic << "can not open! check path!" << std::endl;
-            }
-            int histSize = 256;
-            float range[] = {0, 256};
-            const float *histRange = {range};
-            int channels[] = {0};
-            bool uniform = true;
-            bool accumulate = false;
-            cv::calcHist(&armor_Hist, 1, channels, cv::Mat(), armor_1_hist, 1, &histSize, &histRange, uniform,
-                         accumulate); // use 0.7ms
-            cv::calcHist(&bigarmor_Hist, 1, channels, cv::Mat(), armor_2_hist, 1, &histSize, &histRange, uniform,
-                         accumulate); // use 0.7ms
-        }
+        void initArmorHist(const std::string &smallArmorPic, const std::string &bigArmorPic);
 
 
         /**
-         * @brief: 检测API
-         * @param: camera_src
-         * @param: vector<armor_info> candidate
-         * @param: Armor_recorder
+         * 检测API
+         * @param src
+         * @param armorsCandidate
+         * @return
          */
-
-        bool detect(const cv::Mat &src, std::vector<ArmorInfo> &armors_candidate);
+        bool detect(const cv::Mat &src, std::vector<ArmorInfo> &armorsCandidate);
 
     private:
 
-        void DrawRotatedRect(cv::Mat &img, const cv::RotatedRect &rect, const cv::Scalar &color, int thickness) {
-            cv::Point2f vertex[4];
-            rect.points(vertex);
-            for (int i = 0; i < 4; i++)
-                cv::line(img, vertex[i], vertex[(i + 1) % 4], color, thickness);
-        }
+        int armorToArmorTest(const cv::RotatedRect &_rect1, const cv::RotatedRect &_rect2);
+        bool makeRectSafe(cv::Rect &rect, cv::Size size);
+        void adjustRect(cv::RotatedRect &rect);
 
-        std::vector<std::vector<cv::Point>> FindContours(const cv::Mat &binary_img) {
-            std::vector<std::vector<cv::Point>> contours;
-            const auto mode = CV_RETR_EXTERNAL;
-            const auto method = CV_CHAIN_APPROX_SIMPLE;
-            cv::findContours(binary_img, contours, mode, method);
-            return contours;
-        }
+        void drawRotatedRect(cv::Mat &img, const cv::RotatedRect &rect, const cv::Scalar &color, int thickness);
 
-        cv::Mat DistillationColor(const cv::Mat &src_img, unsigned int color) {
-            std::vector<cv::Mat> bgr_channel;
-            cv::split(src_img, bgr_channel);
-            if (color == RED) {
-                cv::Mat result_img;
-                cv::subtract(bgr_channel[2], bgr_channel[1], result_img);
-                return result_img;
-            } else {
-                cv::Mat result_img;
-                cv::subtract(bgr_channel[0], bgr_channel[1], result_img);
-                return result_img;
-            }
-        }
+        std::vector<std::vector<cv::Point>> findContours(const cv::Mat &binary_img);
 
-        void choose_target_from_lights(std::vector<cv::RotatedRect> &lights, std::vector<ArmorInfo> &armor_vector);
+        cv::Mat distillationColor(const cv::Mat &src_img, unsigned int color);
 
-        ArmorInfo SlectFinalArmor(std::vector<ArmorInfo> &armors);
+        void chooseTargetFromLights(std::vector<cv::RotatedRect> &lights, std::vector<ArmorInfo> &armor_vector);
 
-        void FilterArmors(std::vector<ArmorInfo> &armors);
 
-        //void FilterArmors(cv::Mat & src, std::vector<ArmorInfo> &armors);
-        void DetectLights(const cv::Mat &src, std::vector<cv::RotatedRect> &lights);  //, double yaw_diff = 0);
+        void filterArmors(std::vector<ArmorInfo> &armors);
 
-        void FilterLights(std::vector<cv::RotatedRect> &lights);   //, double yaw_diff = 0);
+        void detectLights(const cv::Mat &src, std::vector<cv::RotatedRect> &lights);  //, double yaw_diff = 0);
+
+        void filterLights(std::vector<cv::RotatedRect> &lights);   //, double yaw_diff = 0);
 
         /**
          * @brief: 根据装甲板不同的移动情况框选装甲板
@@ -138,39 +94,39 @@ namespace RM2018_Xidian_Armor {
         cv::RotatedRect boundingRRectSlow(const cv::RotatedRect &left, const cv::RotatedRect &right);
 
         /**
-         * @brief: filterarmor方法1: 计算灰度和均值
+         * @brief: filterArmors 方法1: 计算灰度和均值
          * @param: cv::Mat& mask
          * @param: const cv::RotatedRect& rect
          * @param: double& mean
          * @param: double& stddev
          * no-return;
          */
-        void calu_meanstdev(cv::Mat &mask, const cv::RotatedRect &rect, double &m, double &stddev);
+        void calcMeanStdDev(cv::Mat &mask, const cv::RotatedRect &rect, double &m, double &stddev);
 
         /**
-         * @brief: filterarmor方法2: 直方图匹配
+         * @brief: filterArmors 方法2: 直方图匹配
          * @param: cv::Mat mask
          * @param: cv::RotateRect rect
          * @param: bool visual
          * @return: 相关度 0 ~ 1
          */
-        double armor_hist_diff(cv::Mat &mask, const cv::RotatedRect &rect, bool Visual);
+        double calcHistDiff(cv::Mat &mask, const cv::RotatedRect &rect, bool Visual);
 
         /**
-         * @brief: support vector machince for armor
+         * @brief: support vector machine for armor
          * @param: 英雄 wsize(100,25)
          * @param: 步兵 wsize(60,25)
          * @return: 预测值 -1 ~ +1
          */
-        float armor_svm(Mat &img_roi);
+        float calcBigArmorSVM(Mat &img_roi);
 
-        float small_armor_svm(Mat &img_roi);
+        float calcSmallArmorSVM(Mat &img_roi);
 
-        float get_armor_roi(cv::RotatedRect &rect, bool visual = 0);
+        float calcArmorROI(cv::RotatedRect &rect, bool visual = 0);
 
     private:
 
-        ArmorParam _para;    // 装甲板的参数
+        ArmorParam para_;    // 装甲板的参数
         cv::Mat src_img_;
         cv::Mat gray_img_;
         cv::Mat show_lights_before_filter_;
@@ -193,7 +149,7 @@ namespace RM2018_Xidian_Armor {
         Ptr<SVM> svm_small;
     };
 
-    int armorToarmorTest(const cv::RotatedRect &_rect1, const cv::RotatedRect &_rect2);
+    int armorToArmorTest(const cv::RotatedRect &_rect1, const cv::RotatedRect &_rect2);
 
 
 } // namespace RM2018_Xidian_Armor

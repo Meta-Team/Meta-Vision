@@ -24,9 +24,9 @@ target_include_directories(MJPEGWriter PUBLIC lib/MJPEGWriter ${OpenCV_INCLUDE_D
 # Build YAML-CPP
 file(GLOB YAML_CPP_SOURCES lib/yaml-cpp/src/*.cpp)
 file(GLOB YAML_CPP_HEADERS lib/yaml-cpp/src/*.h)
-add_library(Yaml_cpp SHARED ${YAML_CPP_SOURCES} ${YAML_CPP_HEADERS})
-target_include_directories(Yaml_cpp PUBLIC lib/yaml-cpp/include)
-target_compile_definitions(Yaml_cpp PUBLIC -DYAML_CPP_NO_CONTRIB)
+add_library(yaml_cpp SHARED ${YAML_CPP_SOURCES} ${YAML_CPP_HEADERS})
+target_include_directories(yaml_cpp PUBLIC lib/yaml-cpp/include)
+target_compile_definitions(yaml_cpp PUBLIC -DYAML_CPP_NO_CONTRIB)
 
 # Build Nanopb
 # set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib/nanopb/extra)
@@ -39,12 +39,11 @@ target_compile_definitions(Yaml_cpp PUBLIC -DYAML_CPP_NO_CONTRIB)
 # Include boost (for macOS to find the package)
 if (CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
     find_package(Boost REQUIRED COMPONENTS program_options filesystem)
-#    include_directories(${_BOOST_INCLUDEDIR})
-#    MESSAGE("Boost information:")
-#    MESSAGE("  Boost_INCLUDE_DIRS: ${_BOOST_INCLUDEDIR}")
-#    MESSAGE("  Boost_LIBRARIES: ${Boost_LIBRARIES}")
-#    MESSAGE("  Boost_LIBRARY_DIRS: ${Boost_LIBRARY_DIRS}")
-    add_compile_options(-fvisibility=hidden)
+    include_directories(${Boost_INCLUDE_DIRS})
+    MESSAGE("Boost information:")
+    MESSAGE("  Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
+    MESSAGE("  Boost_LIBRARIES: ${Boost_LIBRARIES}")
+    MESSAGE("  Boost_LIBRARY_DIRS: ${Boost_LIBRARY_DIRS}")
 endif ()
 
 # Build RM Vision software
@@ -69,6 +68,11 @@ file(GLOB_RECURSE SVM_TRAINER_SOURCES utilities/train/*.c utilities/train/*.cpp)
 file(GLOB_RECURSE SVM_TRAINER_HEADERS utilities/train/*.h utilities/train/*.hpp)
 add_executable(SVM_Trainer ${SVM_TRAINER_SOURCES} ${SVM_TRAINER_HEADERS})
 target_link_libraries(SVM_Trainer ${OpenCV_LIBRARIES})
+
+file(GLOB_RECURSE CAMERA_CALIBRATION_SOURCES utilities/camera_calibration/*.c utilities/camera_calibration/*.cpp)
+file(GLOB_RECURSE CAMERA_CALIBRATION_HEADERS utilities/camera_calibration/*.h utilities/camera_calibration/*.hpp)
+add_executable(Camera_Calibration ${CAMERA_CALIBRATION_SOURCES} ${CAMERA_CALIBRATION_HEADERS})
+target_link_libraries(Camera_Calibration ${OpenCV_LIBRARIES})
 
 
 # Use Doxygen to generate documents
