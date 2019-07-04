@@ -10,9 +10,7 @@
 #include <queue>
 #include <math.h>
 #include "opencv2/imgproc/imgproc.hpp"
-#include "detect.hpp"
-
-#include "config.hpp"
+#include "armor_sample.hpp"
 
 #define POINT_DIST(p1,p2) std::sqrt((p1.x-p2.x)*(p1.x-p2.x) + (p1.y-p2.y)*(p1.y-p2.y))
 
@@ -733,13 +731,12 @@ void armor_sample::FilterArmors(std::vector<armor_info> &armors, int index)
         if (makeRectSafe(target,img.size()) == true)
         {
             cv::Mat armor_roi = img(target);
-#if CONFIG_DETECT_BIG_ARMOR
-            cv::resize(armor_roi, armor_roi, cv::Size(100,25));
-#else
-            cv::resize(armor_roi, armor_roi, cv::Size(60,25));
-#endif
+
+            if (_bigArmor) cv::resize(armor_roi, armor_roi, cv::Size(100,25));
+            else cv::resize(armor_roi, armor_roi, cv::Size(60,25));
+
             char str[100];
-            sprintf(str, CONFIG_SAMPLE_OUTPUT, img_idx++);
+            sprintf(str, "%s%s_%d.jpg", _outputPath.c_str(), _imagePrefix.c_str(), img_idx++);
             cv::imwrite(str, armor_roi);
         }
     }

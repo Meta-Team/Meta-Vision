@@ -24,9 +24,9 @@ target_include_directories(MJPEGWriter PUBLIC lib/MJPEGWriter ${OpenCV_INCLUDE_D
 # Build YAML-CPP
 file(GLOB YAML_CPP_SOURCES lib/yaml-cpp/src/*.cpp)
 file(GLOB YAML_CPP_HEADERS lib/yaml-cpp/src/*.h)
-add_library(yaml_cpp SHARED ${YAML_CPP_SOURCES} ${YAML_CPP_HEADERS})
-target_include_directories(yaml_cpp PUBLIC lib/yaml-cpp/include)
-target_compile_definitions(yaml_cpp PUBLIC -DYAML_CPP_NO_CONTRIB)
+add_library(Yaml_cpp SHARED ${YAML_CPP_SOURCES} ${YAML_CPP_HEADERS})
+target_include_directories(Yaml_cpp PUBLIC lib/yaml-cpp/include)
+target_compile_definitions(Yaml_cpp PUBLIC -DYAML_CPP_NO_CONTRIB)
 
 # Build Nanopb
 # set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib/nanopb/extra)
@@ -36,24 +36,40 @@ target_compile_definitions(yaml_cpp PUBLIC -DYAML_CPP_NO_CONTRIB)
 # nanopb_generate_cpp(PROTO_SRCS PROTO_HDRS src/serial/serial.proto)
 # set_source_files_properties(${PROTO_SRCS} ${PROTO_HDRS} PROPERTIES GENERATED TRUE)
 
-# Build RM Vision software
-file(GLOB_RECURSE SOURCES src/*.c src/*.cpp)
-file(GLOB_RECURSE HEADERS src/*.h src/*.hpp)
-add_executable(Vision ${SOURCES} ${HEADERS})
-# add_executable(Vision ${SOURCES} ${HEADERS} ${PROTO_SRCS} ${PROTO_HDRS})
-
 # Include boost (for macOS to find the package)
 if (CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
-    find_package(boost REQUIRED)
-    include_directories(${Boost_INCLUDE_DIRS})
+    find_package(Boost REQUIRED COMPONENTS program_options filesystem)
+#    include_directories(${_BOOST_INCLUDEDIR})
+#    MESSAGE("Boost information:")
+#    MESSAGE("  Boost_INCLUDE_DIRS: ${_BOOST_INCLUDEDIR}")
+#    MESSAGE("  Boost_LIBRARIES: ${Boost_LIBRARIES}")
+#    MESSAGE("  Boost_LIBRARY_DIRS: ${Boost_LIBRARY_DIRS}")
+    add_compile_options(-fvisibility=hidden)
 endif ()
 
+# Build RM Vision software
+file(GLOB_RECURSE VISION_SOURCES src/*.c src/*.cpp)
+file(GLOB_RECURSE VISION_HEADERS src/*.h src/*.hpp)
+add_executable(Vision ${VISION_SOURCES} ${VISION_HEADERS})
+# add_executable(Vision ${SOURCES} ${HEADERS} ${PROTO_SRCS} ${PROTO_HDRS})
 target_link_libraries(Vision
         ${OpenCV_LIBRARIES}
         yaml_cpp
         MJPEGWriter
         pthread
         )
+
+# RM2019 Xidian SVM training exectuables
+file(GLOB_RECURSE ARMOR_SAMPLE_SOURCES utilities/armor_sample/*.c utilities/armor_sample/*.cpp)
+file(GLOB_RECURSE ARMOR_SAMPLE_HEADERS utilities/armor_sample/*.h utilities/armor_sample/*.hpp)
+add_executable(Armor_Sample ${ARMOR_SAMPLE_SOURCES} ${ARMOR_SAMPLE_HEADERS})
+target_link_libraries(Armor_Sample ${OpenCV_LIBRARIES} Boost::program_options Boost::filesystem)
+
+file(GLOB_RECURSE SVM_TRAINER_SOURCES utilities/train/*.c utilities/train/*.cpp)
+file(GLOB_RECURSE SVM_TRAINER_HEADERS utilities/train/*.h utilities/train/*.hpp)
+add_executable(SVM_Trainer ${SVM_TRAINER_SOURCES} ${SVM_TRAINER_HEADERS})
+target_link_libraries(SVM_Trainer ${OpenCV_LIBRARIES})
+
 
 # Use Doxygen to generate documents
 find_package(Doxygen COMPONENTS dot OPTIONAL_COMPONENTS mscgen dia)
@@ -73,14 +89,3 @@ if (DOXYGEN_FOUND)
     set(DOXYGEN_PREDEFINED "__attribute__(x)=")
     doxygen_add_docs(Vision_Docs ${SOURCES} ${HEADERS} ALL)
 endif (DOXYGEN_FOUND)
-
-# RM2019 Xidian SVM training exectuable
-file(GLOB_RECURSE ARMOR_SAMPLE_SOURCES utilities/armor_sample/*.c utilities/armor_sample/*.cpp)
-file(GLOB_RECURSE ARMOR_SAMPLE_HEADERS utilities/armor_sample/*.h utilities/armor_sample/*.hpp)
-add_executable(Xidian_Armor_Sample ${ARMOR_SAMPLE_SOURCES} ${ARMOR_SAMPLE_HEADERS})
-target_link_libraries(Xidian_Armor_Sample ${OpenCV_LIBRARIES})
-
-file(GLOB_RECURSE SVM_TRAINER_SOURCES utilities/train/*.c utilities/train/*.cpp)
-file(GLOB_RECURSE SVM_TRAINER_HEADERS utilities/train/*.h utilities/train/*.hpp)
-add_executable(Xidian_SVM_Trainer ${SVM_TRAINER_SOURCES} ${SVM_TRAINER_HEADERS})
-target_link_libraries(Xidian_SVM_Trainer ${OpenCV_LIBRARIES})

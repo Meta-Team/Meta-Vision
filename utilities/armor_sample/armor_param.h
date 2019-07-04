@@ -9,7 +9,10 @@
 #ifndef ARMOR_INFO_H
 #define ARMOR_INFO_H
 
+#include "string.h"
 #include <opencv2/opencv.hpp>
+#include "logging.hpp"
+using namespace std;
 
 /**
  * @brief: 装甲板算法的阈值参数
@@ -17,9 +20,8 @@
 class armor_param
 {
 public:
-    armor_param();
+    armor_param(const string &xmlFile);
 
-    void read_params();
     float light_threshold_val;      // 环境亮度
 
     float light_min_aspect_ratio;   // 灯条最小纵横比

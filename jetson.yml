@@ -1,0 +1,79 @@
+system:
+  timing_interval: 1
+
+  video_source: "camera"
+  video_sources:
+    file:
+      filename: "test_clips/armors/small_4_2.MOV"
+    camera:
+      id: 1
+      width: 640
+      height: 360
+      fps: 330
+
+  video_target: "webserver"
+  video_targets:
+    dummy: "dummy"
+    file:
+      folder: "record"
+      segment_interval: 30
+    webserver:
+      port: 2019
+  
+  target_calibration:
+    view_angle_x: 45          # 摄像头左右能拍到的最大角度
+    view_angle_y: 45          # 摄像头上下能拍到的最大角度
+  
+  serial:
+    device: "/dev/ttyS0"
+    baudrate: 115200
+
+game:
+  our_team: "red"
+
+algorithm:
+  icra2018_njust_armor:
+    min_light_gray: 210
+    min_light_height: 8
+    avg_contrast_threshold: 110
+    light_slope_offset: 30
+    max_light_delta_h: 500
+    min_light_delta_h: 35
+    max_light_delta_v: 40
+    max_light_delta_angle: 30
+    avg_board_gray_threshold: 100
+    avg_board_grad_threshold: 25
+    grad_threshold: 25
+    br_threshold: 30
+    template_image_file: "src/algo/icra2018_njust_armor/template/template.bmp"
+    small_template_image_file: "src/algo/icra2018_njust_armor/template/small_template.bmp"
+
+  rm2018_xidian_armor:
+    show_image: 1
+    save_result: 1
+    light_threshold_val: 200
+    red_color_diff: 40
+    blue_color_diff: 70
+    light_min_aspect_ratio: 1.2
+    light_max_aspect_ratio: 10.0
+    light_min_area: 20
+    light_max_area: 0.04
+    light_max_angle: 35
+    light_max_angle_diff: 40
+    light_max_height_diff: 0.5
+    light_max_width_diff: 0.5
+    armor_min_ratio: 1.2
+    armor_max_ratio: 5.0
+    armor_light_angle_diff: 35
+    armor_max_angle: 30
+    armor_min_area: 50
+    armor_max_area: 32000
+    filter_armor_area: 200
+    armor_max_aspect_ratio: 3.8
+    armor_max_pixel_val: 100.0
+    armor_max_stddev: 40
+    width: 40
+    height: 50
+    big_armor_pic_file: "src/algo/rm2018_xidian_armor/config/armor2ev0.jpg"
+    small_armor_pic_file: "src/algo/rm2018_xidian_armor/config/armor2ev-3.jpg"
+    camera_info_file: "src/algo/rm2018_xidian_armor/calibration-param/480P_120_MH.xml"

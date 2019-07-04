@@ -14,10 +14,8 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include <iostream>
 #include <ctype.h>
-#include "info.h"
+#include "armor_param.h"
 #include <chrono>
-
-#include "config.hpp"
 
 // FIXME: for version adaption
 #define CV_RETR_EXTERNAL RETR_EXTERNAL
@@ -27,18 +25,23 @@
 
 using namespace cv;
 
-enum EnemyColor { RED = 0, BLUE = 1};
+enum EnemyColor {
+    RED = 0, BLUE = 1
+};
+
 /**
  * @brief: 装甲识别器
  */
-class armor_sample
-{
+class armor_sample {
 public:
-    armor_sample() { };
-    void setPara(const armor_param & para) {
-        _para = para;
+
+    armor_sample(const armor_param &para, bool bigArmor, int enemyColor, const std::string &outputPath,
+                 const std::string &imagePrefix)
+            : _para(para), _bigArmor(bigArmor), _outputPath(outputPath), _imagePrefix(imagePrefix) {
+        _para.enemy_color = enemyColor;
     };
-    short detect(cv::Mat & src, int);
+
+    short detect(cv::Mat &src, int);
 
 private:
     void DrawRotatedRect(cv::Mat &img, const cv::RotatedRect &rect, const cv::Scalar &color, int thickness) {
@@ -55,6 +58,7 @@ private:
         cv::findContours(binary_img, contours, mode, method);
         return contours;
     }
+
     cv::Mat DistillationColor(const cv::Mat &src_img, unsigned int color) {
         std::vector<cv::Mat> bgr_channel;
         cv::split(src_img, bgr_channel);
@@ -62,29 +66,35 @@ private:
             cv::Mat result_img;
             cv::subtract(bgr_channel[2], bgr_channel[1], result_img);
             return result_img;
-        }
-        else{
+        } else {
             cv::Mat result_img;
             cv::subtract(bgr_channel[0], bgr_channel[1], result_img);
             return result_img;
         }
     }
+
     void choose_target_from_lights(std::vector<cv::RotatedRect> &lights, std::vector<armor_info> &armor_vector);
-    armor_info SlectFinalArmor(std::vector<armor_info> &armors);
 
     void FilterArmors(std::vector<armor_info> &armors, int);
+
     //void FilterArmors(cv::Mat & src, std::vector<armor_info> &armors);
     void DetectLights(const cv::Mat &src, std::vector<cv::RotatedRect> &lights);  //, double yaw_diff = 0);
 
     void FilterLights(std::vector<cv::RotatedRect> &lights);   //, double yaw_diff = 0);
 
-    cv::RotatedRect boundingRRect(const cv::RotatedRect & left, const cv::RotatedRect & right);
-    cv::RotatedRect boundingRRectFast(const cv::RotatedRect & left, const cv::RotatedRect & right);
-    cv::RotatedRect boundingRRectSlow(const cv::RotatedRect & left, const cv::RotatedRect & right);
+    cv::RotatedRect boundingRRect(const cv::RotatedRect &left, const cv::RotatedRect &right);
 
-    void which_armor(const cv::RotatedRect& rect, double& m, double& stddev);
+    cv::RotatedRect boundingRRectFast(const cv::RotatedRect &left, const cv::RotatedRect &right);
+
+    cv::RotatedRect boundingRRectSlow(const cv::RotatedRect &left, const cv::RotatedRect &right);
+
 private:
-    armor_param _para;	// 装甲板的参数
+
+    armor_param _para;    // 装甲板的参数
+    bool _bigArmor;
+    std::string _outputPath;
+    std::string _imagePrefix;
+
     cv::Mat src_img_;
     cv::Mat gray_img_;
 
