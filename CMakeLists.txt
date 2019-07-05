@@ -12,6 +12,7 @@ set(CMAKE_BUILD_TYPE Debug)
 project(Meta_Vision)
 
 # Build OpenCV
+set(OpenCV_DIR "C://opencv//sources//build")
 find_package(OpenCV REQUIRED)
 
 # Build MJPEGWriter (HTTP server for streaming images)
@@ -59,7 +60,7 @@ target_link_libraries(Vision
 # RM2019 Xidian SVM training exectuables
 file(GLOB_RECURSE ARMOR_SAMPLE_SOURCES utilities/armor_sample/*.c utilities/armor_sample/*.cpp)
 file(GLOB_RECURSE ARMOR_SAMPLE_HEADERS utilities/armor_sample/*.h utilities/armor_sample/*.hpp)
-add_executable(Armor_Sample ${ARMOR_SAMPLE_SOURCES} ${ARMOR_SAMPLE_HEADERS})
+add_executable(Armor_Sample ${ARMOR_SAMPLE_SOURCES} ${ARMOR_SAMPLE_HEADERS} utilities/camera/PrtSc.cpp)
 target_link_libraries(Armor_Sample ${OpenCV_LIBRARIES} Boost::program_options Boost::filesystem)
 
 file(GLOB_RECURSE SVM_TRAINER_SOURCES utilities/train/*.c utilities/train/*.cpp)
@@ -69,7 +70,8 @@ target_link_libraries(SVM_Trainer ${OpenCV_LIBRARIES})
 
 file(GLOB_RECURSE CAMERA_CALIBRATION_SOURCES utilities/camera_calibration/*.c utilities/camera_calibration/*.cpp)
 file(GLOB_RECURSE CAMERA_CALIBRATION_HEADERS utilities/camera_calibration/*.h utilities/camera_calibration/*.hpp)
-add_executable(Camera_Calibration ${CAMERA_CALIBRATION_SOURCES} ${CAMERA_CALIBRATION_HEADERS})
+file(GLOB_RECURSE CAMERA_PRTSC utilities/camera/PrtSc/*.cpp)
+add_executable(Camera_Calibration ${CAMERA_CALIBRATION_SOURCES} ${CAMERA_CALIBRATION_HEADERS} ${CAMERA_PRTSC})
 target_link_libraries(Camera_Calibration ${OpenCV_LIBRARIES})
 
 
