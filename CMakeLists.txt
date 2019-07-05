@@ -70,10 +70,12 @@ target_link_libraries(SVM_Trainer ${OpenCV_LIBRARIES})
 
 file(GLOB_RECURSE CAMERA_CALIBRATION_SOURCES utilities/camera_calibration/*.c utilities/camera_calibration/*.cpp)
 file(GLOB_RECURSE CAMERA_CALIBRATION_HEADERS utilities/camera_calibration/*.h utilities/camera_calibration/*.hpp)
-file(GLOB_RECURSE CAMERA_PRTSC utilities/camera/PrtSc/*.cpp)
-add_executable(Camera_Calibration ${CAMERA_CALIBRATION_SOURCES} ${CAMERA_CALIBRATION_HEADERS} ${CAMERA_PRTSC})
+add_executable(Camera_Calibration ${CAMERA_CALIBRATION_SOURCES} ${CAMERA_CALIBRATION_HEADERS})
 target_link_libraries(Camera_Calibration ${OpenCV_LIBRARIES})
 
+file(GLOB_RECURSE CAMERA_PRTSC_SOURCES utilities/camera/PrtSc/*.cpp)
+add_executable(Camera_PrtSc  ${CAMERA_PRTSC_SOURCES})
+target_link_libraries(Camera_PrtSc ${OpenCV_LIBRARIES})
 
 # Use Doxygen to generate documents
 find_package(Doxygen COMPONENTS dot OPTIONAL_COMPONENTS mscgen dia)
