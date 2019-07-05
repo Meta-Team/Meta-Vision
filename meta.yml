@@ -1,7 +1,7 @@
 system:
   timing_interval: 1
 
-  video_source: "file"
+  video_source: "camera"
   video_sources:
     file:
       filename: "test_clips/armors/small_4_2.MOV"

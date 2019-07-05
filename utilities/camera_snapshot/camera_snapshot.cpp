@@ -34,7 +34,7 @@ VideoCapture* openCamera(int id, int width, int height, int fps) {
 int main(int argc, char** argv)
 {
     if (argc != 2) {
-        cout << "Parameter needed: directory with data." << endl;
+        cout << "Parameter needed: Image output directory." << endl;
         return 1;
     }
 
@@ -67,7 +67,7 @@ int main(int argc, char** argv)
             sprintf(fileName, "Picture%d.jpg", ++count); //生成文件名
             imwrite(fileName, frame);
             imshow("Camera", frame);
-            waitKey(200); //反色图像显示ms
+            waitKey(200); // 图像显示ms
         }
         imshow("Camera", frame);
     }

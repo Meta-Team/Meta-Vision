@@ -921,9 +921,15 @@ namespace RM2018_Xidian_Armor {
                         wsize.width,
                         wsize.height);
         hog.compute(img_roi(roi), descriptors, Size(8, 8), Size(0, 0));
-        float response = svm_small->predict(descriptors);
-        // speed_test_end("calcSmallArmorSVM 用时 = ", "ms");
-        return response;
+        try {
+            float response = svm_small->predict(descriptors);
+            // speed_test_end("calcSmallArmorSVM 用时 = ", "ms");
+            return response;
+        } catch (int e) {
+            cout << "In calcSmallArmorSVM functionn: An exception occurred. Exception Nr. " << e << '\n';
+            // speed_test_end("calcSmallArmorSVM 用时 = ", "ms");
+            return 0;
+        }
     }
 
     float ArmorDetector::calcBigArmorSVM(Mat &img_roi) {
@@ -940,9 +946,15 @@ namespace RM2018_Xidian_Armor {
                         wsize.width,
                         wsize.height);
         hog.compute(img_roi(roi), descriptors, Size(8, 8), Size(0, 0));
-        float response = svm_big->predict(descriptors);
-        // speed_test_end("calcBigArmorSVM 用时 = ", "ms");
-        return response;
+        try {
+            float response = svm_big->predict(descriptors);
+            // speed_test_end("calcBigArmorSVM 用时 = ", "ms");
+            return response;
+        } catch (int e) {
+            cout << "In calcBigArmorSVM functionn: An exception occurred. Exception Nr. " << e << '\n';
+            // speed_test_end("calcSmallArmorSVM 用时 = ", "ms");
+            return 0;
+        }
     }
 
     float ArmorDetector::calcArmorROI(cv::RotatedRect &rect, bool visual) {

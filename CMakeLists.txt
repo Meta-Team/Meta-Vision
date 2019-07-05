@@ -60,7 +60,7 @@ target_link_libraries(Vision
 # RM2019 Xidian SVM training exectuables
 file(GLOB_RECURSE ARMOR_SAMPLE_SOURCES utilities/armor_sample/*.c utilities/armor_sample/*.cpp)
 file(GLOB_RECURSE ARMOR_SAMPLE_HEADERS utilities/armor_sample/*.h utilities/armor_sample/*.hpp)
-add_executable(Armor_Sample ${ARMOR_SAMPLE_SOURCES} ${ARMOR_SAMPLE_HEADERS} utilities/camera/PrtSc.cpp)
+add_executable(Armor_Sample ${ARMOR_SAMPLE_SOURCES} ${ARMOR_SAMPLE_HEADERS} utilities/camera_snapshot/camera_snapshot.cpp)
 target_link_libraries(Armor_Sample ${OpenCV_LIBRARIES} Boost::program_options Boost::filesystem)
 
 file(GLOB_RECURSE SVM_TRAINER_SOURCES utilities/train/*.c utilities/train/*.cpp)
@@ -73,7 +73,7 @@ file(GLOB_RECURSE CAMERA_CALIBRATION_HEADERS utilities/camera_calibration/*.h ut
 add_executable(Camera_Calibration ${CAMERA_CALIBRATION_SOURCES} ${CAMERA_CALIBRATION_HEADERS})
 target_link_libraries(Camera_Calibration ${OpenCV_LIBRARIES})
 
-file(GLOB_RECURSE CAMERA_PRTSC_SOURCES utilities/camera/*.cpp)
+file(GLOB_RECURSE CAMERA_PRTSC_SOURCES utilities/camera_snapshot/*.cpp)
 add_executable(Camera_PrtSc  ${CAMERA_PRTSC_SOURCES})
 target_link_libraries(Camera_PrtSc ${OpenCV_LIBRARIES})
 
