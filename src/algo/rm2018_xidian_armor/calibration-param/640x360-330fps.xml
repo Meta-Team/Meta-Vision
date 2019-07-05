@@ -5,8 +5,8 @@
     <exposure_time>30</exposure_time>
 
     <ptz_camera_x>0</ptz_camera_x>
-    <ptz_camera_y>5</ptz_camera_y>
-    <ptz_camera_z>17.5</ptz_camera_z>
+    <ptz_camera_y>0</ptz_camera_y>
+    <ptz_camera_z>0</ptz_camera_z>
     <barrel_ptz_offset_y>0</barrel_ptz_offset_y>
 
     <z_scale>1</z_scale>
@@ -16,12 +16,12 @@
         <cols>3</cols>
         <dt>d</dt>
         <data>
-            1653.745407663183
+            349.3205128684667
             0.
-            912.0607793216836
+            323.4253897381431
             0.
-            1617.991606503051
-            723.6608894869768
+            348.6082437259896
+            166.3092848121969;
             0.
             0.
             1.
@@ -32,11 +32,11 @@
         <cols>1</cols>
         <dt>d</dt>
         <data>
-            0.
-            0.
-            0.
-            0.
-            0.
+            0.01780113321598811
+            0.08682684485175952
+            -0.006875025952709378
+            -0.006090104755864794
+            -0.1798402689596715
         </data>
     </Distortion_Coefficients>
 </opencv_storage>

@@ -73,7 +73,7 @@ file(GLOB_RECURSE CAMERA_CALIBRATION_HEADERS utilities/camera_calibration/*.h ut
 add_executable(Camera_Calibration ${CAMERA_CALIBRATION_SOURCES} ${CAMERA_CALIBRATION_HEADERS})
 target_link_libraries(Camera_Calibration ${OpenCV_LIBRARIES})
 
-file(GLOB_RECURSE CAMERA_PRTSC_SOURCES utilities/camera/PrtSc/*.cpp)
+file(GLOB_RECURSE CAMERA_PRTSC_SOURCES utilities/camera/*.cpp)
 add_executable(Camera_PrtSc  ${CAMERA_PRTSC_SOURCES})
 target_link_libraries(Camera_PrtSc ${OpenCV_LIBRARIES})
 
