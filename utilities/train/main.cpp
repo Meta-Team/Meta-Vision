@@ -13,12 +13,12 @@
 
 int main( int argc, char** argv )
 {
-    String pos_dir = "../training/selected_small";
-    String neg_dir = "../training/selected_big";
-    String test_dir = "../training/selected_small";
-    String svm_file = "../training/model/armor_model.yml";
-    String obj_det_filename = "../training/model/armor_descriptor.yml";
-    String videofilename = "../test_clips/armors/small_3_2.MOV";
+    String pos_dir = "../training/Trial 2/small_good";
+    String neg_dir = "../training/Trial 2/small_bad";
+    String test_dir = "../training/Trial 2/small_test";
+    String svm_file = "../training/Trial 2/small_armor_model.yml";
+    String obj_det_filename = "../training/Trial 2/small_armor_descriptor.yml";
+    String videofilename = "";
     bool test_detector = false;
     bool train_twice = false;
     bool flip_samples = false; // 镜像反转 增加一倍的训练量

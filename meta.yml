@@ -1,7 +1,7 @@
 system:
   timing_interval: 1
 
-  video_source: "camera"
+  video_source: "file"
   video_sources:
     file:
       filename: "test_clips/armors/small_4_2.MOV"
@@ -11,7 +11,7 @@ system:
       height: 360
       fps: 330
 
-  video_target: "webserver"
+  video_target: "file"
   video_targets:
     dummy: "dummy"
     file:
@@ -77,5 +77,5 @@ algorithm:
     big_armor_pic_file: "src/algo/rm2018_xidian_armor/config/armor2ev0.jpg"
     small_armor_pic_file: "src/algo/rm2018_xidian_armor/config/armor2ev-3.jpg"
     camera_info_file: "src/algo/rm2018_xidian_armor/calibration-param/640x360-330fps.xml"
-    big_armor_svm_file: "src/algo/rm2018_xidian_armor/config/armor_model.yml"
-    small_armor_svm_file: "src/algo/rm2018_xidian_armor/config/armor_model.yml"
+    big_armor_svm_file: "src/algo/rm2018_xidian_armor/config/big_armor_model.yml"
+    small_armor_svm_file: "src/algo/rm2018_xidian_armor/config/small_armor_model.yml"

@@ -7,7 +7,6 @@ test_clips/
 build/
 record/
 training/
-calibration/
 
 *.mp4
 *.mov
