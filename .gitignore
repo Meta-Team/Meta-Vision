@@ -7,7 +7,7 @@ test_clips/
 build/
 record/
 training/
-calibration/
+cmake-build-debug/
 
 *.mp4
 *.mov
