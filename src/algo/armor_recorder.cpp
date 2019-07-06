@@ -79,8 +79,8 @@ namespace RM2018_Xidian_Armor {
 
         if (pos_vect.size()) {
             double dis_min = 100000000;
-            int idx = 0;
-            for (int i = 0; i != pos_vect.size(); ++i) {
+            unsigned idx = 0;
+            for (unsigned i = 0; i != pos_vect.size(); ++i) {
                 double dis = pos_distance(pos_vect[i], last_pos);
                 if (dis < dis_min) {
                     dis_min = dis;
