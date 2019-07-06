@@ -83,7 +83,7 @@ namespace RM2018_Xidian_Armor {
         // std::list<ArmorInfo> history_armor;
         std::list<ArmorPos> history_pos;
         std::list<double> history_time;
-        int history_size;
+        unsigned history_size;
         int miss_detection_cnt;
 
         double predict(double time);

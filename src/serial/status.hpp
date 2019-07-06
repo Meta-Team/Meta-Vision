@@ -11,7 +11,7 @@
 /** CRC8 algorithm used by RoboMaster referee system */
 typedef boost::crc_optimal<8, 0x31, 0xFF, 0, true, true> rm_crc8_t;
 /** CRC16 algorithm used by RoboMaster referee system */
-typedef boost::crc_ccitt_type rm_crc16_t;
+typedef boost::crc_optimal<16, 0x1021, 0xFFFF, 0, true, true> rm_crc16_t;
 
 /** Thread that receives & parses data from RoboMaster referee system, and sends instructions back.*/
 class SerialStatus : public Thread {

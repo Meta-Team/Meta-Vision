@@ -399,6 +399,9 @@ namespace RM_Protocol {
             /* Custom Data: Target gimbal state */
             custom_gimbal_target_t custom_gimbal_target;
         };
+
+        uint16_t tail;
+
     } rm_protocol_t;
 };
 
