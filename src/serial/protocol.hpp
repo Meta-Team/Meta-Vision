@@ -371,7 +371,7 @@ namespace RM_Protocol {
     } rm_state_t;
 
     /** Full frame excluding CRC16 from referee system */
-    typedef struct {
+    typedef struct __attribute__((packed)) {
         /** Frame header */
         rm_frame_header_t frame_header;
         /** Command ID */
