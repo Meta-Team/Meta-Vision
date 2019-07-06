@@ -25,7 +25,7 @@ system:
     view_angle_y: 45          # 摄像头上下能拍到的最大角度
   
   serial:
-    device: "/dev/ttyS0"
+    device: "/dev/ttyTHS1"
     baudrate: 115200
 
 game:
@@ -74,8 +74,8 @@ algorithm:
     armor_max_stddev: 40
     width: 40
     height: 50
-    big_armor_pic_file: "src/algo/rm2018_xidian_armor/config/armor2ev0.jpg"
-    small_armor_pic_file: "src/algo/rm2018_xidian_armor/config/armor2ev-3.jpg"
-    camera_info_file: "src/algo/rm2018_xidian_armor/calibration-param/640x360-330fps.xml"
-    big_armor_svm_file: "src/algo/rm2018_xidian_armor/config/big_armor_model.yml"
-    small_armor_svm_file: "src/algo/rm2018_xidian_armor/config/small_armor_model.yml"
+    big_armor_pic_file: "src/algo/config/armor2ev0.jpg"
+    small_armor_pic_file: "src/algo/config/armor2ev-3.jpg"
+    camera_info_file: "src/algo/calibration-param/640x360-330fps.xml"
+    big_armor_svm_file: "src/algo/config/big_armor_model.yml"
+    small_armor_svm_file: "src/algo/config/small_armor_model.yml"

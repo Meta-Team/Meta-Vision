@@ -12,7 +12,6 @@ set(CMAKE_BUILD_TYPE Debug)
 project(Meta_Vision)
 
 # Build OpenCV
-set(OpenCV_DIR "C://opencv//sources//build")
 find_package(OpenCV REQUIRED)
 
 # Build MJPEGWriter (HTTP server for streaming images)
@@ -37,7 +36,7 @@ target_compile_definitions(yaml_cpp PUBLIC -DYAML_CPP_NO_CONTRIB)
 # nanopb_generate_cpp(PROTO_SRCS PROTO_HDRS src/serial/serial.proto)
 # set_source_files_properties(${PROTO_SRCS} ${PROTO_HDRS} PROPERTIES GENERATED TRUE)
 
-# Include boost (for macOS to find the package)
+# Include boost
 find_package(Boost REQUIRED COMPONENTS program_options filesystem)
 include_directories(${Boost_INCLUDE_DIRS})
 MESSAGE("Boost information:")
@@ -63,8 +62,8 @@ file(GLOB_RECURSE ARMOR_SAMPLE_HEADERS utilities/armor_sample/*.h utilities/armo
 add_executable(Armor_Sample ${ARMOR_SAMPLE_SOURCES} ${ARMOR_SAMPLE_HEADERS} utilities/camera_snapshot/camera_snapshot.cpp)
 target_link_libraries(Armor_Sample ${OpenCV_LIBRARIES} Boost::program_options Boost::filesystem)
 
-file(GLOB_RECURSE SVM_TRAINER_SOURCES utilities/train/*.c utilities/train/*.cpp)
-file(GLOB_RECURSE SVM_TRAINER_HEADERS utilities/train/*.h utilities/train/*.hpp)
+file(GLOB_RECURSE SVM_TRAINER_SOURCES utilities/svm_train/*.c utilities/svm_train/*.cpp)
+file(GLOB_RECURSE SVM_TRAINER_HEADERS utilities/svm_train/*.h utilities/svm_train/*.hpp)
 add_executable(SVM_Trainer ${SVM_TRAINER_SOURCES} ${SVM_TRAINER_HEADERS})
 target_link_libraries(SVM_Trainer ${OpenCV_LIBRARIES})
 

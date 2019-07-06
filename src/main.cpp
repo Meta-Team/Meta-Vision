@@ -8,6 +8,8 @@
 #include <unistd.h>
 #include <math.h>
 
+#define USE_ANGLE_SOLVER_DATA   1
+
 /**
  * @brief Main logic of the program.
  *        Loads config, sets up video source, target, armor detection.
@@ -71,11 +73,12 @@ int Main::main(int argc, char **argv) {
         prev_id = next_id;
 
         // Get yaw/pitch before time-costly analyzation to ensure accuracy
-//        int yaw_current = _serial->rm_state.custom_gimbal_current.yaw;
-//        int pitch_current = _serial->rm_state.custom_gimbal_current.pitch;
+        float yaw_angle = _serial->rm_state.custom_gimbal_current.yaw;
+        float pitch_angle = _serial->rm_state.custom_gimbal_current.pitch;
+        float distance = 0;
 
         // Call Armor Detect routine, draw armor borderline
-        RotatedRect rect = _armorDetect->analyze(frame);
+        RotatedRect rect = _armorDetect->analyze(frame, yaw_angle, pitch_angle, distance);
         Point2f vertices[4];
         rect.points(vertices);
 
@@ -88,20 +91,25 @@ int Main::main(int argc, char **argv) {
                 line(frame, vertices[i], vertices[(i + 1) % 4], Scalar(0, 0, 255), 2);
             }
 
+#if (!USE_ANGLE_SOLVER_DATA)
+
             double centerX = (vertices[0].x + vertices[1].x + vertices[2].x + vertices[3].x) / 4;
             double centerY = (vertices[0].y + vertices[1].y + vertices[2].y + vertices[3].y) / 4;
 
             // cwarning << "Center: " << centerX << ", " << centerY;
 
-            // Return angle difference between target and current
-            double yaw_target = /*yaw_current +*/ _fraction2angle(2 * centerX / _video_src->getWidth() - 1,
-                                                                  config["system"]["target_calibration"]["view_angle_x"].as<double>());
-            double pitch_target = /*pitch_current +*/ _fraction2angle(1 - 2 * centerY / _video_src->getHeight(),
-                                                                      config["system"]["target_calibration"]["view_angle_y"].as<double>());
+            // Re-calculate angle based on image
+            yaw_angle = _serial->rm_state.custom_gimbal_current.yaw +
+                                _fraction2angle(2 * centerX / _video_src->getWidth() - 1,
+                                                config["system"]["target_calibration"]["view_angle_x"].as<double>());
+            pitch_angle = _serial->rm_state.custom_gimbal_current.pitch +
+                                  _fraction2angle(1 - 2 * centerY / _video_src->getHeight(),
+                                                  config["system"]["target_calibration"]["view_angle_y"].as<double>());
+#endif
 
-            cwarning << "Pitch " << pitch_target << ", Yaw " << yaw_target;
+            cwarning << "Pitch " << pitch_angle << ", Yaw " << yaw_angle << ", Distance = " << distance;
+            _serial->send_gimbal(yaw_angle, pitch_angle, distance);
 
-            _serial->send_gimbal(yaw_target, pitch_target);
         }
 
         // Write image
@@ -164,7 +172,6 @@ void Main::_loadConfig(const string &filename) {
  *        Currently it only uses the ICRA2018_NJUST algorithm.
  */
 void Main::_prepareArmorDetect() {
-//    _armorDetect = new ICRA2018_NJUST_Armor::MetaInterface(config["algorithm"]["icra2018_njust_armor"]);
     _armorDetect = new RM2018_Xidian_Armor::MetaInterface(config["algorithm"]["rm2018_xidian_armor"]);
 
     // Read color of our team, configure armor detect algorithm to aim for enemy

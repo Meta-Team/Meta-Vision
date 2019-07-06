@@ -2,8 +2,7 @@
 #define _SERIAL_STATUS_HPP_
 
 #include "../global.hpp"
-#include "serial.hpp"
-#include "rm_protocol.hpp"
+#include "protocol.hpp"
 #include "../interfaces/multithread.hpp"
 
 #include <termios.h>
@@ -36,7 +35,7 @@ public:
      * @param yaw Target yaw angle of the gimbal
      * @param pitch Target pitch angle of the gimbal
      */
-    void send_gimbal(int yaw, int pitch);
+    void send_gimbal(float yaw, float pitch, float distance);
 
     /**
      * @brief Parse packet from referee system and store the received data

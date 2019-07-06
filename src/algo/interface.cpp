@@ -15,8 +15,7 @@ using namespace cv;
 
 namespace RM2018_Xidian_Armor {
 
-
-
+    
     MetaInterface::MetaInterface(const YAML::Node &root) {
         settings = new Settings(root);
 
@@ -41,13 +40,16 @@ namespace RM2018_Xidian_Armor {
         delete settings;
         delete armorDetector;
         delete armorRecorder;
+        delete cameraInfo;
+        delete angleSolver;
+        delete angleSolverFactory;
     }
 
     void MetaInterface::setEnemyColor(int enemyColor) {
         armorDetector->setEnemyColor(enemyColor);
     }
 
-    RotatedRect MetaInterface::analyze(const Mat &src) {
+    RotatedRect MetaInterface::analyze(const Mat &src, float &yaw_angle, float &pitch_angle, float &distance) {
 
         std::vector<ArmorInfo> armors;
         ArmorInfo finalArmor;
@@ -56,19 +58,20 @@ namespace RM2018_Xidian_Armor {
         if (armorDetector->detect(src, armors) && !armors.empty())
         {
             armorPos = armorRecorder->SelectFinalArmor(armors, *angleSolver, *angleSolverFactory, src, finalArmor);
-            // TODO: try to use decoded angle
-//            serial_mul::publish2car(armor_pos_, current_yaw, current_pitch);
         }
         else{
             armorPos.reset_pos();
-//            serial_mul::publish2car(armor_pos_, current_yaw, current_pitch);
         }
 
         if (armorPos.Flag)
         {
             armorRecorder->miss_detection_cnt = 0;
             armorRecorder->setLastResult(armorPos, std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() -  armorRecorder->recorder_time).count() / 1000.0);
-            std::cout << "Pitch: "<< armorPos.angle_y << ", Yaw " << armorPos.angle_x << ". Count = " << armors.size() << endl;
+            // TODO: determine direction
+            yaw_angle += armorPos.angle_x;
+            pitch_angle += armorPos.angle_y;
+            distance = armorPos.angle_y;
+            std::cout << "Pitch: "<< pitch_angle << ", Yaw " << yaw_angle << endl;
             return finalArmor.rect;
         }
         else {

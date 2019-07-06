@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 <opencv_storage>
 
-    <cam_id>/dev/my_video2</cam_id>
-    <exposure_time>30</exposure_time>
-
     <ptz_camera_x>0</ptz_camera_x>
     <ptz_camera_y>0</ptz_camera_y>
     <ptz_camera_z>0</ptz_camera_z>

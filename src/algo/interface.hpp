@@ -50,7 +50,6 @@ namespace RM2018_Xidian_Armor {
 
         /**
          * @brief Set color of enemy
-         * 
          * @param enemyColor 0: red, 1: blue
          */
         void setEnemyColor(int enemyColor);
@@ -59,9 +58,12 @@ namespace RM2018_Xidian_Armor {
          * @brief Given an image, find position of enemy armor
          * 
          * @param src Source image to perform search on
+         * @param yaw_angle [in, out]
+         * @param pitch_angle [in, out]
+         * @param distance [out]
          * @return RotatedRect Rectangle enclosing enemy armor
          */
-        RotatedRect analyze(const Mat &src);
+        RotatedRect analyze(const Mat &src, float &yaw_angle, float &pitch_angle, float &distance);
     };
 }
 

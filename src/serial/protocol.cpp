@@ -1,4 +1,4 @@
-#include "rm_protocol.hpp"
+#include "protocol.hpp"
 
 namespace RM_Protocol {
     std::map<int, int> rm_map_cmdid_packetsize = {
@@ -15,7 +15,8 @@ namespace RM_Protocol {
         {RM_CMDID_DRONE_ENERGY, 12},
         {RM_CMDID_DAMAGE, 10},
         {RM_CMDID_BULLET_STATE, 15},
-        {RM_CMDID_CUSTOM_GIMBAL_CURRENT, 13},
-        {RM_CMDID_CUSTOM_GIMBAL_TARGET, 13},
+        {RM_CMDID_CUSTOM_GIMBAL_CURRENT, 17},
+        {RM_CMDID_CUSTOM_GIMBAL_TARGET, 21},
+        {RM_CMDID_CUSTOM_ENEMY_COLOR, 10}
     };
 };

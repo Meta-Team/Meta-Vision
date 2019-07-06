@@ -24,6 +24,7 @@
 
 #define RM_CMDID_CUSTOM_GIMBAL_CURRENT  0xff00  /**< CMD_ID of Custom Data: Current gimbal state */
 #define RM_CMDID_CUSTOM_GIMBAL_TARGET   0xff01  /**< CMD_ID of Custom Data: Target gimbal state */
+#define RM_CMDID_CUSTOM_ENEMY_COLOR     0xff02  /**< CMD_ID of Custom Data: Enemy color setting */
 
 namespace RM_Protocol {
     /** Packet size of each cmd_id */
@@ -59,13 +60,13 @@ namespace RM_Protocol {
     } game_state_t;
 
     /** 比赛结果数据：0x0002。发送频率：比赛结束后发送 */
-    typedef struct {
+    typedef struct __attribute__((packed)) {
         /** 0 平局 1 红方胜利 2 蓝方胜利 */
         uint8_t winner;
     } game_result_t;
 
     /** 机器人存活数据：0x0003。发送频率：1Hz */
-    typedef struct {
+    typedef struct __attribute__((packed)) {
         /**
          * - bit 0：红方英雄机器人；
          * - bit 1：红方工程机器人；
@@ -136,7 +137,7 @@ namespace RM_Protocol {
     } region_event_t;
 
     /** 补给站动作标识：0x0102。发送频率：动作改变后发送 */
-    typedef struct {
+    typedef struct __attribute__((packed)) {
         /** 补给站口 ID：
          * - 1：1 号补给口；
          * - 2：2 号补给口
@@ -164,7 +165,7 @@ namespace RM_Protocol {
     } supply_action_t;
 
     /** 请求补给站补弹子弹：cmd_id (0x0103)。发送频率：上限 10Hz。RM 对抗赛尚未开放 */
-    typedef struct {
+    typedef struct __attribute__((packed)) {
         /** 补给站补弹口 ID：
          * - 1：1 号补给口
          */
@@ -185,7 +186,7 @@ namespace RM_Protocol {
     } supply_request_t;
 
     /** 比赛机器人状态：0x0201。发送频率：10Hz */
-    typedef struct {
+    typedef struct __attribute__((packed)) {
         /** 机器人 ID：
          * - 1：红方英雄机器人；
          * - 2：红方工程机器人；
@@ -222,7 +223,7 @@ namespace RM_Protocol {
     } robot_state_t;
 
     /** 实时功率热量数据：0x0202。发送频率：50Hz */
-    typedef struct {
+    typedef struct __attribute__((packed)) {
         /** 底盘输出电压 单位 毫伏 */
         uint16_t chassis_volt;
         /** 底盘输出电流 单位 毫安 */
@@ -238,7 +239,7 @@ namespace RM_Protocol {
     } power_heat_t;
 
     /** 机器人位置：0x0203。发送频率：10Hz */
-    typedef struct {
+    typedef struct __attribute__((packed)) {
         /** 位置 x 坐标，单位 m */
         float x;
         /** 位置 y 坐标，单位 m */
@@ -250,7 +251,7 @@ namespace RM_Protocol {
     } robot_position_t;
 
     /** 机器人增益：0x0204。发送频率：状态改变后发送 */
-    typedef struct {
+    typedef struct __attribute__((packed)) {
         /**
          * - bit 0：机器人血量补血状态
          * - bit 1：枪口热量冷却加速
@@ -262,7 +263,7 @@ namespace RM_Protocol {
     } robot_buff_t;
 
     /** 空中机器人能量状态：0x0205。发送频率：10Hz */
-    typedef struct {
+    typedef struct __attribute__((packed)) {
         /** 积累的能量点 */
         uint8_t energy_point;
         /** 可攻击时间 单位 s。50s 递减至 0 */
@@ -285,7 +286,7 @@ namespace RM_Protocol {
     } damage_t;
 
     /** 实时射击信息：0x0207。发送频率：射击后发送 */
-    typedef struct {
+    typedef struct __attribute__((packed)) {
         /** 子弹类型: 1：17mm 弹丸 2：42mm 弹丸 */
         uint8_t type;
         /** 子弹射频 单位 Hz */
@@ -304,11 +305,11 @@ namespace RM_Protocol {
      * We're not simply sending delta of yaw/pitch, because vision board has
      * delay in processing, which may lead to inaccuracy of angles
      */
-    typedef struct {
+    typedef struct __attribute__((packed)) {
         /** Current gimbal yaw of the robot, unit: angle */
-        uint16_t yaw;
+        float yaw;
         /** Current gimbal pitch of the robot, unit: angle */
-        uint16_t pitch;
+        float pitch;
     } custom_gimbal_current_t;
 
     /** 
@@ -316,15 +317,27 @@ namespace RM_Protocol {
      *  
      * Gimbal yaw/pitch TARGET sent by vision board to RM board.
      */
-    typedef struct {
+    typedef struct __attribute__((packed)) {
         /** Target gimbal yaw, unit: angle */
-        uint16_t yaw;
+        float yaw;
         /** Target gimbal pitch, unit: angle */
-        uint16_t pitch;
+        float pitch;
+        /** Distance to the object, unit: cm */
+        float distance;
     } custom_gimbal_target_t;
 
+    /**
+     * Custom command: 0xff02
+     *
+     * Enemy color setting sent by vision board to RM board.
+     */
+    typedef struct __attribute__((packed)) {
+        /** Enemy Color, RED = 0, BLUE = 1 */
+        uint8_t enemy_color;
+    } custom_enemy_color_t;
+
     /** frame_header */
-    typedef struct {
+    typedef struct __attribute__((packed)) {
         /** 数据帧起始字节，固定值为 0xA5 */
         uint8_t sof;
         /** 数据帧中 data 的长度 */
@@ -354,6 +367,7 @@ namespace RM_Protocol {
         damage_t damage;                        /**< Damage */
         bullet_state_t bullet_state;            /**< Bullet State */
         custom_gimbal_current_t custom_gimbal_current;  /**< Custom Data: Current gimbal state */
+        custom_enemy_color_t custom_enemy_color;        /**< Custom Data: Enemy color setting */
     } rm_state_t;
 
     /** Full frame excluding CRC16 from referee system */
@@ -380,6 +394,8 @@ namespace RM_Protocol {
 
             /* Custom Data: Current gimbal state */
             custom_gimbal_current_t custom_gimbal_current;
+            /* Custom Data: Enemy color setting */
+            custom_enemy_color_t custom_enemy_color;
             /* Custom Data: Target gimbal state */
             custom_gimbal_target_t custom_gimbal_target;
         };
