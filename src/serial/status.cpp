@@ -28,10 +28,10 @@ SerialStatus::SerialStatus(string serial_device, int baudrate) {
         return;
     }
 
-    config.c_iflag &= ~(IGNBRK | BRKINT | ICRNL | INLCR | PARMRK | INPCK | ISTRIP /*| IXON*/);
+    config.c_iflag &= ~(IGNBRK | BRKINT | ICRNL | INLCR | PARMRK | INPCK | ISTRIP | IXON);
     config.c_oflag = 0;
     config.c_lflag &= ~(ECHO | ECHONL | ICANON | IEXTEN | ISIG);
-    config.c_cflag &= ~(CSIZE /*| PARENB*/);
+    config.c_cflag &= ~(CSIZE | PARENB);
     config.c_cflag |= CS8;
     config.c_cc[VMIN] = 1;
     config.c_cc[VTIME] = 0;
@@ -227,8 +227,8 @@ bool SerialStatus::parse(unsigned char *data, unsigned int len) {
             break;
         case RM_CMDID_CUSTOM_GIMBAL_CURRENT:
             rm_state.custom_gimbal_current = rm_protocol->custom_gimbal_current;
-            cwarning << "Get custom current: Pitch " << rm_state.custom_gimbal_current.pitch
-                     << ", Yaw " << rm_state.custom_gimbal_current.yaw;
+//            cwarning << "Get custom current: Pitch " << rm_state.custom_gimbal_current.pitch
+//                     << ", Yaw " << rm_state.custom_gimbal_current.yaw;
             break;
         case RM_CMDID_CUSTOM_ENEMY_COLOR:
             rm_state.custom_enemy_color = rm_protocol->custom_enemy_color;
