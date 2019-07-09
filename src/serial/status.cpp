@@ -23,30 +23,36 @@ SerialStatus::SerialStatus(string serial_device, int baudrate) {
     }
 
     struct termios config;
-    if (tcgetattr(_serial_fd, &config) < 0) {
+    memset (&config, 0, sizeof config);
+    if (tcgetattr(_serial_fd, &config) != 0) {
         cerror << "Failed to get serial configuration";
         return;
     }
 
-//    config.c_iflag &= ~(IGNBRK| IXON | IXOFF | IXANY);
-//    config.c_oflag = 0;
-//    config.c_lflag = 0;
-//    config.c_cflag |= (CLOCAL | CREAD);
-//    config.c_cflag &= ~(CSIZE | PARENB | PARODD | CSTOPB | CRTSCTS);
-//    config.c_cflag |= CS8;
-    config.c_cflag = CS8 | CLOCAL | CREAD;
-    config.c_iflag = IGNPAR;
-    config.c_oflag = 0;
-    config.c_lflag = ICANON;
-    config.c_cc[VMIN] = 1;
-    config.c_cc[VTIME] = 0;
-
-    if (cfsetispeed(&config, baudrate) < 0 || cfsetospeed(&config, baudrate) < 0) {
+    if (cfsetispeed(&config, baudrate) != 0 || cfsetospeed(&config, baudrate) != 0) {
         cerror << "Failed to set port baudrate";
         return;
     }
 
-    if (tcsetattr(_serial_fd, TCSAFLUSH, &config) < 0) {
+    config.c_cflag = (config.c_cflag & ~CSIZE) | CS8;     // 8-bit chars
+    // disable IGNBRK for mismatched speed tests; otherwise receive break
+    // as \000 chars
+    config.c_iflag &= ~IGNBRK;         // disable break processing
+    config.c_lflag = 0;                // no signaling chars, no echo,
+    // no canonical processing
+    config.c_oflag = 0;                // no remapping, no delays
+    config.c_cc[VMIN]  = 0;            // read doesn't block
+    config.c_cc[VTIME] = 5;            // 0.5 seconds read timeout
+
+    config.c_iflag &= ~(IXON | IXOFF | IXANY); // shut off xon/xoff ctrl
+
+    config.c_cflag |= (CLOCAL | CREAD);// ignore modem controls,
+    // enable reading
+    config.c_cflag &= ~(PARENB | PARODD);      // shut off parity
+    config.c_cflag &= ~CSTOPB;
+    config.c_cflag &= ~CRTSCTS;
+
+    if (tcsetattr(_serial_fd, TCSANOW, &config) != 0) {
         cerror << "Failed to apply serial settings";
         return;
     }
