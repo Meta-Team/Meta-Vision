@@ -59,47 +59,47 @@ void SerialStatus::thread_job() {
     unsigned int len = 0;
 
     while (thread_should_run) {
-//        // Look for packet header, 0xA5
-//        buf_pos = 0;
-//        while (thread_should_run) {
-//            if (0 == read(_serial_fd, buf + buf_pos, 1)) continue;
-//            if (0xA5 != buf[0]) continue;
-//            buf_pos = 1;
-//            break;
-//        }
-//
-//        // Read the rest of packet header
-//        for (int i = 0; i < 4 && thread_should_run; i++) {
-//            while (0 == read(_serial_fd, buf + buf_pos, 1) && thread_should_run) {}
-//            buf_pos++;
-//        }
-//        if (!thread_should_run) break;
-//
-//        // Verify header
-//        _crc8.reset();
-//        _crc8.process_bytes(buf, 4);
-//        if (_crc8.checksum() != buf[4]) {
-//            cerror << "Serial: Received invalid header of length " << buf_pos;
-//            continue;
-//        }
-//
-//        // Read the cmd_id & data & frame_tail
-//        len = buf[1] + (buf[2] << 8) + 4;
-//        for (unsigned int i = 0; i < len && thread_should_run; i++) {
-//            while (0 == read(_serial_fd, buf + buf_pos, 1) && thread_should_run) {}
-//            buf_pos++;
-//        }
-//        if (!thread_should_run) break;
-//
-//        // Verify whole packet
-//        _crc16.reset();
-//        _crc16.process_bytes(buf, 7 + len);
-//        if (_crc16.checksum() != (buf[7 + len] + (buf[8 + len] << 8))) {
-//            cerror << "Serial: Received invalid data of length " << buf_pos;
-//            continue;
-//        }
-//
-//        parse(buf, buf_pos);
+        // Look for packet header, 0xA5
+        buf_pos = 0;
+        while (thread_should_run) {
+            if (0 == read(_serial_fd, buf + buf_pos, 1)) continue;
+            if (0xA5 != buf[0]) continue;
+            buf_pos = 1;
+            break;
+        }
+
+        // Read the rest of packet header
+        for (int i = 0; i < 4 && thread_should_run; i++) {
+            while (0 == read(_serial_fd, buf + buf_pos, 1) && thread_should_run) {}
+            buf_pos++;
+        }
+        if (!thread_should_run) break;
+
+        // Verify header
+        _crc8.reset();
+        _crc8.process_bytes(buf, 4);
+        if (_crc8.checksum() != buf[4]) {
+            cerror << "Serial: Received invalid header of length " << buf_pos;
+            continue;
+        }
+
+        // Read the cmd_id & data & frame_tail
+        len = buf[1] + (buf[2] << 8) + 4;
+        for (unsigned int i = 0; i < len && thread_should_run; i++) {
+            while (0 == read(_serial_fd, buf + buf_pos, 1) && thread_should_run) {}
+            buf_pos++;
+        }
+        if (!thread_should_run) break;
+
+        // Verify whole packet
+        _crc16.reset();
+        _crc16.process_bytes(buf, 7 + len);
+        if (_crc16.checksum() != (buf[7 + len] + (buf[8 + len] << 8))) {
+            cerror << "Serial: Received invalid data of length " << buf_pos;
+            continue;
+        }
+
+        parse(buf, buf_pos);
         TIME_DONE;
     }
 }
