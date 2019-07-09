@@ -29,7 +29,7 @@ system:
     baudrate: 115200
 
 game:
-  our_team: "red"
+  our_team: "blue"
 
 algorithm:
   icra2018_njust_armor:
