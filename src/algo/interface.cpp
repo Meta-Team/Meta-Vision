@@ -68,8 +68,8 @@ namespace RM2018_Xidian_Armor {
             armorRecorder->miss_detection_cnt = 0;
             armorRecorder->setLastResult(armorPos, std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() -  armorRecorder->recorder_time).count() / 1000.0);
             // TODO: determine direction
-            yaw_angle += armorPos.angle_x;
-            pitch_angle += armorPos.angle_y;
+            yaw_angle -= armorPos.angle_x;
+            pitch_angle -= armorPos.angle_y;
             distance = armorPos.angle_y;
             std::cout << "Pitch: "<< pitch_angle << ", Yaw " << yaw_angle << endl;
             return finalArmor.rect;
