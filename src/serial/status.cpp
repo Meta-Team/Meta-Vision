@@ -10,7 +10,7 @@
 using namespace std;
 
 SerialStatus::SerialStatus(string serial_device, int baudrate) {
-    _serial_fd = open(serial_device.c_str(), O_RDWR | O_NONBLOCK | O_NOCTTY | O_NDELAY);
+    _serial_fd = open(serial_device.c_str(), O_RDWR | O_NOCTTY | O_SYNC);
 
     if (-1 == _serial_fd) {
         cerror << "Open serial device failed";
@@ -28,10 +28,11 @@ SerialStatus::SerialStatus(string serial_device, int baudrate) {
         return;
     }
 
-    config.c_iflag &= ~(IGNBRK | BRKINT | ICRNL | INLCR | PARMRK | INPCK | ISTRIP | IXON);
+    config.c_iflag &= ~(IGNBRK| IXON | IXOFF | IXANY);
     config.c_oflag = 0;
-    config.c_lflag &= ~(ECHO | ECHONL | ICANON | IEXTEN | ISIG);
-    config.c_cflag &= ~(CSIZE | PARENB);
+    config.c_lflag = 0;
+    config.c_cflag |= (CLOCAL | CREAD);
+    config.c_cflag &= ~(CSIZE | PARENB | PARODD | CSTOPB | CRTSCTS);
     config.c_cflag |= CS8;
     config.c_cc[VMIN] = 1;
     config.c_cc[VTIME] = 0;
