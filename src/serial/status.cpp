@@ -232,8 +232,8 @@ bool SerialStatus::parse(unsigned char *data, unsigned int len) {
             break;
         case RM_CMDID_CUSTOM_GIMBAL_CURRENT:
             rm_state.custom_gimbal_current = rm_protocol->custom_gimbal_current;
-//            cwarning << "Get custom current: Pitch " << rm_state.custom_gimbal_current.pitch
-//                     << ", Yaw " << rm_state.custom_gimbal_current.yaw;
+            cwarning << "Get custom current: Pitch " << rm_state.custom_gimbal_current.pitch
+                     << ", Yaw " << rm_state.custom_gimbal_current.yaw;
             break;
         case RM_CMDID_CUSTOM_ENEMY_COLOR:
             rm_state.custom_enemy_color = rm_protocol->custom_enemy_color;
