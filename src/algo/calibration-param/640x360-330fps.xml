@@ -3,7 +3,7 @@
 
     <ptz_camera_x>0</ptz_camera_x>
     <ptz_camera_y>0</ptz_camera_y>
-    <ptz_camera_z>0</ptz_camera_z>
+    <ptz_camera_z>17.5</ptz_camera_z>
     <barrel_ptz_offset_y>0</barrel_ptz_offset_y>
 
     <z_scale>1</z_scale>
