@@ -73,8 +73,8 @@ int Main::main(int argc, char **argv) {
         prev_id = next_id;
 
         // Get yaw/pitch before time-costly analyzation to ensure accuracy
-        float yaw_angle = _serial->rm_state.custom_gimbal_current.yaw;
-        float pitch_angle = _serial->rm_state.custom_gimbal_current.pitch;
+        float yaw_angle = 0;
+        float pitch_angle = 0;
         float distance = 0;
 
         // Call Armor Detect routine, draw armor borderline

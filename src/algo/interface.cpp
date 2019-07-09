@@ -70,8 +70,8 @@ namespace RM2018_Xidian_Armor {
             // TODO: determine direction
             yaw_angle -= armorPos.angle_x;
             pitch_angle -= armorPos.angle_y;
-            distance = armorPos.angle_y;
-            std::cout << "Pitch: "<< pitch_angle << ", Yaw " << yaw_angle << endl;
+            distance = armorPos.angle_z;
+//            std::cout << "Pitch: "<< pitch_angle << ", Yaw " << yaw_angle << endl;
             return finalArmor.rect;
         }
         else {

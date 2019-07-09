@@ -319,9 +319,9 @@ namespace RM_Protocol {
      */
     typedef struct __attribute__((packed)) {
         /** Target gimbal yaw, unit: angle */
-        float yaw = 0;
+        float yaw;
         /** Target gimbal pitch, unit: angle */
-        float pitch = 0;
+        float pitch;
         /** Distance to the object, unit: cm */
         float distance;
     } custom_gimbal_target_t;
