@@ -28,10 +28,10 @@ SerialStatus::SerialStatus(string serial_device, int baudrate) {
         return;
     }
 
-    config.c_iflag &= ~(IGNBRK | BRKINT | ICRNL | INLCR | PARMRK | INPCK | ISTRIP | IXON);
+    config.c_iflag &= ~(IGNBRK | BRKINT | ICRNL | INLCR | PARMRK | INPCK | ISTRIP /*| IXON*/);
     config.c_oflag = 0;
     config.c_lflag &= ~(ECHO | ECHONL | ICANON | IEXTEN | ISIG);
-    config.c_cflag &= ~(CSIZE | PARENB);
+    config.c_cflag &= ~(CSIZE /*| PARENB*/);
     config.c_cflag |= CS8;
     config.c_cc[VMIN] = 1;
     config.c_cc[VTIME] = 0;
