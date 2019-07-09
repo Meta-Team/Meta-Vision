@@ -28,12 +28,16 @@ SerialStatus::SerialStatus(string serial_device, int baudrate) {
         return;
     }
 
-    config.c_iflag &= ~(IGNBRK| IXON | IXOFF | IXANY);
+//    config.c_iflag &= ~(IGNBRK| IXON | IXOFF | IXANY);
+//    config.c_oflag = 0;
+//    config.c_lflag = 0;
+//    config.c_cflag |= (CLOCAL | CREAD);
+//    config.c_cflag &= ~(CSIZE | PARENB | PARODD | CSTOPB | CRTSCTS);
+//    config.c_cflag |= CS8;
+    config.c_cflag = CS8 | CLOCAL | CREAD;
+    config.c_iflag = IGNPAR;
     config.c_oflag = 0;
-    config.c_lflag = 0;
-    config.c_cflag |= (CLOCAL | CREAD);
-    config.c_cflag &= ~(CSIZE | PARENB | PARODD | CSTOPB | CRTSCTS);
-    config.c_cflag |= CS8;
+    config.c_lflag = ICANON;
     config.c_cc[VMIN] = 1;
     config.c_cc[VTIME] = 0;
 
