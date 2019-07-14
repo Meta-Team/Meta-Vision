@@ -107,7 +107,7 @@ int Main::main(int argc, char **argv) {
                                                   config["system"]["target_calibration"]["view_angle_y"].as<double>());
 #endif
 
-            cwarning << "Pitch " << pitch_angle << ", Yaw " << yaw_angle << ", Distance = " << distance;
+//            cwarning << "Pitch " << pitch_angle << ", Yaw " << yaw_angle << ", Distance = " << distance;
             _serial->send_gimbal(yaw_angle, pitch_angle, distance);
 
         }
