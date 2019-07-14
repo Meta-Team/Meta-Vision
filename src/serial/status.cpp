@@ -10,7 +10,7 @@
 using namespace std;
 
 SerialStatus::SerialStatus(string serial_device, int baudrate) {
-    _serial_fd = open(serial_device.c_str(), O_RDWR | O_NOCTTY | O_SYNC);
+    _serial_fd = open(serial_device.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
 
     if (-1 == _serial_fd) {
         cerror << "Open serial device failed";
@@ -22,37 +22,36 @@ SerialStatus::SerialStatus(string serial_device, int baudrate) {
         return;
     }
 
-    struct termios config;
-    memset (&config, 0, sizeof config);
-    if (tcgetattr(_serial_fd, &config) != 0) {
+    termios tOption;
+    if (tcgetattr(_serial_fd, &tOption) != 0) {
         cerror << "Failed to get serial configuration";
         return;
     }
-
-    if (cfsetispeed(&config, baudrate) != 0 || cfsetospeed(&config, baudrate) != 0) {
+    cfmakeraw(&tOption);
+    if (cfsetispeed(&tOption, baudrate) != 0 || cfsetospeed(&tOption, baudrate) != 0) {
         cerror << "Failed to set port baudrate";
         return;
     }
 
-    config.c_cflag = (config.c_cflag & ~CSIZE) | CS8;     // 8-bit chars
-    // disable IGNBRK for mismatched speed tests; otherwise receive break
-    // as \000 chars
-    config.c_iflag &= ~IGNBRK;         // disable break processing
-    config.c_lflag = 0;                // no signaling chars, no echo,
-    // no canonical processing
-    config.c_oflag = 0;                // no remapping, no delays
-    config.c_cc[VMIN]  = 0;            // read doesn't block
-    config.c_cc[VTIME] = 5;            // 0.5 seconds read timeout
+    tcsetattr(_serial_fd, TCSANOW, &tOption);
+    tOption.c_cflag &= ~PARENB;
+    tOption.c_cflag &= ~CSTOPB;
+    tOption.c_cflag &= ~CSIZE;
+    tOption.c_cflag |= CS8;
+    tOption.c_cflag &= ~INPCK;
+    tOption.c_cflag |= (baudrate | CLOCAL | CREAD);  // 设置波特率，本地连接，接收使能
+    tOption.c_cflag &= ~(INLCR | ICRNL);
+    tOption.c_cflag &= ~(IXON);
+    tOption.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
+    tOption.c_oflag &= ~OPOST;
+    tOption.c_oflag &= ~(ONLCR | OCRNL);
+    tOption.c_iflag &= ~(ICRNL | INLCR);
+    tOption.c_iflag &= ~(IXON | IXOFF | IXANY);
+    tOption.c_cc[VTIME] = 1;                        //只有设置为阻塞时这两个参数才有效
+    tOption.c_cc[VMIN] = 1;
+    tcflush(_serial_fd, TCIOFLUSH);                  //TCIOFLUSH刷新输入、输出队列。
 
-    config.c_iflag &= ~(IXON | IXOFF | IXANY); // shut off xon/xoff ctrl
-
-    config.c_cflag |= (CLOCAL | CREAD);// ignore modem controls,
-    // enable reading
-    config.c_cflag &= ~(PARENB | PARODD);      // shut off parity
-    config.c_cflag &= ~CSTOPB;
-    config.c_cflag &= ~CRTSCTS;
-
-    if (tcsetattr(_serial_fd, TCSANOW, &config) != 0) {
+    if (tcsetattr(_serial_fd, TCSANOW, &tOption) != 0) {
         cerror << "Failed to apply serial settings";
         return;
     }
