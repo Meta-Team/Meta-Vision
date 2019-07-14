@@ -7,7 +7,7 @@
 #include "global.hpp"
 #include "logging/logging.hpp"
 //#include "algo/icra2018_njust_armor/interface.hpp"
-#include "algo/interface.hpp"
+#include "algo/rm2018_xidian_armor/interface.hpp"
 
 #include "interfaces/multithread.hpp"
 #include "interfaces/video_source.hpp"
