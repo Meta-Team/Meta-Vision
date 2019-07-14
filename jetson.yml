@@ -25,7 +25,7 @@ system:
     view_angle_y: 45          # 摄像头上下能拍到的最大角度
   
   serial:
-    device: "/dev/ttyS0"
+    device: "/dev/ttyTHS1"
     baudrate: 115200
 
 game:
