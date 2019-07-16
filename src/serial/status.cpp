@@ -10,50 +10,41 @@
 using namespace std;
 
 SerialStatus::SerialStatus(string serial_device, int baudrate) {
-    _serial_fd = open(serial_device.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
 
-    if (-1 == _serial_fd) {
+    cwarning << "Serial baudrate = " << baudrate;
+
+    _serial_fd = open(serial_device.c_str(), O_RDWR | O_NONBLOCK | O_NOCTTY | O_NDELAY);
+
+    if(-1 == _serial_fd) {
         cerror << "Open serial device failed";
         return;
     }
 
-    if (!isatty(_serial_fd)) {
+    if(!isatty(_serial_fd)) {
         cerror << "Not a serial device";
         return;
     }
 
-    termios tOption;
-    if (tcgetattr(_serial_fd, &tOption) != 0) {
+    struct termios config;
+    if(tcgetattr(_serial_fd, &config) < 0) {
         cerror << "Failed to get serial configuration";
         return;
     }
-    cfmakeraw(&tOption);
 
-    cwarning << "baudrate = " << baudrate;
-    tcsetattr(_serial_fd, TCSANOW, &tOption);
-    tOption.c_cflag &= ~PARENB;
-    tOption.c_cflag &= ~CSTOPB;
-    tOption.c_cflag &= ~CSIZE;
-    tOption.c_cflag |= CS8;
-    tOption.c_cflag &= ~INPCK;
-    tOption.c_cflag |= (baudrate | CLOCAL | CREAD);
-    tOption.c_cflag &= ~(INLCR | ICRNL);
-    tOption.c_cflag &= ~(IXON);
-    tOption.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
-    tOption.c_oflag &= ~OPOST;
-    tOption.c_oflag &= ~(ONLCR | OCRNL);
-    tOption.c_iflag &= ~(ICRNL | INLCR);
-    tOption.c_iflag &= ~(IXON | IXOFF | IXANY);
-    tOption.c_cc[VTIME] = 1;
-    tOption.c_cc[VMIN] = 1;
-    tcflush(_serial_fd, TCIOFLUSH);
+    config.c_iflag &= ~(IGNBRK | BRKINT | ICRNL | INLCR | PARMRK | INPCK | ISTRIP | IXON);
+    config.c_oflag = 0;
+    config.c_lflag &= ~(ECHO | ECHONL | ICANON | IEXTEN | ISIG);
+    config.c_cflag &= ~(CSIZE | PARENB);
+    config.c_cflag |= CS8;
+    config.c_cc[VMIN]  = 1;
+    config.c_cc[VTIME] = 0;
 
-    if (cfsetispeed(&tOption, baudrate) != 0 || cfsetospeed(&tOption, baudrate) != 0) {
+    if(cfsetispeed(&config, baudrate) < 0 || cfsetospeed(&config, baudrate) < 0) {
         cerror << "Failed to set port baudrate";
         return;
     }
 
-    if (tcsetattr(_serial_fd, TCSANOW, &tOption) != 0) {
+    if(tcsetattr(_serial_fd, TCSAFLUSH, &config) < 0) {
         cerror << "Failed to apply serial settings";
         return;
     }
