@@ -32,14 +32,14 @@ SerialStatus::SerialStatus(string serial_device, int baudrate) {
         cerror << "Failed to set port baudrate";
         return;
     }
-
+    cwarning << "baudrate = " << baudrate;
     tcsetattr(_serial_fd, TCSANOW, &tOption);
     tOption.c_cflag &= ~PARENB;
     tOption.c_cflag &= ~CSTOPB;
     tOption.c_cflag &= ~CSIZE;
     tOption.c_cflag |= CS8;
     tOption.c_cflag &= ~INPCK;
-    tOption.c_cflag |= (baudrate | CLOCAL | CREAD);  // 设置波特率，本地连接，接收使能
+    tOption.c_cflag |= (baudrate | CLOCAL | CREAD);
     tOption.c_cflag &= ~(INLCR | ICRNL);
     tOption.c_cflag &= ~(IXON);
     tOption.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
@@ -47,9 +47,9 @@ SerialStatus::SerialStatus(string serial_device, int baudrate) {
     tOption.c_oflag &= ~(ONLCR | OCRNL);
     tOption.c_iflag &= ~(ICRNL | INLCR);
     tOption.c_iflag &= ~(IXON | IXOFF | IXANY);
-    tOption.c_cc[VTIME] = 1;                        //只有设置为阻塞时这两个参数才有效
+    tOption.c_cc[VTIME] = 1;
     tOption.c_cc[VMIN] = 1;
-    tcflush(_serial_fd, TCIOFLUSH);                  //TCIOFLUSH刷新输入、输出队列。
+    tcflush(_serial_fd, TCIOFLUSH);
 
     if (tcsetattr(_serial_fd, TCSANOW, &tOption) != 0) {
         cerror << "Failed to apply serial settings";
