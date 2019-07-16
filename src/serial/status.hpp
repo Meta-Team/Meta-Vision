@@ -22,7 +22,7 @@ public:
      * @param serial_device Path to the serial port, usually `/dev/ttyS0`
      * @param baudrate Baudrate, usually B115200 (note that this is different from integer 115200!)
      */
-    SerialStatus(std::string serial_device, int baudrate = B115200);
+    SerialStatus(std::string serial_device, speed_t baudrate = B115200);
 
     /**
      * @brief Main thread that receives data from serial port

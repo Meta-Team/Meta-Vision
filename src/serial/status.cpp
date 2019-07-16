@@ -9,7 +9,7 @@
 
 using namespace std;
 
-SerialStatus::SerialStatus(string serial_device, int baudrate) {
+SerialStatus::SerialStatus(string serial_device, speed_t baudrate) {
 
     cwarning << "Serial baudrate = " << baudrate;
 
@@ -39,7 +39,7 @@ SerialStatus::SerialStatus(string serial_device, int baudrate) {
     config.c_cc[VMIN]  = 1;
     config.c_cc[VTIME] = 0;
 
-    if(cfsetispeed(&config, B115200) < 0 || cfsetospeed(&config, B115200) < 0) {
+    if(cfsetispeed(&config, baudrate) < 0 || cfsetospeed(&config, baudrate) < 0) {
         cwarning << "Failed to set port baudrate";
     }
 
