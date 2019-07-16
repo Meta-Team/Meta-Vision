@@ -1,17 +1,17 @@
 system:
   timing_interval: 1
 
-  video_source: "camera"
+  video_source: "file"
   video_sources:
     file:
-      filename: ""
+      filename: "test_clips/small_4_1.mp4"
     camera:
       id: 0
       width: 640
       height: 360
       fps: 330
 
-  video_target: "webserver"
+  video_target: "dummy"
   video_targets:
     dummy: "dummy"
     file:
@@ -26,10 +26,10 @@ system:
   
   serial:
     device: "/dev/ttyTHS1"
-    baudrate: 460800
+    baudrate: 115200
 
 game:
-  our_team: "blue"
+  our_team: "red"
 
 algorithm:
   icra2018_njust_armor:

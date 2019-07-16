@@ -56,7 +56,7 @@ int Main::main(int argc, char **argv) {
     }
 
     _serial = new SerialStatus(
-            config["system"]["serial"]["device"].as<string>(), B460800
+            config["system"]["serial"]["device"].as<string>(), B115200
     );
 
     Mat frame, resized;
