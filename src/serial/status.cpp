@@ -82,7 +82,7 @@ void SerialStatus::thread_job() {
         _crc8.process_bytes(buf, 4);
         if (_crc8.checksum() != buf[4]) {
             cerror << "Serial: Received invalid header of length " << buf_pos;
-            cerror << std::hex << buf[0] << " " << buf[1] << " " << buf[2] << " " << buf[3] << " " << buf[4];
+            std::cout << std::hex << buf[0] << " " << buf[1] << " " << buf[2] << " " << buf[3] << " " << buf[4];
             continue;
         }
 
