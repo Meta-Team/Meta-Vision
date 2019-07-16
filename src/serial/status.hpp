@@ -8,6 +8,8 @@
 #include <termios.h>
 #include <boost/crc.hpp>
 
+#define SERIAL_BAUDRATE B115200  // due to unknown reason, passing this value as int or speed_t is not useful
+
 /** CRC8 algorithm used by RoboMaster referee system */
 typedef boost::crc_optimal<8, 0x31, 0xFF, 0, true, true> rm_crc8_t;
 /** CRC16 algorithm used by RoboMaster referee system */
@@ -22,7 +24,7 @@ public:
      * @param serial_device Path to the serial port, usually `/dev/ttyS0`
      * @param baudrate Baudrate, usually B115200 (note that this is different from integer 115200!)
      */
-    SerialStatus(std::string serial_device, speed_t baudrate = B115200);
+    SerialStatus(std::string serial_device);
 
     /**
      * @brief Main thread that receives data from serial port

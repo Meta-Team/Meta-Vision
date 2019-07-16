@@ -9,9 +9,9 @@
 
 using namespace std;
 
-SerialStatus::SerialStatus(string serial_device, speed_t baudrate) {
+SerialStatus::SerialStatus(string serial_device) {
 
-    cwarning << "Serial baudrate = " << baudrate;
+    cwarning << "Serial baudrate = " << SERIAL_BAUDRATE;
 
     _serial_fd = open(serial_device.c_str(), O_RDWR | O_NOCTTY | O_SYNC);
     // NOTICE: DO NO USE O_NONBLOCK or O_NDELAY! Or you will keep receiving the same message!
@@ -40,7 +40,7 @@ SerialStatus::SerialStatus(string serial_device, speed_t baudrate) {
     config.c_cc[VMIN]  = 1;
     config.c_cc[VTIME] = 0;
 
-    if(cfsetispeed(&config, B115200) < 0 || cfsetospeed(&config, B115200) < 0) {
+    if(cfsetispeed(&config, SERIAL_BAUDRATE) < 0 || cfsetospeed(&config, SERIAL_BAUDRATE) < 0) {
         cwarning << "Failed to set port baudrate";
     }
 
