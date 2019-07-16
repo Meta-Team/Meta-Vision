@@ -26,7 +26,7 @@ system:
   
   serial:
     device: "/dev/ttyTHS1"
-    baudrate: 115200
+    baudrate: 115200 
 
 game:
   our_team: "red"
