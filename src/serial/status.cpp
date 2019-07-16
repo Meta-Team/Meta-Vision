@@ -28,10 +28,7 @@ SerialStatus::SerialStatus(string serial_device, int baudrate) {
         return;
     }
     cfmakeraw(&tOption);
-    if (cfsetispeed(&tOption, baudrate) != 0 || cfsetospeed(&tOption, baudrate) != 0) {
-        cerror << "Failed to set port baudrate";
-        return;
-    }
+
     cwarning << "baudrate = " << baudrate;
     tcsetattr(_serial_fd, TCSANOW, &tOption);
     tOption.c_cflag &= ~PARENB;
@@ -50,6 +47,11 @@ SerialStatus::SerialStatus(string serial_device, int baudrate) {
     tOption.c_cc[VTIME] = 1;
     tOption.c_cc[VMIN] = 1;
     tcflush(_serial_fd, TCIOFLUSH);
+
+    if (cfsetispeed(&tOption, baudrate) != 0 || cfsetospeed(&tOption, baudrate) != 0) {
+        cerror << "Failed to set port baudrate";
+        return;
+    }
 
     if (tcsetattr(_serial_fd, TCSANOW, &tOption) != 0) {
         cerror << "Failed to apply serial settings";
