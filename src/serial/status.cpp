@@ -14,6 +14,7 @@ SerialStatus::SerialStatus(string serial_device, speed_t baudrate) {
     cwarning << "Serial baudrate = " << baudrate;
 
     _serial_fd = open(serial_device.c_str(), O_RDWR | O_NOCTTY | O_SYNC);
+    // NOTICE: DO NO USE O_NONBLOCK or O_NDELAY! Or you will keep receiving the same message!
 
     if(-1 == _serial_fd) {
         cerror << "Open serial device failed";
