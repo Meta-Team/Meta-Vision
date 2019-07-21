@@ -9,4 +9,4 @@ log_file=`date +%Y-%m-%d_%H-%M-%S.log`
 cmake ..
 make Vision -j4
 
-sudo ./Vision ../jetson.yml | tee "log/${log_file}"
+sudo ./Vision ../jetson.yml
