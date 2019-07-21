@@ -9,6 +9,7 @@
 #include <math.h>
 
 #define USE_ANGLE_SOLVER_DATA   1
+#define USE_ORIGINAL_IMAGE      0
 
 /**
  * @brief Main logic of the program.
@@ -87,9 +88,12 @@ int Main::main(int argc, char **argv) {
             || vertices[2] != Point2f(0, 0)
             || vertices[3] != Point2f(0, 0)
                 ) { // An armor has been detected
+
+#if (!USE_ORIGINAL_IMAGE)
             for (int i = 0; i < 4; i++) {
                 line(frame, vertices[i], vertices[(i + 1) % 4], Scalar(0, 0, 255), 2);
             }
+#endif
 
 #if (!USE_ANGLE_SOLVER_DATA)
 
