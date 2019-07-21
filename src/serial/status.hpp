@@ -8,7 +8,7 @@
 #include <termios.h>
 #include <boost/crc.hpp>
 
-#define SERIAL_BAUDRATE B115200  // due to unknown reason, passing this value as int or speed_t is not useful
+#define SERIAL_BAUDRATE 115200  // due to unknown reason, passing this value as int or speed_t is not useful
 
 /** CRC8 algorithm used by RoboMaster referee system */
 typedef boost::crc_optimal<8, 0x31, 0xFF, 0, true, true> rm_crc8_t;
