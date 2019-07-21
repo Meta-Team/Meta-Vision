@@ -21,8 +21,8 @@ system:
       port: 2019
   
   target_calibration:
-    view_angle_x: 45          # 摄像头左右能拍到的最大角度
-    view_angle_y: 45          # 摄像头上下能拍到的最大角度
+    view_angle_x: 45
+    view_angle_y: 45
   
   serial:
     device: "/dev/ttyTHS1"
@@ -31,22 +31,6 @@ game:
   our_team: "blue"
 
 algorithm:
-  icra2018_njust_armor:
-    min_light_gray: 210
-    min_light_height: 8
-    avg_contrast_threshold: 110
-    light_slope_offset: 30
-    max_light_delta_h: 500
-    min_light_delta_h: 35
-    max_light_delta_v: 40
-    max_light_delta_angle: 30
-    avg_board_gray_threshold: 100
-    avg_board_grad_threshold: 25
-    grad_threshold: 25
-    br_threshold: 30
-    template_image_file: "src/algo/icra2018_njust_armor/template/template.bmp"
-    small_template_image_file: "src/algo/icra2018_njust_armor/template/small_template.bmp"
-
   rm2018_xidian_armor:
     show_image: 1
     save_result: 1
