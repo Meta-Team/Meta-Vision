@@ -181,6 +181,11 @@ void Main::_prepareArmorDetect() {
     // Read color of our team, configure armor detect algorithm to aim for enemy
     string ourTeam = config["game"]["our_team"].as<string>();
     std::transform(ourTeam.begin(), ourTeam.end(), ourTeam.begin(), ::tolower);
+    if (ourTeam == "unknown") {
+        cwarning << "Waiting for serial info of our team color.";
+        while (_serial->rm_state.custom_enemy_color.enemy_color != 0xFF) {}
+        csuccess << "Received team color from serial.";
+    }
     if (ourTeam == "red") {
         cmessage << "We are Team " << color(FG_RED) << "RED" << color(FG_DEFAULT)
                  << ", Enemy is Team " << color(FG_BLUE) << "BLUE" << color(FG_DEFAULT);
