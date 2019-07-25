@@ -11,7 +11,7 @@ using namespace std;
 
 SerialStatus::SerialStatus(string serial_device, speed_t baudrate) {
 
-//    cwarning << "Serial baudrate = " << B115200;
+    cwarning << "Serial baudrate = " << B115200;
 
     _serial_fd = open(serial_device.c_str(), O_RDWR | O_NOCTTY | O_SYNC);
     // NOTICE: DO NO USE O_NONBLOCK or O_NDELAY! Or you will keep receiving the same message!
@@ -37,8 +37,8 @@ SerialStatus::SerialStatus(string serial_device, speed_t baudrate) {
     config.c_lflag &= ~(ECHO | ECHONL | ICANON | IEXTEN | ISIG);
     config.c_cflag &= ~(CSIZE | PARENB);
     config.c_cflag |= CS8;
-    config.c_cc[VMIN]  = 1;
-    config.c_cc[VTIME] = 0;
+//    config.c_cc[VMIN]  = 1;
+//    config.c_cc[VTIME] = 0;
 //    config.c_cflag = CS8 | CLOCAL | CREAD;
 //    config.c_iflag = IGNPAR;
 //    config.c_oflag = 0;
