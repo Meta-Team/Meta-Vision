@@ -22,9 +22,9 @@
 #define RM_CMDID_DAMAGE         0x0206  /**< CMD_ID of Damage */
 #define RM_CMDID_BULLET_STATE   0x0207  /**< CMD_ID of Bullet State */
 
-#define RM_CMDID_CUSTOM_GIMBAL_CURRENT  0xff00  /**< CMD_ID of Custom Data: Current gimbal state */
-#define RM_CMDID_CUSTOM_GIMBAL_TARGET   0xff01  /**< CMD_ID of Custom Data: Target gimbal state */
-#define RM_CMDID_CUSTOM_ENEMY_COLOR     0xff02  /**< CMD_ID of Custom Data: Enemy color setting */
+#define RM_CMDID_CUSTOM_GIMBAL_CURRENT  0xFF00  /**< CMD_ID of Custom Data: Current gimbal state */
+#define RM_CMDID_CUSTOM_GIMBAL_TARGET   0xFF01  /**< CMD_ID of Custom Data: Target gimbal state */
+#define RM_CMDID_CUSTOM_ENEMY_COLOR     0xFF02  /**< CMD_ID of Custom Data: Enemy color setting */
 
 namespace RM_Protocol {
     /** Packet size of each cmd_id */
@@ -367,7 +367,7 @@ namespace RM_Protocol {
         damage_t damage;                        /**< Damage */
         bullet_state_t bullet_state;            /**< Bullet State */
         custom_gimbal_current_t custom_gimbal_current;  /**< Custom Data: Current gimbal state */
-        custom_enemy_color_t custom_enemy_color;        /**< Custom Data: Enemy color setting */
+        custom_enemy_color_t custom_enemy_color = {0xFF};        /**< Custom Data: Enemy color setting */
     } rm_state_t;
 
     /** Full frame excluding CRC16 from referee system */

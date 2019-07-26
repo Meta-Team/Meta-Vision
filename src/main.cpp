@@ -9,6 +9,7 @@
 #include <math.h>
 
 #define USE_ANGLE_SOLVER_DATA   1
+#define USE_ORIGINAL_IMAGE      0
 
 /**
  * @brief Main logic of the program.
@@ -86,9 +87,12 @@ int Main::main(int argc, char **argv) {
             || vertices[2] != Point2f(0, 0)
             || vertices[3] != Point2f(0, 0)
                 ) { // An armor has been detected
+
+#if (!USE_ORIGINAL_IMAGE)
             for (int i = 0; i < 4; i++) {
                 line(frame, vertices[i], vertices[(i + 1) % 4], Scalar(0, 0, 255), 2);
             }
+#endif
 
 #if (!USE_ANGLE_SOLVER_DATA)
 
@@ -176,6 +180,11 @@ void Main::_prepareArmorDetect() {
     // Read color of our team, configure armor detect algorithm to aim for enemy
     string ourTeam = config["game"]["our_team"].as<string>();
     std::transform(ourTeam.begin(), ourTeam.end(), ourTeam.begin(), ::tolower);
+    if (ourTeam == "unknown") {
+        cwarning << "Waiting for serial info of our team color.";
+        while (_serial->rm_state.custom_enemy_color.enemy_color != 0xFF) {}
+        csuccess << "Received team color from serial.";
+    }
     if (ourTeam == "red") {
         cmessage << "We are Team " << color(FG_RED) << "RED" << color(FG_DEFAULT)
                  << ", Enemy is Team " << color(FG_BLUE) << "BLUE" << color(FG_DEFAULT);
