@@ -9,42 +9,46 @@
 
 using namespace std;
 
-SerialStatus::SerialStatus(string serial_device, speed_t baudrate) {
+SerialStatus::SerialStatus(string serial_device) {
 
-    cwarning << "Serial baudrate = " << baudrate;
-
-    _serial_fd = open(serial_device.c_str(), O_RDWR | O_NOCTTY | O_SYNC);
+    // TODO: trial #1 revise open flag
+    _serial_fd = open(serial_device.c_str(), O_RDWR | O_NOCTTY);
     // NOTICE: DO NO USE O_NONBLOCK or O_NDELAY! Or you will keep receiving the same message!
 
-    if(-1 == _serial_fd) {
+    if (-1 == _serial_fd) {
         cerror << "Open serial device failed";
         return;
     }
 
-    if(!isatty(_serial_fd)) {
+    if (!isatty(_serial_fd)) {
         cerror << "Not a serial device";
         return;
     }
 
-    struct termios config;
-    if(tcgetattr(_serial_fd, &config) < 0) {
+    termios config;
+    if (tcgetattr(_serial_fd, &config) < 0) {
         cerror << "Failed to get serial configuration";
         return;
     }
 
     config.c_iflag &= ~(IGNBRK | BRKINT | ICRNL | INLCR | PARMRK | INPCK | ISTRIP | IXON);
     config.c_oflag = 0;
-    config.c_lflag &= ~(ECHO | ECHONL | ICANON | IEXTEN | ISIG);
-    config.c_cflag &= ~(CSIZE | PARENB);
-    config.c_cflag |= CS8;
-    config.c_cc[VMIN]  = 1;
+    config.c_lflag &= ~(ECHO | ICANON | ECHOE | ECHOK | ECHONL | IEXTEN | ISIG);
+    // TODO: trial #2 add ~CSTOPB
+    config.c_cflag &= ~(CSTOPB | CSIZE | PARENB | PARODD);
+    // TODO: trial #2 add CREAD
+    config.c_cflag |= (CS8 | CREAD);
+
+    // Blocking read
+    config.c_cc[VMIN] = 1;
     config.c_cc[VTIME] = 0;
 
-    if(cfsetispeed(&config, baudrate) < 0 || cfsetospeed(&config, baudrate) < 0) {
-        cwarning << "Failed to set port baudrate";
+    if (cfsetispeed(&config, B115200) < 0 || cfsetospeed(&config, B115200) < 0) {
+        cerror << "Failed to set port baudrate";
+        return;
     }
 
-    if(tcsetattr(_serial_fd, TCSAFLUSH, &config) < 0) {
+    if (tcsetattr(_serial_fd, TCSAFLUSH, &config) < 0) {
         cerror << "Failed to apply serial settings";
         return;
     }
@@ -85,7 +89,6 @@ void SerialStatus::thread_job() {
             cerror << "Serial: Received invalid header of length " << buf_pos;
             continue;
         }
-        cerror << std::hex << (unsigned) buf[0] << " " << (unsigned) buf[1] << " " << (unsigned) buf[2] << " " << (unsigned) buf[3] << " " << (unsigned) buf[4];
 
         // Read the cmd_id & data & frame_tail
         len = buf[1] + (buf[2] << 8) + 4;
