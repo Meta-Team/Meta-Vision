@@ -18,7 +18,7 @@ system:
       folder: "record"
       segment_interval: 30
     webserver:
-      port: 2019
+      port: 3607
   
   target_calibration:
     view_angle_x: 45          # 摄像头左右能拍到的最大角度
