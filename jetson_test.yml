@@ -11,7 +11,7 @@ system:
       height: 360
       fps: 330
 
-  video_target: "dummy"
+  video_target: "webserver"
   video_targets:
     dummy: "dummy"
     file:
@@ -25,7 +25,7 @@ system:
     view_angle_y: 45          # 摄像头上下能拍到的最大角度
   
   serial:
-    device: "/dev/ttyTHS1"
+    device: "/dev/ttyUSB0"
 
 game:
   our_team: "red"
