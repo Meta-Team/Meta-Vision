@@ -43,7 +43,7 @@ SerialStatus::SerialStatus(string serial_device) {
     config.c_cc[VMIN] = 1;
     config.c_cc[VTIME] = 0;
 
-    if (cfsetispeed(&config, B115200) < 0 || cfsetospeed(&config, B115200) < 0) {
+    if (cfsetispeed(&config, B230400) < 0 || cfsetospeed(&config, B230400) < 0) {
         cerror << "Failed to set port baudrate";
         return;
     }
