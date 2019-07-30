@@ -28,7 +28,7 @@ system:
     device: "/dev/ttyUSB0"
 
 game:
-  our_team: "blue"
+  our_team: "red"
 
 algorithm:
   icra2018_njust_armor:
