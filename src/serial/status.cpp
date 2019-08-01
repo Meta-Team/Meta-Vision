@@ -11,7 +11,6 @@ using namespace std;
 
 SerialStatus::SerialStatus(string serial_device) {
 
-    // TODO: trial #1 revise open flag
     _serial_fd = open(serial_device.c_str(), O_RDWR | O_NOCTTY);
     // NOTICE: DO NO USE O_NONBLOCK or O_NDELAY! Or you will keep receiving the same message!
 
@@ -34,9 +33,7 @@ SerialStatus::SerialStatus(string serial_device) {
     config.c_iflag &= ~(IGNBRK | BRKINT | ICRNL | INLCR | PARMRK | INPCK | ISTRIP | IXON);
     config.c_oflag = 0;
     config.c_lflag &= ~(ECHO | ICANON | ECHOE | ECHOK | ECHONL | IEXTEN | ISIG);
-    // TODO: trial #2 add ~CSTOPB
     config.c_cflag &= ~(CSTOPB | CSIZE | PARENB | PARODD);
-    // TODO: trial #2 add CREAD
     config.c_cflag |= (CS8 | CREAD);
 
     // Blocking read

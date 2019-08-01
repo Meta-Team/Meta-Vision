@@ -111,7 +111,7 @@ int Main::main(int argc, char **argv) {
 #endif
 
             csuccess << "Pitch " << pitch_angle << ", Yaw " << yaw_angle << ", Distance = " << distance;
-            _serial->send_gimbal(yaw_angle, pitch_angle, distance);
+            _serial->send_gimbal(yaw_angle, pitch_angle + 3, distance);
 
         }
 
