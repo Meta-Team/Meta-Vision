@@ -15,6 +15,9 @@ Meta-Vision
 8. 运行：
 --------
 8. `./Vision ../meta.yml`
+
 或者
+
 8.1 需要修改下 `run.sh` 中 `cd` 的目录到当前 `Meta-Vision` 中的 `build` 目录
+
 8.2 （大雾）把 `run.sh` 放在 `build` 目录中竟然能够执行？
